@@ -1,16 +1,16 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCBY3wdDH2loAJdfS7qO4aKIbCv0USdPLo",
-  authDomain: "macros-comida.firebaseapp.com",
-  projectId: "macros-comida",
-  storageBucket: "macros-comida.firebasestorage.app",
-  messagingSenderId: "54277400407",
-  appId: "1:54277400407:web:bd8f3501c1c9abbd510012",
-  measurementId: "G-EF98VT5HBE",
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
