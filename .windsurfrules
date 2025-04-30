@@ -1,0 +1,89 @@
+## Aplicación
+
+Aplicación para calcular macros y la ingesta de calorías diarias.
+
+**Stack principal:**  
+React Native, TypeScript, Expo, Firebase, NativeWind.
+
+---
+
+## 1. Estilo de código
+
+- **Convenciones de nombres:**  
+  Usar `camelCase` para variables, funciones y propiedades.
+- **Imports:**  
+  Siempre usar alias para mayor claridad y evitar conflictos.
+- **Comentarios:**  
+  Solo los necesarios para entender partes complejas o poco evidentes del código.
+
+---
+
+## 2. Estructura del proyecto
+
+Organización recomendada de carpetas y archivos:
+
+- `app/`
+- `src/hooks/`
+- `src/assets/`
+- `src/components/`
+- `src/services/`
+- `src/types/` (para los tipados)
+- `src/utils/`
+
+> Cuando crees nuevos archivos, respeta esta estructura para mantener el orden y facilitar el mantenimiento.
+
+---
+
+## 3. Versiones de dependencias
+
+Las versiones de todas las dependencias deben ser exactamente las que figuran en el `package.json` del proyecto.
+
+> No actualices ni agregues paquetes sin revisar compatibilidad.
+
+---
+
+## 4. Seguridad
+
+- **API Keys y datos sensibles:**  
+  Todas las claves y credenciales deben almacenarse en archivos `.env` y nunca en el código fuente ni en el repositorio.
+
+---
+
+## 5. Librerías core del proyecto
+
+- React Native
+- Expo
+- Firebase
+- NativeWind
+- TypeScript
+
+> Prioriza estas librerías para nuevas funcionalidades y evita dependencias innecesarias.
+
+---
+
+## 6. Internacionalización
+
+- La app es solo en español por ahora.
+- Todos los textos y mensajes deben estar en español.
+
+---
+
+## 7. Git
+
+- La rama única es `master`.
+
+---
+
+## 8. Comunicación y colaboración con IA
+
+- Las explicaciones deben detallar el por qué de cada cambio, especialmente en React Native y Tailwind, para favorecer el aprendizaje.
+- El idioma de las respuestas y comentarios será español.
+- Se permiten y fomentan sugerencias proactivas para mejorar el código o la estructura.
+
+---
+
+## Ejemplo de import con alias
+
+```typescript
+import { useCustomHook } from "@/hooks/useCustomHook";
+```
