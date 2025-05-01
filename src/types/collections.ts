@@ -1,7 +1,7 @@
 const Collections = {
-  ingredients: "ingredients",
+  ingredients: 'ingredients',
 } as const;
 
 export type Collections = (typeof Collections)[keyof typeof Collections];
 
-export default Collections;
+export { Collections };

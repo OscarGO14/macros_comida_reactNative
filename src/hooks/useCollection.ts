@@ -1,11 +1,12 @@
 import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore'; // Import onSnapshot and Unsubscribe type
 import { useEffect, useState } from 'react';
+
 import { db } from '@/services/firebase'; // Make sure this path is correct
 import { Ingredient } from '@/types/ingredients';
 import { Collections } from '@/types/collections'; // Assuming you still want to use the enum/type for collection names
 
 // Hook para extraer documentos de Firestore con escucha en tiempo real
-export default function useCollection(collectionName: Collections | string) {
+export const useCollection = (collectionName: Collections | string) => {
   // Allow string or the enum type
   const [data, setData] = useState<Ingredient[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,4 +63,4 @@ export default function useCollection(collectionName: Collections | string) {
   }, [collectionName]); // Dependency array ensures effect re-runs if collectionName changes
 
   return { data, loading, error };
-}
+};

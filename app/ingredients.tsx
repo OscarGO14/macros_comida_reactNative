@@ -1,9 +1,10 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, Text, View } from 'react-native';
-import useCollection from '@/hooks/useCollection';
-import Collections from '@/types/collections';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { useCollection } from '@/hooks/useCollection';
+import { Collections } from '@/types/collections';
 
 export default function IngredientsScreen() {
   const {
