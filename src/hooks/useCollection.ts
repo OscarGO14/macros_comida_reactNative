@@ -1,8 +1,8 @@
-import { collection, onSnapshot, Unsubscribe } from "firebase/firestore"; // Import onSnapshot and Unsubscribe type
-import { useEffect, useState } from "react";
-import { db } from "@/services/firebase"; // Make sure this path is correct
-import { Ingredient } from "@/types/ingredients";
-import { Collections } from "@/types/collections"; // Assuming you still want to use the enum/type for collection names
+import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore'; // Import onSnapshot and Unsubscribe type
+import { useEffect, useState } from 'react';
+import { db } from '@/services/firebase'; // Make sure this path is correct
+import { Ingredient } from '@/types/ingredients';
+import { Collections } from '@/types/collections'; // Assuming you still want to use the enum/type for collection names
 
 // Hook para extraer documentos de Firestore con escucha en tiempo real
 export default function useCollection(collectionName: Collections | string) {
@@ -29,8 +29,8 @@ export default function useCollection(collectionName: Collections | string) {
             // Ensure all expected fields exist, provide defaults if necessary
             return {
               id: doc.id,
-              name: data.name ?? "Unknown", // Use nullish coalescing
-              category: data.category ?? "Uncategorized", // Provide default category
+              name: data.name ?? 'Unknown', // Use nullish coalescing
+              category: data.category ?? 'Uncategorized', // Provide default category
               calories: data.calories ?? 0,
               proteins: data.proteins ?? 0,
               carbs: data.carbs ?? 0,
@@ -45,7 +45,7 @@ export default function useCollection(collectionName: Collections | string) {
           console.error(`Firebase listener error for ${collectionName}:`, err);
           setError(err as Error);
           setLoading(false);
-        }
+        },
       );
     } catch (err) {
       // Catch potential errors during collection() call (e.g., invalid path)
