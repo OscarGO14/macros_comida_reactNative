@@ -1,5 +1,5 @@
 const Collections = {
-  ingredients: 'ingredients',
+  INGREDIENTS: 'ingredients',
 } as const;
 
 export type Collections = (typeof Collections)[keyof typeof Collections];

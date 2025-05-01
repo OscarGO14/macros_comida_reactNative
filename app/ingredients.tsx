@@ -37,18 +37,20 @@ export default function IngredientsScreen() {
   }
 
   return (
-    <SafeAreaView>
-      <View className="flex">
+    <SafeAreaView className="bg-black">
+      <View className="flex p-4">
         <StatusBar style="auto" />
         <View>
-          <Text>Ingredients List:</Text>
+          <Text className="text-yellow-400 text-xl font-bold mb-4">Lista de Ingredientes</Text>
         </View>
         <ScrollView className="">
           {ingredientsData.length > 0 ? (
             ingredientsData.map((ingredient) => (
-              <Text key={ingredient.id}>
-                {ingredient.name} - {ingredient.calories} kcal
-              </Text>
+              <View key={ingredient.id} className="bg-white p-3 rounded-lg mb-2">
+                <Text className="text-black">
+                  {ingredient.name} - {ingredient.calories} kcal
+                </Text>
+              </View>
             ))
           ) : (
             <Text>No ingredients found.</Text>

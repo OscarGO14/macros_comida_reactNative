@@ -1,10 +1,18 @@
 import React from 'react';
 import { Stack } from 'expo-router';
+
+import { MyColors } from '@/types/colors';
 import '../global.css';
-// Root layout component using Stack Navigator
+
 export default function RootLayout() {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerStyle: { backgroundColor: MyColors.BLACK },
+        headerTintColor: MyColors.WHITE,
+        headerTitleStyle: { color: MyColors.YELLOW },
+      }}
+    >
       <Stack.Screen name="index" options={{ headerShown: false }} />
     </Stack>
   );

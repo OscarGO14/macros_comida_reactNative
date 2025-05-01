@@ -18,7 +18,7 @@ export const useIngredients = () => {
     let unsubscribe: Unsubscribe = () => {}; // Initialize unsubscribe to an empty function
 
     try {
-      const collectionRef = collection(db, Collections.ingredients);
+      const collectionRef = collection(db, Collections.INGREDIENTS);
 
       // Subscribe to real-time updates
       unsubscribe = onSnapshot(
@@ -42,14 +42,14 @@ export const useIngredients = () => {
         },
         (err) => {
           // Handle errors from the listener itself
-          console.error(`Firebase listener error for ${Collections.ingredients}:`, err);
+          console.error(`Firebase listener error for ${Collections.INGREDIENTS}:`, err);
           setError(err as Error);
           setLoading(false);
         },
       );
     } catch (err) {
       // Catch potential errors during collection() call (e.g., invalid path)
-      console.error(`Error setting up listener for ${Collections.ingredients}:`, err);
+      console.error(`Error setting up listener for ${Collections.INGREDIENTS}:`, err);
       setError(err as Error);
       setLoading(false);
     }
