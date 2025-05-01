@@ -6,8 +6,7 @@ import { Ingredient } from '@/types/ingredients';
 import { Collections } from '@/types/collections'; // Assuming you still want to use the enum/type for collection names
 
 // Hook para extraer documentos de Firestore con escucha en tiempo real
-export const useCollection = (collectionName: Collections | string) => {
-  // Allow string or the enum type
+export const useIngredients = () => {
   const [data, setData] = useState<Ingredient[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -19,7 +18,7 @@ export const useCollection = (collectionName: Collections | string) => {
     let unsubscribe: Unsubscribe = () => {}; // Initialize unsubscribe to an empty function
 
     try {
-      const collectionRef = collection(db, collectionName);
+      const collectionRef = collection(db, Collections.ingredients);
 
       // Subscribe to real-time updates
       unsubscribe = onSnapshot(
@@ -43,14 +42,14 @@ export const useCollection = (collectionName: Collections | string) => {
         },
         (err) => {
           // Handle errors from the listener itself
-          console.error(`Firebase listener error for ${collectionName}:`, err);
+          console.error(`Firebase listener error for ${Collections.ingredients}:`, err);
           setError(err as Error);
           setLoading(false);
         },
       );
     } catch (err) {
       // Catch potential errors during collection() call (e.g., invalid path)
-      console.error(`Error setting up listener for ${collectionName}:`, err);
+      console.error(`Error setting up listener for ${Collections.ingredients}:`, err);
       setError(err as Error);
       setLoading(false);
     }
@@ -60,7 +59,7 @@ export const useCollection = (collectionName: Collections | string) => {
       // console.log(`Unsubscribing from ${collectionName}`); // Optional log
       unsubscribe(); // Call the stored unsubscribe function
     };
-  }, [collectionName]); // Dependency array ensures effect re-runs if collectionName changes
+  }, []); // Dependency array ensures effect re-runs if collectionName changes
 
   return { data, loading, error };
 };

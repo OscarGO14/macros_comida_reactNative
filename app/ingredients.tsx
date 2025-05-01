@@ -3,15 +3,14 @@ import { StatusBar } from 'expo-status-bar';
 import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useCollection } from '@/hooks/useCollection';
-import { Collections } from '@/types/collections';
+import { useIngredients } from '@/hooks/useIngredients';
 
 export default function IngredientsScreen() {
   const {
     data: ingredientsData,
     loading: ingredientsLoading,
     error: ingredientsError,
-  } = useCollection(Collections.ingredients);
+  } = useIngredients();
 
   if (ingredientsLoading) {
     return (
