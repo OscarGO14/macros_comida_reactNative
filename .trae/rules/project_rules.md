@@ -19,6 +19,8 @@ React Native, TypeScript, Expo, Firebase, NativeWind.
   Usar un linter para mantener un estilo consistente en todo el proyecto.
 - **Estructura de carpetas:**
   Cada componente debe tener su propia carpeta. Dentro de cada carpeta se generara un index.tsx para exportar el componente. Un types.ts para los tipos.
+- **Estilos del proyecto:**
+  Usar Tailwind para estilos. Siempre utilizar las variables de colores definidas en el archivo `tailwind.config.js`.
 
 ---
 
@@ -55,11 +57,12 @@ Las versiones de todas las dependencias deben ser exactamente las que figuran en
 
 ## 5. Librerías core del proyecto
 
-- React Native
-- Expo
-- Firebase
-- NativeWind
-- TypeScript
+- React Native v18.3.1
+- Expo v52.0.46
+- Firebase v11.6.1
+- NativeWind v4.1.23
+- TypeScript v5.3.3
+- Victory Native v41.17.1
 
 > Prioriza estas librerías para nuevas funcionalidades y evita dependencias innecesarias.
 
@@ -83,6 +86,7 @@ Las versiones de todas las dependencias deben ser exactamente las que figuran en
 - Las explicaciones deben detallar el por qué de cada cambio, especialmente en React Native y Tailwind, para favorecer el aprendizaje.
 - El idioma de las respuestas y comentarios será español.
 - Se permiten y fomentan sugerencias proactivas para mejorar el código o la estructura.
+- Es importante que las sugerencias tengan en cuenta las versiones de las dependencias del proyecto.
 
 ---
 
