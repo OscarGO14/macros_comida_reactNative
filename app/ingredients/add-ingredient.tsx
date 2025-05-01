@@ -5,6 +5,8 @@ import { useState } from 'react';
 
 import InputField from '@/components/InputField';
 import SubmitButton from '@/components/SubmitButton';
+import { addDoc, collection, db } from '@/services/firebase';
+import { Collections } from '@/types/collections';
 
 // Vista de añadir ingrediente
 export default function AddIngredientScreen() {
@@ -15,21 +17,57 @@ export default function AddIngredientScreen() {
   const [carbs, setCarbs] = useState('');
   const [fat, setFat] = useState('');
 
-  const handleSubmit = () => {
+  // Función para guardar el ingrediente
+  const saveIngredient = async () => {
+    try {
+      const docRef = await addDoc(collection(db, Collections.INGREDIENTS), {
+        name,
+        category,
+        calories,
+        proteins,
+        carbs,
+        fat,
+      });
+      Alert.alert('Ingrediente', 'Ingrediente guardado correctamente con id: ' + docRef.id);
+      return Promise.resolve(docRef.id);
+    } catch (error) {
+      console.error('Error al guardar el ingrediente:', error);
+      Alert.alert('Error', 'Error al guardar el ingrediente');
+      return Promise.reject(error);
+    }
+  };
+  const clearStates = () => {
+    setName('');
+    setCategory('');
+    setCalories('');
+    setProteins('');
+    setCarbs('');
+    setFat('');
+  };
+
+  const handleSubmit = async () => {
     // Validación simple
     if (!name || !calories || !proteins || !carbs || !fat) {
       Alert.alert('Error', 'Por favor completa todos los campos obligatorios.');
       return;
     }
-    // Aquí podrías llamar a tu lógica para guardar el ingrediente
+
+    try {
+      await saveIngredient();
+      clearStates();
+    } catch (error) {
+      console.error('Error al guardar el ingrediente:', error);
+      Alert.alert('Error', 'Error al guardar el ingrediente');
+    }
+
     Alert.alert('Ingrediente', 'Ingrediente añadido correctamente (simulado)');
   };
 
   return (
-    <SafeAreaView className="size-full bg-primary-black">
+    <SafeAreaView className="size-full bg-background">
       <View className="flex-1 items-center justify-center px-4 bg-primary-black">
         <StatusBar style="auto" />
-        <Text className="text-primary-yellow text-xl mb-4 font-bold">Añadir ingrediente</Text>
+        <Text className="text-primary text-xl mb-4 font-bold">Añadir ingrediente</Text>
 
         {/* Formulario de añadir ingrediente */}
         <View className="w-full max-w-md gap-3">

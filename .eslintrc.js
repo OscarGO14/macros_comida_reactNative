@@ -34,7 +34,7 @@ module.exports = {
     'prettier/prettier': 'warn',
     'react/react-in-jsx-scope': 'off', // No necesario con React 17+
     'react-native/no-inline-styles': 'off', // Permitir estilos inline si usas NativeWind
-    'import/order': ['warn', { 'newlines-between': 'always' }],
+    'import/order': 'off',
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     'import/no-named-as-default': 'off',
     // Puedes ajustar o añadir reglas según tus preferencias

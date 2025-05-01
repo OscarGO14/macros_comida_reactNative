@@ -1,19 +1,46 @@
 import React from 'react';
-import { Stack } from 'expo-router';
+import { Tabs } from 'expo-router';
+import { StatusBar } from 'react-native';
 
 import { MyColors } from '@/types/colors';
 import '../global.css';
+import Icon from '@/components/Icon';
 
 export default function RootLayout() {
   return (
-    <Stack
+    <Tabs
       screenOptions={{
-        headerStyle: { backgroundColor: MyColors.BLACK },
-        headerTintColor: MyColors.WHITE,
-        headerTitleStyle: { color: MyColors.YELLOW },
+        tabBarStyle: {
+          backgroundColor: MyColors.BLACK,
+          height: 60,
+          paddingBottom: 10,
+          paddingTop: 10,
+        },
+        tabBarActiveTintColor: MyColors.YELLOW,
+        tabBarInactiveTintColor: MyColors.WHITE,
+        headerShown: false,
       }}
     >
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-    </Stack>
+      <StatusBar barStyle="dark-content" />
+
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Inicio',
+          tabBarIcon: ({ focused }) => (
+            <Icon name="home" size={24} color={focused ? MyColors.YELLOW : MyColors.WHITE} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="ingredients"
+        options={{
+          title: 'Ingredientes',
+          tabBarIcon: ({ focused }) => (
+            <Icon name="list" size={24} color={focused ? MyColors.YELLOW : MyColors.WHITE} />
+          ),
+        }}
+      />
+    </Tabs>
   );
 }

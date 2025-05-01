@@ -1,14 +1,6 @@
 import React from 'react';
 import { Text, TextInput, View } from 'react-native';
-
-type InputFieldProps = {
-  label: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  placeholder?: string;
-  keyboardType?: 'default' | 'numeric';
-  required?: boolean;
-};
+import { InputFieldProps } from './types';
 
 export default function InputField({
   label,
@@ -19,12 +11,12 @@ export default function InputField({
   required = false,
 }: InputFieldProps) {
   return (
-    <View>
-      <Text className="text-primary-white">
+    <View className="bg-background">
+      <Text className="text-base text-primary">
         {label} {required && '*'}
       </Text>
       <TextInput
-        className="border border-primary-white rounded-md p-2 text-primary-white bg-primary-black"
+        className="border text-base border-primary rounded-md p-2 text-primary"
         placeholder={placeholder}
         placeholderTextColor="#ccc"
         value={value}
