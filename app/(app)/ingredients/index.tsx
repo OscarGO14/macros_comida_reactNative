@@ -11,7 +11,7 @@ export default function IngredientsScreen() {
         <Text className="text-primary text-2xl font-bold">Gestor de Ingredientes</Text>
         <Button
           title="Ver Ingredientes disponibles"
-          onPress={() => router.push('/ingredients/ingredients-detail')}
+          onPress={() => router.push('/ingredients/ingredients-list')}
         />
         {/* Boton para ir a vista de añadir ingredientes */}
         <Button
