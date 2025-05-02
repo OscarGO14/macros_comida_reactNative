@@ -32,7 +32,7 @@ export default function HomeScreen() {
       <View className="flex-col flex-1 items-center justify-center gap-4">
         <View className="flex items-center justify-center">
           <Text className="text-2xl text-primary text-center p-4">
-            Hola {user?.displayName || 'colega'} este es tu resumen de hoy:
+            Hola {user?.displayName || 'colega'} estas son tus estadísticas:
           </Text>
         </View>
         {objective !== undefined && consumed !== undefined && (
