@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import { MyColors } from '@/types/colors';
 
-export default function RecipesStackLayout() {
+export default function DashboardStackLayout() {
   return (
     <Stack
       screenOptions={{
@@ -11,8 +11,8 @@ export default function RecipesStackLayout() {
         headerShown: true,
       }}
     >
-      <Stack.Screen name="index" options={{ title: 'Recetas' }} />
-      <Stack.Screen name="add-recipe" options={{ title: 'Añadir receta' }} />
+      <Stack.Screen name="index" options={{ title: 'Resumen de hoy' }} />
+      <Stack.Screen name="add-meal" options={{ title: 'Añadir comida' }} />
     </Stack>
   );
 }

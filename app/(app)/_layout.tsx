@@ -23,11 +23,20 @@ export default function RootLayout() {
       <StatusBar barStyle="dark-content" />
 
       <Tabs.Screen
-        name="index"
+        name="dashboard"
         options={{
           title: 'Inicio',
           tabBarIcon: ({ focused }) => (
             <Icon name="home" size={24} color={focused ? MyColors.YELLOW : MyColors.WHITE} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="recipes"
+        options={{
+          title: 'Recetas',
+          tabBarIcon: ({ focused }) => (
+            <Icon name="fast-food" size={24} color={focused ? MyColors.YELLOW : MyColors.WHITE} />
           ),
         }}
       />

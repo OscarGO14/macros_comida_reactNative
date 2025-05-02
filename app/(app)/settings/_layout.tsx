@@ -12,6 +12,7 @@ export default function SettingsLayout() {
       }}
     >
       <Stack.Screen name="index" options={{ title: 'Configuración' }} />
+      <Stack.Screen name="updateUser" options={{ title: 'Actualizar usuario' }} />
     </Stack>
   );
 }

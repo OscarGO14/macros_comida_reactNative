@@ -1,16 +1,19 @@
-import { Goals } from './goals';
-import { Recipe } from './recipe';
-import { DailyLog } from './history';
+import { Goals } from '@/types/goals';
+import { DailyLog } from '@/types/history';
 
 // Define la forma de los datos del usuario que quieres almacenar
-// Podrías añadir más campos según necesites (nombre, email, etc.)
 export interface IUserStateData {
   uid: string;
   email: string | null;
   displayName?: string | null;
   dailyGoals?: Goals;
-  customRecipes?: Recipe[];
-  history?: Record<string, DailyLog>;
+  // customRecipes?: Recipe[]; // Eliminado
+  history?: Partial<
+    Record<
+      'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday',
+      DailyLog // Usar DailyLog
+    >
+  >;
 }
 // Define la forma completa del estado, incluyendo el usuario y posibles estados de carga/error
 export interface IUserState {

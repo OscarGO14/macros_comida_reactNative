@@ -12,6 +12,8 @@ export default function IngredientsStackLayout() {
       }}
     >
       <Stack.Screen name="index" options={{ title: 'Ingredientes' }} />
+      <Stack.Screen name="add-ingredient" options={{ title: 'Añadir ingrediente' }} />
+      <Stack.Screen name="ingredients-list" options={{ title: 'Lista de ingredientes' }} />
     </Stack>
   );
 }

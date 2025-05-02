@@ -5,9 +5,12 @@ import { Macros } from './macros'; // Reutilizamos el tipo Macros
 // Define la estructura de un alimento o receta consumida en una comida
 type ConsumedItem = {
   itemId: string; // ID del ingrediente o receta
-  name: string; // Nombre para mostrar
+  itemType: 'ingredient' | 'recipe'; // Tipo de item
+  name: string; // Nombre para mostrar (del ingrediente o receta)
+  // Para ingredientes: cantidad en gramos.
+  // Para recetas: número de raciones consumidas (puede ser decimal, ej: 1.5)
   quantity: number;
-  unit: 'g';
+  // Eliminamos 'unit' ya que depende de itemType.
   macros: Macros; // Macros calculados para la cantidad consumida
 };
 

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Slot, useRouter, useSegments } from 'expo-router';
 import { useUserStore } from '@/store/userStore';
-import '../global.css';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, getUserQuery } from '@/services/firebase';
 import { IUserStateData } from '@/types/user';
+import '../global.css';
 
 export default function RootLayoutNav() {
   const { user, isLoading, setUser, setLoading } = useUserStore();
@@ -43,10 +43,10 @@ export default function RootLayoutNav() {
       router.replace('/(auth)/login');
     } else if (user && inAuthGroup) {
       // Si hay usuario y estamos en (auth), redirigir a la app
-      router.replace('/(app)');
+      router.replace('/(app)/dashboard');
     } else if (user && isAtRoot) {
       // Si hay usuario y estamos en la raíz (caso inicial), redirigir a la app
-      router.replace('/(app)');
+      router.replace('/(app)/dashboard');
     }
     // Añadir caso: Si no hay usuario y estamos en (auth), no hacer nada (ya estamos donde debemos)
     // Añadir caso: Si hay usuario y estamos en (app), no hacer nada (ya estamos donde debemos)
