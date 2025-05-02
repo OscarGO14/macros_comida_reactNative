@@ -1,0 +1,144 @@
+// src/components/IngredientsModal/IngredientsModal.tsx
+import React, { useState, useEffect, useMemo } from 'react';
+import {
+  Modal,
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  Button, // Usaremos nuestro Button custom luego
+  TouchableOpacity,
+  SafeAreaView,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
+import { Ingredient } from '@/types/ingredient';
+import { IngredientsModalProps } from './types';
+import { useIngredients } from '@/hooks/useIngredients'; // Importar el hook
+// Importar Button custom si existe
+// import Button from '@/components/Button';
+
+const IngredientsModal = ({ isVisible, onClose, onSelectIngredient }: IngredientsModalProps) => {
+  // Usar el hook useIngredients
+  const { data: ingredients, loading, error: fetchError } = useIngredients();
+
+  // Estados locales que se mantienen
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null);
+  const [quantity, setQuantity] = useState('');
+
+  // Resetear estado local al cerrar (se mantiene, pero sin el fetch)
+  useEffect(() => {
+    if (!isVisible) {
+      setSearchTerm('');
+      setSelectedIngredient(null);
+      setQuantity('');
+      // No necesitamos resetear error/loading del hook aquí
+    }
+  }, [isVisible]);
+
+  // Filtrar ingredientes basado en searchTerm (usa 'ingredients' del hook)
+  const filteredIngredients = useMemo(() => {
+    if (!searchTerm) {
+      return ingredients;
+    }
+    return ingredients.filter((ingredient) =>
+      ingredient.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+  }, [ingredients, searchTerm]);
+
+  const handleSelect = (ingredient: Ingredient) => {
+    setSelectedIngredient(ingredient);
+  };
+
+  const handleConfirm = () => {
+    if (!selectedIngredient) {
+      Alert.alert('Error', 'Por favor, selecciona un ingrediente.');
+      return;
+    }
+    const numQuantity = parseFloat(quantity);
+    if (isNaN(numQuantity) || numQuantity <= 0) {
+      Alert.alert('Error', 'Por favor, introduce una cantidad válida mayor que 0.');
+      return;
+    }
+
+    onSelectIngredient(selectedIngredient, numQuantity);
+    onClose(); // Cierra el modal después de seleccionar
+  };
+
+  const renderIngredientItem = ({ item }: { item: Ingredient }) => (
+    <TouchableOpacity
+      onPress={() => handleSelect(item)}
+      className={`p-3 border-b border-gray-200 ${selectedIngredient?.id === item.id ? 'bg-blue-100' : 'bg-white'}`}
+    >
+      <Text className="text-gray-800">{item.name}</Text>
+      {/* Podríamos mostrar macros aquí si fuese útil */}
+    </TouchableOpacity>
+  );
+
+  return (
+    <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={onClose}>
+      <SafeAreaView className="flex-1 justify-center items-center bg-black bg-opacity-50">
+        <View className="w-11/12 h-5/6 bg-white rounded-lg p-5 shadow-lg">
+          <Text className="text-xl font-bold mb-4 text-center">Añadir Ingrediente</Text>
+
+          {/* --- Buscador --- */}
+          <TextInput
+            placeholder="Buscar ingrediente..."
+            value={searchTerm}
+            onChangeText={setSearchTerm}
+            className="border border-gray-300 rounded p-2 mb-4"
+          />
+
+          {/* --- Lista de Ingredientes --- */}
+          {loading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : fetchError ? ( // Usar el error del hook
+            <Text className="text-red-500 text-center">Error al cargar ingredientes.</Text> // Mensaje genérico o usar fetchError.message
+          ) : (
+            <FlatList
+              data={filteredIngredients}
+              renderItem={renderIngredientItem}
+              keyExtractor={(item) => item.id}
+              className="flex-1 border border-gray-200 rounded mb-4"
+              ListEmptyComponent={
+                <Text className="text-center p-4 text-gray-500">
+                  No se encontraron ingredientes
+                </Text>
+              }
+            />
+          )}
+
+          {/* --- Selección y Cantidad --- */}
+          {selectedIngredient && (
+            <View className="mb-4 p-3 border border-blue-200 rounded bg-blue-50">
+              <Text className="font-semibold mb-2">Seleccionado: {selectedIngredient.name}</Text>
+              <View className="flex-row items-center">
+                <TextInput
+                  placeholder="Cantidad"
+                  value={quantity}
+                  onChangeText={setQuantity}
+                  keyboardType="numeric"
+                  className="border border-gray-300 rounded p-2 flex-1 mr-2"
+                />
+              </View>
+            </View>
+          )}
+
+          {/* --- Botones --- */}
+          <View className="flex-row justify-around">
+            {/* Usar Button custom cuando esté listo */}
+            <Button title="Cancelar" onPress={onClose} />
+            <Button
+              title="Confirmar"
+              onPress={handleConfirm}
+              disabled={!selectedIngredient || loading} // Usar loading del hook
+            />
+          </View>
+        </View>
+      </SafeAreaView>
+    </Modal>
+  );
+};
+
+export default IngredientsModal;

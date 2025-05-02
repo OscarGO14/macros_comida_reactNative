@@ -1,7 +1,7 @@
-const Collections = {
+export const Collections = {
   INGREDIENTS: 'ingredients',
+  USERS: 'users',
+  RECIPES: 'recipes', // Añadir la colección de recetas
 } as const;
 
-export type Collections = (typeof Collections)[keyof typeof Collections];
-
-export { Collections };
+export type CollectionName = (typeof Collections)[keyof typeof Collections];

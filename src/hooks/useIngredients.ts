@@ -1,9 +1,8 @@
-import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore'; // Import onSnapshot and Unsubscribe type
+import { onSnapshot, Unsubscribe } from 'firebase/firestore'; // Import onSnapshot and Unsubscribe type
 import { useEffect, useState } from 'react';
 
-import { db } from '@/services/firebase'; // Make sure this path is correct
-import { Ingredient } from '@/types/ingredients';
-import { Collections } from '@/types/collections'; // Assuming you still want to use the enum/type for collection names
+import { ingredientsCollection } from '@/services/firebase'; // Make sure this path is correct
+import { Ingredient } from '@/types/ingredient';
 
 // Hook para extraer documentos de Firestore con escucha en tiempo real
 export const useIngredients = () => {
@@ -18,11 +17,9 @@ export const useIngredients = () => {
     let unsubscribe: Unsubscribe = () => {}; // Initialize unsubscribe to an empty function
 
     try {
-      const collectionRef = collection(db, Collections.INGREDIENTS);
-
       // Subscribe to real-time updates
       unsubscribe = onSnapshot(
-        collectionRef,
+        ingredientsCollection,
         (querySnapshot) => {
           const documents = querySnapshot.docs.map((doc) => {
             const data = doc.data();
@@ -42,14 +39,14 @@ export const useIngredients = () => {
         },
         (err) => {
           // Handle errors from the listener itself
-          console.error(`Firebase listener error for ${Collections.INGREDIENTS}:`, err);
+          console.error(`Firebase listener error for ingredientsCollection:`, err);
           setError(err as Error);
           setLoading(false);
         },
       );
     } catch (err) {
       // Catch potential errors during collection() call (e.g., invalid path)
-      console.error(`Error setting up listener for ${Collections.INGREDIENTS}:`, err);
+      console.error(`Error setting up listener for ingredientsCollection:`, err);
       setError(err as Error);
       setLoading(false);
     }

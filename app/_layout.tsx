@@ -1,46 +1,61 @@
-import React from 'react';
-import { Tabs } from 'expo-router';
-import { StatusBar } from 'react-native';
-
-import { MyColors } from '@/types/colors';
+import React, { useEffect } from 'react';
+import { Slot, useRouter, useSegments } from 'expo-router';
+import { useUserStore } from '@/store/userStore';
 import '../global.css';
-import Icon from '@/components/Icon';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, getUserQuery } from '@/services/firebase';
+import { IUserStateData } from '@/types/user';
 
-export default function RootLayout() {
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarStyle: {
-          backgroundColor: MyColors.BLACK,
-          height: 60,
-          paddingBottom: 10,
-          paddingTop: 10,
-        },
-        tabBarActiveTintColor: MyColors.YELLOW,
-        tabBarInactiveTintColor: MyColors.WHITE,
-        headerShown: false,
-      }}
-    >
-      <StatusBar barStyle="dark-content" />
+export default function RootLayoutNav() {
+  const { user, isLoading, setUser, setLoading } = useUserStore();
+  const router = useRouter();
+  const segments = useSegments();
 
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Inicio',
-          tabBarIcon: ({ focused }) => (
-            <Icon name="home" size={24} color={focused ? MyColors.YELLOW : MyColors.WHITE} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="ingredients"
-        options={{
-          title: 'Ingredientes',
-          tabBarIcon: ({ focused }) => (
-            <Icon name="list" size={24} color={focused ? MyColors.YELLOW : MyColors.WHITE} />
-          ),
-        }}
-      />
-    </Tabs>
-  );
+  // Listener de estado de autenticación
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser: IUserStateData | null) => {
+      console.log('Auth state changed:', firebaseUser?.uid);
+
+      if (firebaseUser) {
+        getUserQuery(firebaseUser.uid).then((user) => {
+          if (user) {
+            setUser(user);
+          }
+        });
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [setUser, setLoading]);
+
+  // Efecto para la redirección
+  useEffect(() => {
+    if (isLoading) return;
+
+    // Asegurarse de que segments existe y tiene elementos antes de acceder a segments[0]
+    const inAuthGroup = segments.length > 0 && segments[0] === '(auth)';
+    // @ts-expect-error segments es string[]
+    const isAtRoot = segments.length === 0;
+    if (!user && !inAuthGroup) {
+      router.replace('/(auth)/login');
+    } else if (user && inAuthGroup) {
+      // Si hay usuario y estamos en (auth), redirigir a la app
+      router.replace('/(app)');
+    } else if (user && isAtRoot) {
+      // Si hay usuario y estamos en la raíz (caso inicial), redirigir a la app
+      router.replace('/(app)');
+    }
+    // Añadir caso: Si no hay usuario y estamos en (auth), no hacer nada (ya estamos donde debemos)
+    // Añadir caso: Si hay usuario y estamos en (app), no hacer nada (ya estamos donde debemos)
+  }, [user]);
+
+  if (isLoading) {
+    // Podríamos mostrar un SplashScreen aquí en lugar de null
+    return null;
+  }
+
+  return <Slot />;
 }

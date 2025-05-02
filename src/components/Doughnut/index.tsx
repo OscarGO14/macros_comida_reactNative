@@ -1,15 +1,15 @@
 import { MyColors } from '@/types/colors';
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import { PieChart as RNPieChart } from 'react-native-gifted-charts';
 
 const theme = {
-  toDoColor: '#FF6B6B',
-  progressColor: '#4ECDC4',
-  completedColor: '#45B7D1',
-  frameBackground: '#FFFFFF',
-  textPrimary: '#000000',
-  textSecondary: '#666666',
+  toDoColor: MyColors.WHITE,
+  progressColor: MyColors.GREY,
+  completedColor: MyColors.YELLOW,
+  frameBackground: MyColors.BLACK,
+  textPrimary: MyColors.WHITE,
+  textSecondary: MyColors.GREY,
 };
 
 type PieChartProps = {
@@ -46,26 +46,28 @@ const DoughnutChart = ({ data }: PieChartProps) => {
   const completePercentage = (((data?.completeTaskCount ?? 0) / totalTasks) * 100).toFixed(0);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.row}>
-        <View style={styles.leftContainer}>
-          <Text style={styles.secondaryText}>Project Progress</Text>
-          <View style={styles.labelsContainer}>
-            <PieLabelRow label="To-Do" percentage={todoPercentage} color={theme.toDoColor} />
+    <View className="bg-background rounded-[20px] overflow-hidden">
+      <View className="flex-row">
+        <View className="p-5 w-1/2">
+          <Text className="text-primary text-[16px] mb-5">Progreso del proyecto</Text>
+          <View className="flex-1 gap-2.5 justify-center">
+            <PieLabelRow label="Por hacer" percentage={todoPercentage} color={theme.toDoColor} />
             <PieLabelRow
-              label="In Progress"
+              label="En progreso"
               percentage={progressPercentage}
               color={theme.progressColor}
             />
             <PieLabelRow
-              label="Complete"
+              label="Completado"
               percentage={completePercentage}
               color={theme.completedColor}
             />
           </View>
         </View>
-        <View style={styles.separator} />
-        <View style={[styles.rightContainer, isLargeScreen && styles.rightContainerLarge]}>
+        <View className="bg-grey w-[1px]" />
+        <View
+          className={`items-center flex-row gap-4 justify-center p-[15px] w-1/2 ${isLargeScreen ? 'justify-start px-[15px] py-[15px]' : ''}`}
+        >
           <RNPieChart
             data={pieData}
             donut
@@ -73,19 +75,20 @@ const DoughnutChart = ({ data }: PieChartProps) => {
             radius={isLargeScreen ? 55 : 60}
             innerRadius={isLargeScreen ? 35 : 40}
             innerCircleColor={theme.frameBackground}
+            isAnimated={true}
             centerLabelComponent={() =>
               !isLargeScreen ? (
-                <View style={styles.centerLabel}>
-                  <Text style={styles.centerPercentage}>{completePercentage}%</Text>
-                  <Text style={styles.centerText}>Complete</Text>
+                <View className="items-center justify-center">
+                  <Text className="text-primary text-[22px] font-bold">{completePercentage}%</Text>
+                  <Text className="text-primary text-[14px]">Completado</Text>
                 </View>
               ) : null
             }
           />
           {isLargeScreen && (
-            <View style={styles.largeScreenLabel}>
-              <Text style={styles.largePercentage}>{completePercentage}%</Text>
-              <Text style={styles.largeText}>Complete</Text>
+            <View className="justify-center">
+              <Text className="text-primary text-[35px] font-bold">{completePercentage}%</Text>
+              <Text className="text-primary text-[18px]">Completado</Text>
             </View>
           )}
         </View>
@@ -104,106 +107,14 @@ const PieLabelRow = ({
   color: string;
 }) => {
   return (
-    <View style={styles.labelRow}>
-      <View style={styles.labelContent}>
-        <View style={[styles.colorDot, { backgroundColor: color }]} />
-        <Text style={styles.labelText}>{label}:</Text>
+    <View className="items-center flex-row justify-between">
+      <View className="items-center flex-row gap-2">
+        <View style={{ backgroundColor: color }} className="rounded-[7px] h-[14px] w-[14px]" />
+        <Text className="text-primary text-[16px]">{label}:</Text>
       </View>
-      <Text style={styles.percentageText}>{percentage}%</Text>
+      <Text className="text-primary text-[16px] font-bold leading-[18px]">{percentage}%</Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  centerLabel: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  centerPercentage: {
-    color: theme.textPrimary,
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  centerText: {
-    color: theme.textPrimary,
-    fontSize: 14,
-  },
-  colorDot: {
-    borderRadius: 7,
-    height: 14,
-    width: 14,
-  },
-  container: {
-    backgroundColor: theme.frameBackground,
-    borderRadius: 20,
-    overflow: 'hidden',
-  },
-  labelContent: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 8,
-  },
-  labelRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  labelText: {
-    color: theme.textPrimary,
-    fontSize: 16,
-  },
-  labelsContainer: {
-    flex: 1,
-    gap: 10,
-    justifyContent: 'center',
-  },
-  largePercentage: {
-    color: theme.textPrimary,
-    fontSize: 35,
-    fontWeight: '700',
-  },
-  largeScreenLabel: {
-    justifyContent: 'center',
-  },
-  largeText: {
-    color: theme.textPrimary,
-    fontSize: 18,
-  },
-  leftContainer: {
-    padding: 20,
-    width: '50%',
-  },
-  percentageText: {
-    color: theme.textPrimary,
-    fontSize: 16,
-    fontWeight: 'bold',
-    lineHeight: 18,
-  },
-  rightContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 16,
-    justifyContent: 'center',
-    padding: 15,
-    width: '50%',
-  },
-  rightContainerLarge: {
-    justifyContent: 'flex-start',
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-  },
-  row: {
-    flexDirection: 'row',
-  },
-  secondaryText: {
-    color: theme.textSecondary,
-    fontSize: 16,
-    marginBottom: 20,
-  },
-  separator: {
-    backgroundColor: MyColors.GREY,
-    width: 1,
-  },
-});
 
 export default DoughnutChart;

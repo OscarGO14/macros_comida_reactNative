@@ -1,8 +1,7 @@
 import { Stack } from 'expo-router';
-
 import { MyColors } from '@/types/colors';
 
-export default function IngredientsStackLayout() {
+export default function SettingsLayout() {
   return (
     <Stack
       screenOptions={{
@@ -12,7 +11,7 @@ export default function IngredientsStackLayout() {
         headerShown: true,
       }}
     >
-      <Stack.Screen name="index" options={{ title: 'Ingredientes' }} />
+      <Stack.Screen name="index" options={{ title: 'Configuración' }} />
     </Stack>
   );
 }

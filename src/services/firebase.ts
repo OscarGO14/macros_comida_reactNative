@@ -1,7 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getFirestore, addDoc, collection } from 'firebase/firestore';
+import { getFirestore, collection, where, query, getDocs } from 'firebase/firestore';
+import { initializeAuth } from 'firebase/auth';
+// @ts-expect-error la funcion getReactNativePersistence no esta tipada correctamente
+import { getReactNativePersistence } from '@firebase/auth/dist/rn/index.js';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
+import { Collections } from '@/types/collections';
+import { IUserStateData } from '@/types/user';
 
 const {
   FIREBASE_API_KEY,
@@ -26,5 +32,35 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});
 
-export { app, db, addDoc, collection };
+// Collections
+const ingredientsCollection = collection(db, Collections.INGREDIENTS);
+const usersCollection = collection(db, Collections.USERS);
+const recipesCollection = collection(db, Collections.RECIPES);
+
+const getUserQuery = async (uid: string) => {
+  try {
+    const q = query(usersCollection, where('uid', '==', uid));
+    const snapshot = await getDocs(q);
+    if (snapshot.docs.length > 0) {
+      return snapshot.docs[0].data() as IUserStateData;
+    }
+  } catch (error) {
+    console.error('Error al obtener el usuario:', error);
+  }
+  return null;
+};
+
+export {
+  app,
+  db,
+  auth,
+  usersCollection,
+  ingredientsCollection,
+  recipesCollection,
+  getUserQuery,
+  Collections,
+};

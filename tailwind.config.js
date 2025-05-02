@@ -11,6 +11,7 @@ module.exports = {
       colors: {
         primary: MyColors.WHITE,
         secondary: MyColors.BLACK,
+        alternate: MyColors.GREY,
         accent: MyColors.YELLOW,
         background: MyColors.BLACK,
       },
