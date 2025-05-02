@@ -18,6 +18,9 @@ export const useUserStore = create<IUserState>()(
           const userData: IUserStateData = {
             uid: firebaseUser.uid,
             email: firebaseUser.email,
+            displayName: firebaseUser?.displayName,
+            dailyGoals: firebaseUser?.dailyGoals,
+            history: firebaseUser?.history,
           };
           set({ user: userData, isLoading: false, error: null });
         } else {

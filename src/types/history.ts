@@ -3,7 +3,7 @@ import { Timestamp } from 'firebase/firestore';
 import { Macros } from './macros'; // Reutilizamos el tipo Macros
 
 // Define la estructura de un alimento o receta consumida en una comida
-type ConsumedItem = {
+export type ConsumedItem = {
   itemId: string; // ID del ingrediente o receta
   itemType: 'ingredient' | 'recipe'; // Tipo de item
   name: string; // Nombre para mostrar (del ingrediente o receta)
@@ -15,11 +15,19 @@ type ConsumedItem = {
 };
 
 // Define la estructura de una comida (desayuno, almuerzo, etc.)
-type Meal = {
-  name: string; // 'Desayuno', 'Almuerzo', 'Cena', 'Snacks'
+export type Meal = {
   items: ConsumedItem[];
   totalMacros: Macros; // Macros totales de esta comida
 };
+
+export type DayOfWeek =
+  | 'monday'
+  | 'tuesday'
+  | 'wednesday'
+  | 'thursday'
+  | 'friday'
+  | 'saturday'
+  | 'sunday';
 
 export interface DailyLog {
   // El ID será la fecha YYYY-MM-DD, pero no es necesario ponerlo explícitamente en el tipo

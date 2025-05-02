@@ -3,6 +3,7 @@ const MyColors = {
   WHITE: '#FFFFFF',
   YELLOW: '#facc15',
   GREY: '#808080',
+  DANGER: '#ef4444',
 } as const;
 
 export type MyColor = (typeof MyColors)[keyof typeof MyColors];

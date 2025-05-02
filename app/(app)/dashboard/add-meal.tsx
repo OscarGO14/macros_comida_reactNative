@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -7,17 +7,24 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, useRouter } from 'expo-router';
 
 import { useIngredients } from '@/hooks/useIngredients';
-import { useRecipes } from '@/hooks/useRecipes'; // Asumiendo que existe o se creará
+import { useRecipes } from '@/hooks/useRecipes';
 import { Ingredient } from '@/types/ingredient';
 import { Recipe } from '@/types/recipe';
 import { Macros } from '@/types/macros';
 import Button from '@/components/Button';
-import { MyColors } from '@/types/colors'; // Importar colores para estilos
+import { MyColors } from '@/types/colors';
+import { ConsumedItem, DayOfWeek } from '@/types/history';
+import { useUserStore } from '@/store/userStore';
+import { dailyLogCalculator } from '@/utils/dailyLogCalculator';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '@/services/firebase';
+import { getDayOfWeek } from '@/utils/getDayOfWeek';
 
 // Tipo unificado para resultados de búsqueda
 type SearchResult = (Ingredient & { itemType: 'ingredient' }) | (Recipe & { itemType: 'recipe' });
@@ -29,19 +36,21 @@ const AddMealScreen = () => {
   const [selectedSearchResult, setSelectedSearchResult] = useState<SearchResult | null>(null);
   const [quantity, setQuantity] = useState('');
   const [currentMealItems, setCurrentMealItems] = useState<ConsumedItem[]>([]);
-  const [mealName, setMealName] = useState('Desayuno'); // Opciones: Desayuno, Almuerzo, Cena, Snacks
+  const { user, updateUserData } = useUserStore();
 
   // Hooks para obtener datos (pueden necesitar ajustes)
-  const { data: ingredients, loading: ingredientsLoading } = useIngredients();
-  // const { data: recipes, loading: recipesLoading } = useRecipes(); // Descomentar cuando exista
-  const recipes: Recipe[] = []; // Placeholder
-  const recipesLoading = false; // Placeholder
+  const {
+    data: ingredients,
+    loading: ingredientsLoading,
+    error: ingredientsError,
+  } = useIngredients();
+  const { data: recipes, loading: recipesLoading, error: recipesError } = useRecipes();
 
   // Función de búsqueda (simplificada)
   const handleSearch = (text: string) => {
     setSearchTerm(text);
-    setSelectedSearchResult(null); // Limpiar selección anterior
-    setQuantity(''); // Limpiar cantidad
+    setSelectedSearchResult(null);
+    setQuantity('');
 
     if (text.length < 2) {
       setSearchResults([]);
@@ -56,21 +65,20 @@ const AddMealScreen = () => {
       .map((ing) => ({ ...ing, itemType: 'ingredient' as const }));
 
     // Filtrar recetas (cuando esté disponible)
-    // const filteredRecipes = recipes
-    //   .filter((rec) => rec.name.toLowerCase().includes(lowerCaseText))
-    //   .map((rec) => ({ ...rec, itemType: 'recipe' as const }));
+    const filteredRecipes = recipes
+      .filter((rec) => rec.name.toLowerCase().includes(lowerCaseText))
+      .map((rec) => ({ ...rec, itemType: 'recipe' as const }));
 
-    setSearchResults([...filteredIngredients /*, ...filteredRecipes*/]);
+    setSearchResults([...filteredIngredients, ...filteredRecipes]);
   };
 
   // Manejar selección de un resultado
   const handleSelectResult = (result: SearchResult) => {
     setSelectedSearchResult(result);
-    setSearchTerm(result.name); // Poner el nombre en el input
-    setSearchResults([]); // Ocultar resultados
+    setSearchTerm(result.name);
+    setSearchResults([]);
   };
 
-  // --- Lógica para calcular macros y añadir item (PENDIENTE) ---
   const handleAddItemToMeal = () => {
     if (!selectedSearchResult || !quantity) {
       Alert.alert('Error', 'Selecciona un alimento e introduce la cantidad.');
@@ -82,9 +90,22 @@ const AddMealScreen = () => {
       Alert.alert('Error', 'La cantidad debe ser un número positivo.');
       return;
     }
-
-    // TODO: Calcular macros basado en selectedSearchResult y quantityNum
-    const calculatedMacros: Macros = { calories: 0, proteins: 0, carbs: 0, fat: 0 }; // Placeholder
+    let calculatedMacros: Macros;
+    if (selectedSearchResult.itemType === 'ingredient') {
+      calculatedMacros = {
+        calories: (selectedSearchResult.calories * quantityNum) / 100,
+        proteins: (selectedSearchResult.proteins * quantityNum) / 100,
+        carbs: (selectedSearchResult.carbs * quantityNum) / 100,
+        fat: (selectedSearchResult.fat * quantityNum) / 100,
+      };
+    } else {
+      calculatedMacros = {
+        calories: selectedSearchResult.macros.calories * quantityNum,
+        proteins: selectedSearchResult.macros.proteins * quantityNum,
+        carbs: selectedSearchResult.macros.carbs * quantityNum,
+        fat: selectedSearchResult.macros.fat * quantityNum,
+      };
+    }
 
     const newItem: ConsumedItem = {
       itemId: selectedSearchResult.id,
@@ -93,41 +114,66 @@ const AddMealScreen = () => {
       quantity: quantityNum,
       macros: calculatedMacros,
     };
-
     setCurrentMealItems((prevItems) => [...prevItems, newItem]);
     setSelectedSearchResult(null);
     setSearchTerm('');
     setQuantity('');
   };
 
-  // --- Lógica para guardar la comida (PENDIENTE) ---
-  const handleSaveMeal = () => {
-    if (currentMealItems.length === 0) {
-      Alert.alert('Error', 'No has añadido ningún alimento a la comida.');
-      return;
-    }
-    // TODO: Implementar guardado en Firestore
-    console.log('Guardando comida:', mealName, currentMealItems);
-    Alert.alert('Éxito', 'Comida guardada (simulado).');
-    // router.back(); // Volver atrás después de guardar
-  };
-
   // Calcula macros totales de la comida actual
   const totalMealMacros = currentMealItems.reduce(
     (acc, item) => {
       acc.calories += item.macros.calories;
-      acc.protein += item.macros.proteins;
+      acc.proteins += item.macros.proteins;
       acc.carbs += item.macros.carbs;
       acc.fat += item.macros.fat;
       return acc;
     },
-    { calories: 0, protein: 0, carbs: 0, fat: 0 },
+    { calories: 0, proteins: 0, carbs: 0, fat: 0 },
   );
+  const handleSaveMeal = async () => {
+    if (currentMealItems.length === 0) {
+      Alert.alert('Error', 'No has añadido ningún alimento a la comida.');
+      return;
+    }
+
+    const today = getDayOfWeek();
+    let dailyLog = user?.history?.[today];
+
+    // Añadir la comida a la lista de comidas del día actual
+    if (user) {
+      dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacros);
+
+      // Update user in userStore
+      updateUserData({
+        ...user,
+        history: {
+          ...user.history,
+          [today]: dailyLog,
+        },
+      });
+      // Update user in Firestore
+      await updateDoc(doc(db, 'users', user.uid), {
+        history: {
+          [today]: dailyLog,
+        },
+      });
+    } else {
+      Alert.alert('Error', 'No se pudo actualizar el historial de comidas.');
+    }
+
+    router.back();
+  };
+
+  useEffect(() => {
+    if (ingredientsError || recipesError) {
+      Alert.alert('Error', 'Error al cargar ingredientes o recetas.');
+    }
+  }, [ingredientsError, recipesError]);
 
   return (
     <SafeAreaView className="flex-1 bg-background p-4">
       <Stack.Screen options={{ title: 'Añadir Comida' }} />
-      <Text className="text-xl font-bold text-text mb-4">Añadir a: {mealName}</Text>
 
       {/* Buscador */}
       <View className="flex-1 items-center mb-4">
@@ -179,38 +225,36 @@ const AddMealScreen = () => {
       )}
 
       {/* Lista de items en la comida actual */}
-      <Text className="text-lg font-semibold text-text mb-2">Comida Actual ({mealName})</Text>
-      <FlatList
-        data={currentMealItems}
-        keyExtractor={(item, index) => `${item.itemId}-${index}`}
-        renderItem={({ item }) => (
-          <View className="flex-row justify-between items-center p-3 border-b border-border bg-card mb-1 rounded">
-            <Text className="text-primary text-base flex-1 mr-2">
-              {item.name} ({item.quantity}
-              {item.itemType === 'ingredient' ? 'g' : ' ración/es'})
-            </Text>
-            <Text className="text-alternate text-sm">
-              C: {item.macros.calories.toFixed(0)} P: {item.macros.protein.toFixed(1)} Cb:{' '}
-              {item.macros.carbs.toFixed(1)} G: {item.macros.fat.toFixed(1)}
-            </Text>
-          </View>
-        )}
-        ListEmptyComponent={
-          <Text className="text-center text-alternate italic">Aún no has añadido nada.</Text>
-        }
-        className="flex-grow mb-4"
-      />
-
+      <ScrollView className="flex max-h-60">
+        <FlatList
+          data={currentMealItems}
+          keyExtractor={(item, index) => `${item.itemId}-${index}`}
+          renderItem={({ item }) => (
+            <View className="flex-row justify-between items-center p-3 border-b border-border bg-card mb-1 rounded">
+              <Text className="text-primary text-base flex-1 mr-2">
+                {item.name} ({item.quantity}
+                {item.itemType === 'ingredient' ? 'g' : ' ración/es'})
+              </Text>
+              <Text className="text-alternate text-sm">
+                C: {item.macros.calories.toFixed(0)} P: {item.macros.proteins.toFixed(1)} Cb:{' '}
+                {item.macros.carbs.toFixed(1)} G: {item.macros.fat.toFixed(1)}
+              </Text>
+            </View>
+          )}
+          ListEmptyComponent={
+            <Text className="text-center text-alternate italic">Aún no has añadido nada.</Text>
+          }
+          className="flex-grow mb-4"
+        />
+      </ScrollView>
       {/* Total Macros y Guardar */}
       <View className="flex-1 items-center border-t border-border pt-4">
-        <Text className="text-lg font-semibold text-alternate mb-2">
-          Macros Totales ({mealName})
-        </Text>
+        <Text className="text-lg font-semibold text-alternate mb-2">Macros comida actual</Text>
         <Text className="text-alternate mb-1">
           Calorías: {totalMealMacros.calories.toFixed(0)} kcal
         </Text>
         <Text className="text-alternate mb-1">
-          Proteína: {totalMealMacros.protein.toFixed(1)} g
+          Proteína: {totalMealMacros.proteins.toFixed(1)} g
         </Text>
         <Text className="text-alternate mb-1">
           Carbohidratos: {totalMealMacros.carbs.toFixed(1)} g

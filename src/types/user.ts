@@ -7,11 +7,10 @@ export interface IUserStateData {
   email: string | null;
   displayName?: string | null;
   dailyGoals?: Goals;
-  // customRecipes?: Recipe[]; // Eliminado
   history?: Partial<
     Record<
       'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday',
-      DailyLog // Usar DailyLog
+      DailyLog
     >
   >;
 }
@@ -21,6 +20,7 @@ export interface IUserState {
   isLoading: boolean;
   error: Error | null;
   setUser: (user: IUserStateData | null) => void; // Acción para actualizar el usuario
+  updateUserData: (user: IUserStateData) => void; // Acción para actualizar el usuario
   setLoading: (loading: boolean) => void; // Acción para estado de carga
   setError: (error: Error | null) => void; // Acción para manejar errores
   clearUser: () => void; // Acción para limpiar el estado del usuario (logout)
