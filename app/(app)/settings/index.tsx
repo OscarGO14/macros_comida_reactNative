@@ -1,7 +1,7 @@
 import LogOut from '@/components/LogOut';
 import { Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import Button from '@/components/Button';
+import Button from '@/components/ui/SubmitButton/Button';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SettingsScreen() {

@@ -1,5 +1,5 @@
 import { Alert, View } from 'react-native';
-import Button from '@/components/Button';
+import Button from '@/components/ui/SubmitButton/Button';
 import { auth } from '@/services/firebase';
 import { signOut } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';

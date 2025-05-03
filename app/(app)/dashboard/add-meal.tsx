@@ -17,7 +17,7 @@ import { useRecipes } from '@/hooks/useRecipes';
 import { Ingredient } from '@/types/ingredient';
 import { Recipe } from '@/types/recipe';
 import { Macros } from '@/types/macros';
-import Button from '@/components/Button';
+import Button from '@/components/ui/SubmitButton/Button';
 import { MyColors } from '@/types/colors';
 import { ConsumedItem, DayOfWeek } from '@/types/history';
 import { useUserStore } from '@/store/userStore';

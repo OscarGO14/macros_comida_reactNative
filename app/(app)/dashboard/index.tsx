@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DoughnutChart from '@/components/DoughnutChart';
-import Button from '@/components/Button';
+import Button from '@/components/ui/SubmitButton/Button';
 import { useRouter } from 'expo-router';
 import { useUserStore } from '@/store/userStore';
 import BarChartComponent from '@/components/BarChart';

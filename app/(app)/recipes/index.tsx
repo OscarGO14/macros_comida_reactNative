@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import Button from '@/components/Button';
+import Button from '@/components/ui/SubmitButton/Button';
 import { useRecipes } from '@/hooks/useRecipes';
 
 // TODO: Implementar la carga y visualización de recetas del usuario
