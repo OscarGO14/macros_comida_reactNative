@@ -1,13 +1,11 @@
 export type StatsCardVariant = 'primary' | 'secondary' | 'accent';
-export type StatsCardSize = 'sm' | 'md' | 'lg';
 
 export interface StatsCardProps {
   title: string;
-  value: number;
+  value: number | string;
   variant?: StatsCardVariant;
-  size?: StatsCardSize;
   trend?: string;
-  formatValue?: (value: number) => string;
+  formatValue?: (value: number | string) => string;
   children?: React.ReactNode;
   className?: string;
 }

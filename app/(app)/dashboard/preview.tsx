@@ -1,18 +1,25 @@
 import { GradientButtonExample } from '@/components/ui/GradientButton';
 import Item from '@/components/ui/Item';
 import { ItemType } from '@/components/ui/Item/types';
-import { StatsCardExample } from '@/components/ui/StatsCard';
 import { Text, View } from 'react-native';
+import Screen from '@/components/ui/Screen';
+import InputText from '@/components/ui/InputText';
+import SubmitButton from '@/components/ui/SubmitButton';
+import { StatsCard } from '@/components/ui/StatsCard';
 
 // Vamos a probar los nuevos componentes de nuestra librería de ui en src/components/ui
 
 export default function PreviewScreen() {
   return (
-    <View className="bg-background flex-1 items-center justify-center">
+    <Screen>
       <Text>Preview</Text>
-      <GradientButtonExample />
-      <StatsCardExample />
-      <Item name="Pollo" type={ItemType.INGREDIENT} calories={100} />
-    </View>
+      <View className="flex-1 gap-4">
+        <GradientButtonExample />
+        <Item name="Pollo" type={ItemType.INGREDIENT} calories={100} />
+        <InputText label="Nombre" placeholder="Nombre" />
+        <SubmitButton label="Enviar" onPress={() => {}} />
+        <StatsCard title="Calorías restantes" value={1200} variant="primary" trend="+5%" />
+      </View>
+    </Screen>
   );
 }

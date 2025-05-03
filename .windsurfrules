@@ -21,6 +21,8 @@ React Native, TypeScript, Expo, Firebase, NativeWind.
   Cada componente debe tener su propia carpeta. Dentro de cada carpeta se generara un index.tsx para exportar el componente. Un types.ts para los tipos.
 - **Estilos del proyecto:**
   Usar Tailwind para estilos. Siempre utilizar las variables de colores definidas en el archivo `tailwind.config.js`.
+- **Tipos:**
+  Preferencia de usar const as const en lugar de enum.
 
 ---
 

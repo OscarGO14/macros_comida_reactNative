@@ -35,7 +35,7 @@ const Item: React.FC<ItemProps> = ({ name, type, calories }) => {
 
   return (
     // Contenedor principal: fondo oscuro, padding, borde redondeado, layout en fila, centrado vertical
-    <View className="flex-row items-center bg-item_background p-4 rounded-lg mb-2">
+    <View className="flex-row items-center bg-item_background p-4 rounded-lg">
       {/* Icono */}
       <MaterialCommunityIcons
         name={iconName}

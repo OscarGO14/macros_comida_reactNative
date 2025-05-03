@@ -55,7 +55,11 @@ export default function RootLayout() {
         options={{
           title: 'Configuración',
           tabBarIcon: ({ focused }) => (
-            <Icon name="cog" size={24} color={focused ? MyColors.ACCENT : MyColors.PRIMARY} />
+            <Icon
+              name="cog-outline"
+              size={24}
+              color={focused ? MyColors.ACCENT : MyColors.PRIMARY}
+            />
           ),
         }}
       />

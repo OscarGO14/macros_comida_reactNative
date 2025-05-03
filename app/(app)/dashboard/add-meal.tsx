@@ -182,7 +182,7 @@ const AddMealScreen = () => {
           value={searchTerm}
           onChangeText={handleSearch}
           className="border border-input rounded-md p-3 text-primary bg-card text-base"
-          placeholderTextColor={MyColors.ALT}
+          placeholderTextColor={MyColors.ALTERNATE}
         />
         {(ingredientsLoading || recipesLoading) && <ActivityIndicator className="mt-2" />}
         {searchResults.length > 0 && (
@@ -218,7 +218,7 @@ const AddMealScreen = () => {
             onChangeText={setQuantity}
             keyboardType="numeric"
             className="border border-input rounded-md p-3 text-primary bg-card text-base mb-3"
-            placeholderTextColor={MyColors.ALT}
+            placeholderTextColor={MyColors.ALTERNATE}
           />
           <Button title="Añadir a la comida" onPress={handleAddItemToMeal} />
         </View>

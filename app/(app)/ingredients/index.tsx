@@ -1,24 +1,27 @@
 import React from 'react';
 import { router } from 'expo-router';
-import { Text, View } from 'react-native';
-import { Button } from '@/components/ui/Button';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SettingsItem from '@/components/ui/SettingsItem';
+import { SettingsControlType } from '@/components/ui/SettingsItem/types';
+import Screen from '@/components/ui/Screen';
+import { View, Text } from 'react-native';
 
 export default function IngredientsScreen() {
   return (
-    <SafeAreaView className="size-full bg-background">
+    <Screen>
       <View className="flex-1 items-center justify-center gap-4">
         <Text className="text-primary text-2xl font-bold">Gestor de Ingredientes</Text>
-        <Button
-          title="Ver Ingredientes disponibles"
+
+        <SettingsItem
+          label="Ver Ingredientes disponibles"
+          controlType={SettingsControlType.ARROW_ONLY}
           onPress={() => router.push('/ingredients/ingredients-list')}
         />
-        {/* Boton para ir a vista de añadir ingredientes */}
-        <Button
-          title="Añadir Ingrediente nuevo"
+        <SettingsItem
+          label="Añadir Ingrediente nuevo"
+          controlType={SettingsControlType.ARROW_ONLY}
           onPress={() => router.push('/ingredients/add-ingredient')}
         />
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }

@@ -11,7 +11,7 @@ module.exports = {
       colors: {
         primary: MyColors.PRIMARY,
         secondary: MyColors.SECONDARY,
-        alternate: MyColors.ALT,
+        alternate: MyColors.ALTERNATE,
         accent: MyColors.ACCENT,
         background: MyColors.BACKGROUND,
         item_background: MyColors.ITEM_BACKGROUND,

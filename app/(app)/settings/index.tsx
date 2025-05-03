@@ -1,22 +1,54 @@
-import LogOut from '@/components/LogOut';
-import { Text, View } from 'react-native';
+import { Text, View, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
-import Button from '@/components/ui/Button';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SettingsItem from '@/components/ui/SettingsItem';
+import { SettingsControlType } from '@/components/ui/SettingsItem/types';
+import Screen from '@/components/ui/Screen';
+import { handleLogout } from '@/utils/handleLogout';
 
 export default function SettingsScreen() {
   const router = useRouter();
 
+  const handleLogoutModal = () => {
+    console.log('handleLogoutModal triggered');
+    Alert.alert('Cerrar sesión', '¿Estás seguro de que quieres cerrar sesión?', [
+      {
+        text: 'Cancelar',
+        onPress: () => console.log('Cancelado'),
+        style: 'cancel',
+      },
+      {
+        text: 'Cerrar sesión',
+        onPress: handleLogout,
+        style: 'destructive',
+      },
+    ]);
+  };
+
   return (
-    <SafeAreaView className="size-full bg-background">
-      <View className="flex-1 items-center justify-center gap-4">
-        <Text className="text-primary text-2xl font-bold">Configuración</Text>
-        <Button
-          title="Actualizar usuario"
-          onPress={() => router.push('/(app)/settings/updateUser')}
+    <Screen>
+      <Text className="text-primary text-2xl font-bold text-center mb-6">Configuración</Text>
+      <View className="w-full space-y-4">
+        <SettingsItem
+          label="Modo Oscuro"
+          controlType={SettingsControlType.SWITCH}
+          value={true}
+          onPress={() => console.log('Opción 1')}
+          iconName="weather-night"
         />
-        <LogOut />
+
+        <SettingsItem
+          label="Actualizar información de usuario"
+          controlType={SettingsControlType.ARROW_ONLY}
+          onPress={() => router.push('/(app)/settings/updateUser')}
+          iconName="account"
+        />
+        <SettingsItem
+          label="Cerrar sesión"
+          controlType={SettingsControlType.ARROW_ONLY}
+          onPress={handleLogoutModal}
+          iconName="logout"
+        />
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }

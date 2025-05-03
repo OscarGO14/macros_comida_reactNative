@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  FlatList,
-  Alert,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, TextInput, FlatList, Alert, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { addDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
@@ -18,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Ingredient } from '@/types/ingredient';
 import { Macros } from '@/types/macros';
 import IngredientsModal from '@/components/IngredientsModal';
+import Screen from '@/components/ui/Screen';
 
 interface SelectedIngredientData {
   ingredient: Ingredient;
@@ -166,7 +158,7 @@ export default function AddRecipeScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <Screen>
       <ScrollView className="p-4">
         <Text className="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">
           Añadir Nueva Receta
@@ -269,6 +261,6 @@ export default function AddRecipeScreen() {
         onClose={() => setIsModalVisible(false)}
         onSelectIngredient={handleIngredientSelected}
       />
-    </SafeAreaView>
+    </Screen>
   );
 }

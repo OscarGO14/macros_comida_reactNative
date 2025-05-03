@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import DoughnutChart from '@/components/DoughnutChart';
 import Button from '@/components/ui/Button';
 import { useRouter } from 'expo-router';
 import { useUserStore } from '@/store/userStore';
 import BarChartComponent from '@/components/BarChart';
 import { getDayOfWeek } from '@/utils/getDayOfWeek';
+import Screen from '@/components/ui/Screen';
+import SettingsItem from '@/components/ui/SettingsItem';
+import { SettingsControlType } from '@/components/ui/SettingsItem/types';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -36,7 +38,7 @@ export default function HomeScreen() {
   }, [user]);
 
   return (
-    <SafeAreaView className="flex-1 bg-background p-4">
+    <Screen>
       <View className="flex-col flex-1 items-center justify-center gap-4">
         <View className="flex items-center justify-center">
           <Text className="text-2xl text-primary text-center p-4">
@@ -55,13 +57,18 @@ export default function HomeScreen() {
 
         {/* Grafico de días */}
         <BarChartComponent />
-        <View>
-          <Button title="Añadir Comida" onPress={handleAddMeal} />
-        </View>
-        <View>
-          <Button title="Ir a preview de componentes" onPress={handlePreview} />
-        </View>
+
+        <SettingsItem
+          label="Añadir Comida"
+          controlType={SettingsControlType.ARROW_ONLY}
+          onPress={handleAddMeal}
+        />
+        <SettingsItem
+          label="Ir a preview de componentes"
+          controlType={SettingsControlType.ARROW_ONLY}
+          onPress={handlePreview}
+        />
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }

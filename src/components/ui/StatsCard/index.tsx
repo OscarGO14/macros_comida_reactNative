@@ -1,45 +1,43 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { MyColors } from '@/types/colors';
 import { StatsCardProps } from './types';
 
 export const StatsCard = ({
   title,
   value,
   variant = 'primary',
-  size = 'md',
   trend,
   formatValue,
   children,
 }: StatsCardProps) => {
-  const sizeClasses = {
-    sm: 'p-3',
-    md: 'p-4',
-    lg: 'p-5',
+  const baseContainerClasses = 'bg-item_background p-4 rounded-lg border w-full';
+
+  const borderVariantClasses = {
+    primary: 'border-primary',
+    secondary: 'border-alternate',
+    accent: 'border-accent',
   };
 
-  const variantClasses = {
-    primary: `bg-[${MyColors.BACKGROUND}] border border-[${MyColors.PRIMARY}]`,
-    secondary: `bg-[${MyColors.BACKGROUND}] border border-[${MyColors.ALT}]`,
-    accent: `bg-[${MyColors.ACCENT}]`,
+  const textValueVariantClasses = {
+    primary: 'text-primary',
+    secondary: 'text-alternate',
+    accent: 'text-accent',
   };
 
-  const trendColor = trend?.startsWith('+') ? MyColors.SUCCESS : MyColors.DANGER;
+  const trendTextClass = trend?.startsWith('+') ? 'text-success' : 'text-danger';
 
   return (
-    <View className={`rounded-xl ${sizeClasses[size]} ${variantClasses[variant]}`}>
+    <View className={`${baseContainerClasses} ${borderVariantClasses[variant]}`}>
       <Text className="text-base text-primary opacity-80 mb-1">{title}</Text>
 
       <View className="flex-row items-end justify-between">
-        <Text className={`text-3xl font-bold text-${variant}`}>
+        <Text className={`text-3xl font-bold ${textValueVariantClasses[variant]}`}>
           {formatValue ? formatValue(value) : value}
         </Text>
 
         {trend && (
           <View className="flex-row items-center">
-            <Text style={{ color: trendColor }} className="text-sm">
-              {trend}
-            </Text>
+            <Text className={`text-sm ${trendTextClass}`}>{trend}</Text>
           </View>
         )}
       </View>
@@ -48,11 +46,3 @@ export const StatsCard = ({
     </View>
   );
 };
-
-export const StatsCardExample = () => (
-  <View className="p-4 gap-4">
-    <StatsCard title="Calorías restantes" value={1200} variant="primary" trend="+5%" />
-
-    <StatsCard title="Proteínas" value={85} variant="secondary" formatValue={(v) => `${v}g`} />
-  </View>
-);

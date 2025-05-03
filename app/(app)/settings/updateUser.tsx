@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, Alert, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '@/components/ui/Button';
 import { useUserStore } from '@/store/userStore';
 import { Goals } from '@/types/goals';
@@ -8,6 +7,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
 import { db, auth } from '@/services/firebase';
 import { FirebaseError } from 'firebase/app';
+import Screen from '@/components/ui/Screen';
 
 export default function UpdateUserScreen() {
   const { user, setUser } = useUserStore();
@@ -88,15 +88,15 @@ export default function UpdateUserScreen() {
 
   if (!user) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-background p-4">
+      <Screen>
         <ActivityIndicator size="large" color="#FACC15" />
         <Text className="mt-4 text-primary">Cargando datos del usuario...</Text>
-      </SafeAreaView>
+      </Screen>
     );
   }
 
   return (
-    <SafeAreaView className="flex-1 items-center bg-background p-4">
+    <Screen>
       <Text className="mb-6 text-2xl font-bold text-primary">Actualizar Perfil y Metas</Text>
 
       <View className="w-full max-w-sm">
@@ -150,6 +150,6 @@ export default function UpdateUserScreen() {
           <Button title="Guardar Cambios" onPress={handleSave} className="bg-accent" />
         )}
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }
