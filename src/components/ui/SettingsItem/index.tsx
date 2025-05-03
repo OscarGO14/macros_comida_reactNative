@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 // No necesitamos importar 'styled' de nativewind
 
 import { SettingsItemProps, SettingsControlType } from './types';
+import { MyColors } from '@/types/colors';
 
 // No necesitamos los componentes 'Styled...'
 
@@ -71,7 +72,12 @@ const SettingsItem: React.FC<SettingsItemProps> = ({
       activeOpacity={0.7}
     >
       {iconName && (
-        <MaterialCommunityIcons name={iconName} size={24} className={`${textColor} mr-4`} />
+        <MaterialCommunityIcons
+          name={iconName}
+          size={24}
+          color={MyColors.PRIMARY}
+          className={`${textColor} mr-4`}
+        />
       )}
       <Text className={`flex-1 ${textColor} text-base`}>{label}</Text>
       <View>{renderControl()}</View>

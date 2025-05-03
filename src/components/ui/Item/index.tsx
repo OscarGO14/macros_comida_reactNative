@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ItemProps, MaterialIconName, ItemType, INGREDIENT_ICONS, RECIPE_ICONS } from './types';
 import { getRandomElement } from '@/utils/getRandomElement';
+import { MyColors } from '@/types/colors';
 
 const Item: React.FC<ItemProps> = ({ name, type, calories }) => {
   // Determina el icono basado en el ItemType
@@ -35,11 +36,12 @@ const Item: React.FC<ItemProps> = ({ name, type, calories }) => {
 
   return (
     // Contenedor principal: fondo oscuro, padding, borde redondeado, layout en fila, centrado vertical
-    <View className="flex-row items-center bg-item_background p-4 rounded-lg">
+    <View className="w-full flex-row items-center bg-item_background p-4 rounded-lg">
       {/* Icono */}
       <MaterialCommunityIcons
         name={iconName}
         size={24}
+        color={MyColors.PRIMARY}
         // Usa los colores de tu tema de Tailwind si los tienes definidos
         // Ejemplo: className="text-primary mr-4"
         className="text-white mr-4" // Color blanco por ahora, ajustar según tu tema

@@ -13,7 +13,11 @@ export default function IngredientsListScreen() {
     console.log('Ingredient ID:', id);
   };
   const renderIngredientItem = ({ item }: { item: Ingredient }) => (
-    <TouchableOpacity onPress={() => handlePressIngredient(item.id)} activeOpacity={0.7}>
+    <TouchableOpacity
+      className="w-full"
+      onPress={() => handlePressIngredient(item.id)}
+      activeOpacity={0.7}
+    >
       <Item name={item.name} calories={item.calories} type={ItemType.INGREDIENT} />
     </TouchableOpacity>
   );
@@ -52,7 +56,7 @@ export default function IngredientsListScreen() {
   return (
     <Screen>
       <Text className="text-primary text-2xl font-bold py-4">Lista de Ingredientes</Text>
-      <View className="flex-1 items-center justify-center py-4">
+      <View className="flex-1 py-4">
         <FlatList
           data={ingredientsData}
           renderItem={renderIngredientItem}
