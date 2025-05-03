@@ -16,7 +16,7 @@ export default function UpdateUserScreen() {
   const [calories, setCalories] = useState('');
   const [proteins, setProteins] = useState('');
   const [carbs, setCarbs] = useState('');
-  const [fat, setFat] = useState('');
+  const [fats, setFats] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function UpdateUserScreen() {
       setCalories(user.dailyGoals?.calories?.toString() || '');
       setProteins(user.dailyGoals?.proteins?.toString() || '');
       setCarbs(user.dailyGoals?.carbs?.toString() || '');
-      setFat(user.dailyGoals?.fat?.toString() || '');
+      setFats(user.dailyGoals?.fats?.toString() || '');
     }
   }, [user]);
 
@@ -38,9 +38,9 @@ export default function UpdateUserScreen() {
     const numCalories = parseInt(calories, 10);
     const numProteins = parseInt(proteins, 10);
     const numCarbs = parseInt(carbs, 10);
-    const numFat = parseInt(fat, 10);
+    const numFats = parseInt(fats, 10);
 
-    if (isNaN(numCalories) || isNaN(numProteins) || isNaN(numCarbs) || isNaN(numFat)) {
+    if (isNaN(numCalories) || isNaN(numProteins) || isNaN(numCarbs) || isNaN(numFats)) {
       Alert.alert('Error', 'Por favor, introduce valores numéricos válidos para las metas.');
       return;
     }
@@ -51,7 +51,7 @@ export default function UpdateUserScreen() {
       calories: numCalories,
       proteins: numProteins,
       carbs: numCarbs,
-      fat: numFat,
+      fats: numFats,
     };
 
     const dataToUpdate: Partial<typeof user> = {
@@ -139,8 +139,8 @@ export default function UpdateUserScreen() {
           className="mb-6 h-12 w-full rounded-md border border-alternate bg-input px-4 text-primary"
           placeholder="Grasas (g)"
           placeholderTextColor="#9CA3AF"
-          value={fat}
-          onChangeText={setFat}
+          value={fats}
+          onChangeText={setFats}
           keyboardType="numeric"
         />
 

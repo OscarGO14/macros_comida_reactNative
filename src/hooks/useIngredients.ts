@@ -26,12 +26,12 @@ export const useIngredients = () => {
             // Ensure all expected fields exist, provide defaults if necessary
             return {
               id: doc.id,
-              name: data.name ?? 'Unknown', // Use nullish coalescing
-              category: data.category ?? 'Uncategorized', // Provide default category
+              name: data.name ?? 'Desconocido',
+              category: data.category ?? 'Sin categoría',
               calories: data.calories ?? 0,
               proteins: data.proteins ?? 0,
               carbs: data.carbs ?? 0,
-              fat: data.fat ?? 0,
+              fats: data.fats ?? 0,
             } as Ingredient; // Assert type after mapping
           });
           setData(documents);

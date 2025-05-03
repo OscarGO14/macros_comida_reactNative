@@ -16,7 +16,7 @@ export const dailyLogCalculator = (
         calories: 0,
         proteins: 0,
         carbs: 0,
-        fat: 0,
+        fats: 0,
       },
     };
   }
@@ -34,7 +34,7 @@ export const dailyLogCalculator = (
       0,
     ),
     carbs: dailyLog.meals.reduce((acc: number, meal: Meal) => acc + meal.totalMacros.carbs, 0),
-    fat: dailyLog.meals.reduce((acc: number, meal: Meal) => acc + meal.totalMacros.fat, 0),
+    fats: dailyLog.meals.reduce((acc: number, meal: Meal) => acc + meal.totalMacros.fats, 0),
   };
 
   return dailyLog;

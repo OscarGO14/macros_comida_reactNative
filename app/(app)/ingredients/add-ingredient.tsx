@@ -18,14 +18,15 @@ export default function AddIngredientScreen() {
   // Función para guardar el ingrediente
   const saveIngredient = async () => {
     try {
-      const docRef = await addDoc(collection(db, Collections.INGREDIENTS), {
+      const ingredientData = {
         name,
-        category,
-        calories,
-        proteins,
-        carbs,
-        fats,
-      });
+        category: category || 'Sin categoría',
+        calories: parseFloat(calories),
+        proteins: parseFloat(proteins),
+        carbs: parseFloat(carbs),
+        fats: parseFloat(fats),
+      };
+      const docRef = await addDoc(collection(db, Collections.INGREDIENTS), ingredientData);
       Alert.alert('Ingrediente', 'Ingrediente guardado correctamente con id: ' + docRef.id);
       return Promise.resolve(docRef.id);
     } catch (error) {
@@ -109,8 +110,8 @@ export default function AddIngredientScreen() {
             containerStyle={{ flex: 1, marginHorizontal: 4 }}
           />
           <InputText
-            label="Grasas"
-            placeholder="Ej: 10g"
+            label="Grasas (g) *"
+            placeholder="Ej: 10"
             value={fats}
             onChangeText={setFats}
             keyboardType="numeric"

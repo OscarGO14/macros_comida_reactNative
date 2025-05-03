@@ -49,7 +49,7 @@ export const useRecipes = () => {
               userId: data.userId || '', // Valor por defecto: string vacío
               name: data.name || 'Sin nombre', // Valor por defecto
               ingredients: data.ingredients || [], // Valor por defecto: array vacío
-              macros: data.macros || { calories: 0, proteins: 0, carbs: 0, fat: 0 }, // Macros por defecto
+              macros: data.macros || { calories: 0, proteins: 0, carbs: 0, fats: 0 }, // Macros por defecto
               serves: data.serves || 1, // Valor por defecto: 1 ración
               // Convertir Timestamps a Date, con fallback a new Date()
               createdAt: data.createdAt?.toDate() || new Date(),

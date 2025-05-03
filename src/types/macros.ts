@@ -4,5 +4,5 @@ export interface Macros {
   calories: number;
   proteins: number;
   carbs: number;
-  fat: number;
+  fats: number; // Renombrado de fat a fats
 }

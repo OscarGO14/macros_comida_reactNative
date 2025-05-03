@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/node": "^22.15.3",
     "@types/react": "18.3.12",
     "@types/react-native": "0.72.8",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
@@ -49,8 +50,10 @@
     "eslint-plugin-prettier": "^5.2.6",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-native": "^5.0.0",
+    "firebase-admin": "^13.3.0",
     "prettier": "^3.5.3",
-    "typescript": "5.3.3"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   },
   "private": true,
   "volta": {

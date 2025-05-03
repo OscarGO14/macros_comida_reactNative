@@ -28,12 +28,13 @@ export default function AddRecipeScreen() {
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   // Estado para macros calculadas en tiempo real
-  const [currentMacros, setCurrentMacros] = useState<Macros>({
+  const initialMacros: Macros = {
     calories: 0,
     proteins: 0,
     carbs: 0,
-    fat: 0,
-  });
+    fats: 0,
+  };
+  const [currentMacros, setCurrentMacros] = useState<Macros>(initialMacros);
 
   const handleIngredientSelected = (ingredient: Ingredient, quantity: number) => {
     const newSelectedIngredientData: SelectedIngredientData = {
@@ -56,7 +57,7 @@ export default function AddRecipeScreen() {
     ingredientsData: SelectedIngredientData[],
     numServes: number,
   ): Macros => {
-    const totalMacros: Macros = { calories: 0, proteins: 0, carbs: 0, fat: 0 };
+    const totalMacros: Macros = { calories: 0, proteins: 0, carbs: 0, fats: 0 };
 
     ingredientsData.forEach((item) => {
       const quantityFactor = item.quantity / 100; // Factor basado en 100g
@@ -64,7 +65,7 @@ export default function AddRecipeScreen() {
       totalMacros.calories += (ingredient.calories || 0) * quantityFactor;
       totalMacros.proteins += (ingredient.proteins || 0) * quantityFactor;
       totalMacros.carbs += (ingredient.carbs || 0) * quantityFactor;
-      totalMacros.fat += (ingredient.fat || 0) * quantityFactor;
+      totalMacros.fats += (ingredient.fats || 0) * quantityFactor;
     });
 
     // Calcular macros por ración
@@ -72,7 +73,7 @@ export default function AddRecipeScreen() {
       calories: totalMacros.calories / numServes,
       proteins: totalMacros.proteins / numServes,
       carbs: totalMacros.carbs / numServes,
-      fat: totalMacros.fat / numServes,
+      fats: totalMacros.fats / numServes,
     };
 
     // Redondear a 2 decimales (opcional)
@@ -93,7 +94,7 @@ export default function AddRecipeScreen() {
       setCurrentMacros(calculated);
     } else {
       // Resetear si no hay ingredientes
-      setCurrentMacros({ calories: 0, proteins: 0, carbs: 0, fat: 0 });
+      setCurrentMacros(initialMacros);
     }
   }, [selectedIngredientsData, serves]);
 
@@ -241,7 +242,7 @@ export default function AddRecipeScreen() {
                 C: {currentMacros.carbs.toFixed(1)}g
               </Text>
               <Text className="text-gray-800 dark:text-gray-200">
-                G: {currentMacros.fat.toFixed(1)}g
+                G: {currentMacros.fats.toFixed(1)}g
               </Text>
             </View>
           </View>

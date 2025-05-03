@@ -96,14 +96,14 @@ const AddMealScreen = () => {
         calories: (selectedSearchResult.calories * quantityNum) / 100,
         proteins: (selectedSearchResult.proteins * quantityNum) / 100,
         carbs: (selectedSearchResult.carbs * quantityNum) / 100,
-        fat: (selectedSearchResult.fat * quantityNum) / 100,
+        fats: (selectedSearchResult.fats * quantityNum) / 100,
       };
     } else {
       calculatedMacros = {
         calories: selectedSearchResult.macros.calories * quantityNum,
         proteins: selectedSearchResult.macros.proteins * quantityNum,
         carbs: selectedSearchResult.macros.carbs * quantityNum,
-        fat: selectedSearchResult.macros.fat * quantityNum,
+        fats: selectedSearchResult.macros.fats * quantityNum,
       };
     }
 
@@ -126,10 +126,10 @@ const AddMealScreen = () => {
       acc.calories += item.macros.calories;
       acc.proteins += item.macros.proteins;
       acc.carbs += item.macros.carbs;
-      acc.fat += item.macros.fat;
+      acc.fats += item.macros.fats;
       return acc;
     },
-    { calories: 0, proteins: 0, carbs: 0, fat: 0 },
+    { calories: 0, proteins: 0, carbs: 0, fats: 0 },
   );
   const handleSaveMeal = async () => {
     if (currentMealItems.length === 0) {
@@ -237,7 +237,7 @@ const AddMealScreen = () => {
               </Text>
               <Text className="text-alternate text-sm">
                 C: {item.macros.calories.toFixed(0)} P: {item.macros.proteins.toFixed(1)} Cb:{' '}
-                {item.macros.carbs.toFixed(1)} G: {item.macros.fat.toFixed(1)}
+                {item.macros.carbs.toFixed(1)} G: {item.macros.fats.toFixed(1)}
               </Text>
             </View>
           )}
@@ -259,7 +259,7 @@ const AddMealScreen = () => {
         <Text className="text-alternate mb-1">
           Carbohidratos: {totalMealMacros.carbs.toFixed(1)} g
         </Text>
-        <Text className="text-alternate mb-4">Grasa: {totalMealMacros.fat.toFixed(1)} g</Text>
+        <Text className="text-alternate mb-4">Grasas: {totalMealMacros.fats.toFixed(1)} g</Text>
         <Button title="Guardar Comida" onPress={handleSaveMeal} />
       </View>
     </SafeAreaView>
