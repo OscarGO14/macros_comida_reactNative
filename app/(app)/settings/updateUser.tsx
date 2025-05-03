@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Button from '@/components/ui/SubmitButton/Button';
+import Button from '@/components/ui/Button';
 import { useUserStore } from '@/store/userStore';
 import { Goals } from '@/types/goals';
 import { doc, updateDoc } from 'firebase/firestore';

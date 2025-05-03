@@ -14,7 +14,7 @@ import { addDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
 import { db, recipesCollection, Collections } from '@/services/firebase';
 import { useUserStore } from '@/store/userStore';
-import { Button } from '@/components/ui/SubmitButton/Button';
+import { Button } from '@/components/ui/Button';
 import { Ingredient } from '@/types/ingredient';
 import { Macros } from '@/types/macros';
 import IngredientsModal from '@/components/IngredientsModal';

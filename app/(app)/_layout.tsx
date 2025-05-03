@@ -3,7 +3,7 @@ import { Tabs } from 'expo-router';
 import { StatusBar } from 'react-native';
 
 import { MyColors } from '@/types/colors';
-import Icon from '@/components/Icon';
+import Icon from '@/components/ui/Icon';
 
 export default function RootLayout() {
   return (

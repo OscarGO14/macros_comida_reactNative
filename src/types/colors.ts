@@ -5,6 +5,9 @@ const MyColors = {
   ACCENT: '#facc15',
   ALT: '#808080',
   DANGER: '#ef4444',
+  SUCCESS: '#22c55e',
+  WARNING: '#f59e0b',
+  ITEM_BACKGROUND: '#1f2937',
 } as const;
 
 export type MyColor = (typeof MyColors)[keyof typeof MyColors];

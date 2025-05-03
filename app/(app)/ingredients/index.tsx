@@ -1,7 +1,7 @@
 import React from 'react';
 import { router } from 'expo-router';
 import { Text, View } from 'react-native';
-import { Button } from '@/components/ui/SubmitButton/Button';
+import { Button } from '@/components/ui/Button';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function IngredientsScreen() {

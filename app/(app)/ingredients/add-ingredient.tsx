@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Alert, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import Button from '@/components/ui/SubmitButton/Button';
+import Button from '@/components/ui/Button';
 import { addDoc, db } from '@/services/firebase';
 import { collection } from 'firebase/firestore';
 import { Collections } from '@/types/collections';
