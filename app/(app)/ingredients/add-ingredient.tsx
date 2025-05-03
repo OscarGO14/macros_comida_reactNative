@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, KeyboardAvoidingView, Platform, Alert } from 'react-native';
-import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/InputText';
 import { db } from '@/services/firebase';
 import { collection, addDoc } from 'firebase/firestore';
