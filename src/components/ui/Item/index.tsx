@@ -1,28 +1,23 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ItemProps, MaterialIconName, ItemType, INGREDIENT_ICONS, RECIPE_ICONS } from './types';
 import { getRandomElement } from '@/utils/getRandomElement';
 import { MyColors } from '@/types/colors';
 
-const Item: React.FC<ItemProps> = ({ name, type, calories }) => {
-  // Determina el icono basado en el ItemType
-  const getIconName = (): MaterialIconName => {
+const Item: React.FC<ItemProps> = ({ name, type, calories, onPress, showType = true }) => {
+  // Determina el icono basado en el ItemType y memoiza el resultado
+  const iconName = useMemo((): MaterialIconName => {
     switch (type) {
       case ItemType.INGREDIENT:
-        // Usamos el helper y la constante importada
-        return getRandomElement(INGREDIENT_ICONS) || 'food-apple'; // 'food-apple' como fallback
+        return getRandomElement(INGREDIENT_ICONS) || 'food-apple';
       case ItemType.RECIPE:
-        // Usamos el helper y la constante importada
-        return getRandomElement(RECIPE_ICONS) || 'food-takeout-box'; // 'food-takeout-box' como fallback
+        return getRandomElement(RECIPE_ICONS) || 'food-takeout-box';
       default:
-        return 'help-circle'; // Icono por defecto para UNKNOWN u otros casos
+        return 'help-circle';
     }
-  };
+  }, [type]);
 
-  const iconName = getIconName();
-
-  // Formatea el tipo para mostrarlo en la UI
   const formattedType = () => {
     switch (type) {
       case ItemType.INGREDIENT:
@@ -36,10 +31,10 @@ const Item: React.FC<ItemProps> = ({ name, type, calories }) => {
 
   return (
     // Contenedor principal: fondo oscuro, padding, borde redondeado, layout en fila, centrado vertical
-    <View className="w-full flex-row items-center bg-item_background p-4 rounded-lg">
+    <View className="w-full flex-row items-center justify-between bg-item_background p-4 rounded-lg">
       {/* Icono */}
       <MaterialCommunityIcons
-        name={iconName}
+        name={iconName} // Usa el nombre de icono memoizado
         size={24}
         color={MyColors.PRIMARY}
         // Usa los colores de tu tema de Tailwind si los tienes definidos
@@ -50,11 +45,18 @@ const Item: React.FC<ItemProps> = ({ name, type, calories }) => {
       {/* Contenedor para Nombre y Tipo (ocupa el espacio flexible) */}
       <View className="flex-1 mr-4">
         <Text className="text-white font-bold text-base">{name}</Text>
-        <Text className="text-gray-400 text-sm capitalize">{formattedType()}</Text>
+        {showType && <Text className="text-gray-400 text-sm capitalize">{formattedType()}</Text>}
       </View>
 
       {/* Calorías */}
       <Text className="text-white font-semibold text-base">{calories} kcal</Text>
+
+      {/* Botón de eliminar */}
+      {onPress && (
+        <TouchableOpacity className="ml-8" onPress={onPress}>
+          <MaterialCommunityIcons name="delete" size={24} color={MyColors.DANGER} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

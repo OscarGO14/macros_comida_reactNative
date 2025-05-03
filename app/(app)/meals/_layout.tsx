@@ -11,8 +11,8 @@ export default function RecipesStackLayout() {
         headerShown: true,
       }}
     >
-      <Stack.Screen name="index" options={{ title: 'Recetas' }} />
-      <Stack.Screen name="add-recipe" options={{ title: 'Añadir receta' }} />
+      <Stack.Screen name="index" options={{ title: 'Mis comidas' }} />
+      <Stack.Screen name="add-meal" options={{ title: 'Añadir comida' }} />
     </Stack>
   );
 }

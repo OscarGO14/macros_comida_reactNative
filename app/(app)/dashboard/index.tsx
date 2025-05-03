@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import DoughnutChart from '@/components/DoughnutChart';
-import Button from '@/components/ui/Button';
 import { useRouter } from 'expo-router';
 import { useUserStore } from '@/store/userStore';
 import BarChartComponent from '@/components/BarChart';
@@ -16,9 +15,6 @@ export default function HomeScreen() {
   const [consumed, setConsumed] = useState<number | undefined>(undefined);
   const { user } = useUserStore();
 
-  const handleAddMeal = () => {
-    router.push('/(app)/dashboard/add-meal');
-  };
   const handlePreview = () => {
     router.push('/(app)/dashboard/preview');
   };
@@ -58,11 +54,6 @@ export default function HomeScreen() {
         {/* Grafico de días */}
         <BarChartComponent />
 
-        <SettingsItem
-          label="Añadir Comida"
-          controlType={SettingsControlType.ARROW_ONLY}
-          onPress={handleAddMeal}
-        />
         <SettingsItem
           label="Ir a preview de componentes"
           controlType={SettingsControlType.ARROW_ONLY}

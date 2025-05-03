@@ -62,18 +62,17 @@ export default function AddIngredientScreen() {
   return (
     <Screen>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1 w-full items-center justify-center"
+        behavior="padding"
+        className="flex-1 items-center justify-center"
         keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
       >
-        <View className="w-full max-w-sm gap-2">
+        <View className="w-full gap-2">
           <InputText
             label="Nombre *"
             placeholder="Ej: Pollo"
             value={name}
             onChangeText={setName}
             autoCapitalize="words"
-            containerStyle={{ marginBottom: 16 }}
           />
 
           <InputText
@@ -81,7 +80,6 @@ export default function AddIngredientScreen() {
             placeholder="Ej: Carnes, Lácteos, Verduras..."
             value={category}
             onChangeText={setCategory}
-            containerStyle={{ marginBottom: 16 }}
           />
 
           <InputText
@@ -90,7 +88,6 @@ export default function AddIngredientScreen() {
             value={calories}
             onChangeText={setCalories}
             keyboardType="numeric"
-            containerStyle={{ marginBottom: 16 }}
           />
 
           <InputText
@@ -99,7 +96,6 @@ export default function AddIngredientScreen() {
             value={proteins}
             onChangeText={setProteins}
             keyboardType="numeric"
-            containerStyle={{ flex: 1, marginRight: 8 }}
           />
           <InputText
             label="Carbohidratos"
@@ -107,7 +103,6 @@ export default function AddIngredientScreen() {
             value={carbs}
             onChangeText={setCarbs}
             keyboardType="numeric"
-            containerStyle={{ flex: 1, marginHorizontal: 4 }}
           />
           <InputText
             label="Grasas (g) *"
@@ -115,7 +110,6 @@ export default function AddIngredientScreen() {
             value={fats}
             onChangeText={setFats}
             keyboardType="numeric"
-            containerStyle={{ flex: 1, marginLeft: 8 }}
           />
 
           <View className="mt-4">

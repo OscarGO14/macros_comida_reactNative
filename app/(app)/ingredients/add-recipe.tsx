@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, FlatList, Alert, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Alert, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { addDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
 import { db, recipesCollection, Collections } from '@/services/firebase';
 import { useUserStore } from '@/store/userStore';
-import { Button } from '@/components/ui/Button';
 import { Ingredient } from '@/types/ingredient';
 import { Macros } from '@/types/macros';
 import IngredientsModal from '@/components/IngredientsModal';
 import Screen from '@/components/ui/Screen';
+import SubmitButton from '@/components/ui/SubmitButton';
+import InputText from '@/components/ui/InputText';
+import ActionButton from '@/components/ui/ActionButton';
+import Item from '@/components/ui/Item';
+import { ItemType } from '@/components/ui/Item/types';
 
 interface SelectedIngredientData {
   ingredient: Ingredient;
@@ -47,9 +51,22 @@ export default function AddRecipeScreen() {
   };
 
   const removeIngredient = (ingredientIdToRemove: string) => {
-    setSelectedIngredientsData((prev) =>
-      prev.filter((item) => item.ingredient.id !== ingredientIdToRemove),
-    );
+    // Pedir confirmacion para borrar
+    Alert.alert('Eliminar ingrediente', '¿Estás seguro de eliminar este ingrediente?', [
+      {
+        text: 'Cancelar',
+        onPress: () => console.log('Cancelado'),
+        style: 'cancel',
+      },
+      {
+        text: 'Eliminar',
+        onPress: () => {
+          setSelectedIngredientsData((prev) =>
+            prev.filter((item) => item.ingredient.id !== ingredientIdToRemove),
+          );
+        },
+      },
+    ]);
   };
 
   // Función para calcular las macros por ración
@@ -160,30 +177,20 @@ export default function AddRecipeScreen() {
 
   return (
     <Screen>
-      <ScrollView className="p-4">
-        <Text className="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">
-          Añadir Nueva Receta
-        </Text>
-
-        <View className="mb-4">
-          <Text className="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">
-            Nombre de la Receta
-          </Text>
-          <TextInput
-            className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-            placeholder="Ej: Lentejas de la abuela"
-            placeholderTextColor="#6b7280"
-            value={name}
-            onChangeText={setName}
-            autoCapitalize="sentences"
-          />
-        </View>
+      <View className="justify-center gap-4">
+        <InputText
+          label="Nombre de la Receta"
+          placeholder="Ej: Lentejas de la abuela"
+          value={name}
+          onChangeText={setName}
+          autoCapitalize="sentences"
+        />
 
         <View className="mb-4">
           <Text className="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">
             Añade ingredientes a tu receta
           </Text>
-          <View className="bg-input border border-border rounded-md p-2 min-h-[100px] mb-2">
+          <View className="h-60 min-h-28">
             {selectedIngredientsData.length === 0 ? (
               <Text className="text-text-secondary italic text-center p-4">
                 Añade ingredientes a tu receta
@@ -193,14 +200,13 @@ export default function AddRecipeScreen() {
                 data={selectedIngredientsData}
                 keyExtractor={(item) => item.ingredient.id}
                 renderItem={({ item }) => (
-                  <View className="flex-row justify-between items-center p-2 border-b border-gray-200">
-                    <Text className="text-gray-800 flex-1">
-                      {`${item.ingredient.name} (${item.quantity} g)`}
-                    </Text>
-                    <TouchableOpacity onPress={() => removeIngredient(item.ingredient.id)}>
-                      <Text className="text-red-500 font-bold">Eliminar</Text>
-                    </TouchableOpacity>
-                  </View>
+                  <Item
+                    name={item.ingredient.name}
+                    calories={item.ingredient.calories}
+                    type={ItemType.INGREDIENT}
+                    onPress={() => removeIngredient(item.ingredient.id)}
+                    showType={false}
+                  />
                 )}
                 ListEmptyComponent={
                   <Text className="text-center text-gray-500 italic">No hay ingredientes</Text>
@@ -208,28 +214,19 @@ export default function AddRecipeScreen() {
               />
             )}
           </View>
-          <Button title="Añadir Ingrediente" onPress={() => setIsModalVisible(true)} />
-        </View>
-
-        <View className="mb-6">
-          <Text className="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">
-            Raciones por Receta
-          </Text>
-          <TextInput
-            className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-            placeholder="Ej: 2 (para cuántas comidas rinde)"
-            placeholderTextColor="#6b7280"
-            value={serves}
-            onChangeText={setServes}
-            keyboardType="number-pad"
+          {/* Añadimos nuestro InputText */}
+          <ActionButton
+            onPress={() => setIsModalVisible(true)}
+            label="Añadir Ingrediente"
+            disabled={isModalVisible}
           />
         </View>
 
         {/* Mostrar Macros Calculadas */}
         {selectedIngredientsData.length > 0 && (
-          <View className="my-4 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700">
+          <View className="border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700">
             <Text className="text-lg font-semibold mb-2 text-center text-gray-700 dark:text-gray-300">
-              Macros por Ración (Aprox.)
+              Macros por Ración
             </Text>
             <View className="flex-row justify-around">
               <Text className="text-gray-800 dark:text-gray-200">
@@ -248,20 +245,25 @@ export default function AddRecipeScreen() {
           </View>
         )}
 
-        <View className="mt-6">
-          <Button
-            title={loading ? 'Guardando...' : 'Guardar Receta'}
-            onPress={handleSaveRecipe}
-            disabled={loading}
-          />
-        </View>
-      </ScrollView>
+        <InputText
+          label="Raciones por Receta"
+          placeholder="Ej: 2 (para cuántas comidas rinde)"
+          value={serves}
+          onChangeText={setServes}
+          keyboardType="number-pad"
+        />
+        <SubmitButton
+          label={loading ? 'Guardando...' : 'Guardar Receta'}
+          onPress={handleSaveRecipe}
+          disabled={loading}
+        />
 
-      <IngredientsModal
-        isVisible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        onSelectIngredient={handleIngredientSelected}
-      />
+        <IngredientsModal
+          isVisible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          onSelectIngredient={handleIngredientSelected}
+        />
+      </View>
     </Screen>
   );
 }

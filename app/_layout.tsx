@@ -50,7 +50,7 @@ export default function RootLayoutNav() {
     }
     // Añadir caso: Si no hay usuario y estamos en (auth), no hacer nada (ya estamos donde debemos)
     // Añadir caso: Si hay usuario y estamos en (app), no hacer nada (ya estamos donde debemos)
-  }, [user]);
+  }, [user, segments, router, isLoading]);
 
   if (isLoading) {
     // Podríamos mostrar un SplashScreen aquí en lugar de null

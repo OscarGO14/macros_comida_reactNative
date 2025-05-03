@@ -15,6 +15,10 @@ import {
 import { Ingredient } from '@/types/ingredient';
 import { IngredientsModalProps } from './types';
 import { useIngredients } from '@/hooks/useIngredients'; // Importar el hook
+import InputText from '../ui/InputText';
+import { ItemType } from '../ui/Item/types';
+import Item from '../ui/Item';
+import { MyColors } from '@/types/colors';
 // Importar Button custom si existe
 // import Button from '@/components/Button';
 
@@ -69,25 +73,23 @@ const IngredientsModal = ({ isVisible, onClose, onSelectIngredient }: Ingredient
   const renderIngredientItem = ({ item }: { item: Ingredient }) => (
     <TouchableOpacity
       onPress={() => handleSelect(item)}
-      className={`p-3 border-b border-gray-200 ${selectedIngredient?.id === item.id ? 'bg-blue-100' : 'bg-white'}`}
+      className={`${selectedIngredient?.id === item.id ? 'border border-accent' : ''}`}
     >
-      <Text className="text-gray-800">{item.name}</Text>
-      {/* Podríamos mostrar macros aquí si fuese útil */}
+      <Item name={item.name} type={ItemType.INGREDIENT} calories={20} />
     </TouchableOpacity>
   );
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={onClose}>
       <SafeAreaView className="flex-1 justify-center items-center bg-black bg-opacity-50">
-        <View className="w-11/12 h-5/6 bg-white rounded-lg p-5 shadow-lg">
-          <Text className="text-xl font-bold mb-4 text-center">Añadir Ingrediente</Text>
+        <View className="w-11/12 h-5/6 bg-item_background rounded-lg p-5 shadow-lg">
+          <Text className="text-xl font-bold text-primary text-center">Añadir Ingrediente</Text>
 
           {/* --- Buscador --- */}
-          <TextInput
+          <InputText
             placeholder="Buscar ingrediente..."
             value={searchTerm}
             onChangeText={setSearchTerm}
-            className="border border-gray-300 rounded p-2 mb-4"
           />
 
           {/* --- Lista de Ingredientes --- */}
@@ -100,7 +102,7 @@ const IngredientsModal = ({ isVisible, onClose, onSelectIngredient }: Ingredient
               data={filteredIngredients}
               renderItem={renderIngredientItem}
               keyExtractor={(item) => item.id}
-              className="flex-1 border border-gray-200 rounded mb-4"
+              className="flex-1 mb-4"
               ListEmptyComponent={
                 <Text className="text-center p-4 text-gray-500">
                   No se encontraron ingredientes
@@ -128,11 +130,12 @@ const IngredientsModal = ({ isVisible, onClose, onSelectIngredient }: Ingredient
           {/* --- Botones --- */}
           <View className="flex-row justify-around">
             {/* Usar Button custom cuando esté listo */}
-            <Button title="Cancelar" onPress={onClose} />
+            <Button title="Cancelar" onPress={onClose} color={MyColors.ALTERNATE} />
             <Button
               title="Confirmar"
               onPress={handleConfirm}
-              disabled={!selectedIngredient || loading} // Usar loading del hook
+              disabled={!selectedIngredient || loading}
+              color={MyColors.ACCENT}
             />
           </View>
         </View>

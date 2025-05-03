@@ -12,7 +12,6 @@ export default function DashboardStackLayout() {
       }}
     >
       <Stack.Screen name="index" options={{ title: 'Resumen de hoy' }} />
-      <Stack.Screen name="add-meal" options={{ title: 'Añadir comida' }} />
       <Stack.Screen name="preview" options={{ title: 'Previsualizar' }} />
     </Stack>
   );

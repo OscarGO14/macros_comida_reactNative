@@ -100,7 +100,7 @@ export default function RegisterScreen() {
         )}
       </View>
 
-      <Link href="/(auth)/login" className="mt-6">
+      <Link href="/(auth)/login" replace className="mt-6">
         <Text className="text-alternate">¿Ya tienes cuenta? Inicia Sesión</Text>
       </Link>
     </SafeAreaView>

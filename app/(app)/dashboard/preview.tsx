@@ -1,4 +1,3 @@
-import { GradientButtonExample } from '@/components/ui/GradientButton';
 import Item from '@/components/ui/Item';
 import { ItemType } from '@/components/ui/Item/types';
 import { Text, View } from 'react-native';
@@ -14,7 +13,6 @@ export default function PreviewScreen() {
     <Screen>
       <Text>Preview</Text>
       <View className="flex-1 gap-4">
-        <GradientButtonExample />
         <Item name="Pollo" type={ItemType.INGREDIENT} calories={100} />
         <InputText label="Nombre" placeholder="Nombre" />
         <SubmitButton label="Enviar" onPress={() => {}} />

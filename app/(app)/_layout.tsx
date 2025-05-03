@@ -32,9 +32,9 @@ export default function RootLayout() {
         }}
       />
       <Tabs.Screen
-        name="recipes"
+        name="meals"
         options={{
-          title: 'Recetas',
+          title: 'Mis comidas',
           tabBarIcon: ({ focused }) => (
             <Icon name="fast-food" size={24} color={focused ? MyColors.ACCENT : MyColors.PRIMARY} />
           ),
