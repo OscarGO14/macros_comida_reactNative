@@ -10,13 +10,13 @@ export default function RootLayout() {
     <Tabs
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: MyColors.BLACK,
+          backgroundColor: MyColors.BACKGROUND,
           height: 60,
           paddingBottom: 10,
           paddingTop: 10,
         },
-        tabBarActiveTintColor: MyColors.YELLOW,
-        tabBarInactiveTintColor: MyColors.WHITE,
+        tabBarActiveTintColor: MyColors.ACCENT,
+        tabBarInactiveTintColor: MyColors.PRIMARY,
         headerShown: false,
       }}
     >
@@ -27,7 +27,7 @@ export default function RootLayout() {
         options={{
           title: 'Inicio',
           tabBarIcon: ({ focused }) => (
-            <Icon name="home" size={24} color={focused ? MyColors.YELLOW : MyColors.WHITE} />
+            <Icon name="home" size={24} color={focused ? MyColors.ACCENT : MyColors.PRIMARY} />
           ),
         }}
       />
@@ -36,7 +36,7 @@ export default function RootLayout() {
         options={{
           title: 'Recetas',
           tabBarIcon: ({ focused }) => (
-            <Icon name="fast-food" size={24} color={focused ? MyColors.YELLOW : MyColors.WHITE} />
+            <Icon name="fast-food" size={24} color={focused ? MyColors.ACCENT : MyColors.PRIMARY} />
           ),
         }}
       />
@@ -45,7 +45,7 @@ export default function RootLayout() {
         options={{
           title: 'Ingredientes',
           tabBarIcon: ({ focused }) => (
-            <Icon name="list" size={24} color={focused ? MyColors.YELLOW : MyColors.WHITE} />
+            <Icon name="list" size={24} color={focused ? MyColors.ACCENT : MyColors.PRIMARY} />
           ),
         }}
       />
@@ -55,7 +55,7 @@ export default function RootLayout() {
         options={{
           title: 'Configuración',
           tabBarIcon: ({ focused }) => (
-            <Icon name="cog" size={24} color={focused ? MyColors.YELLOW : MyColors.WHITE} />
+            <Icon name="cog" size={24} color={focused ? MyColors.ACCENT : MyColors.PRIMARY} />
           ),
         }}
       />

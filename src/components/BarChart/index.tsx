@@ -9,44 +9,44 @@ const BarChartComponent = () => {
     {
       value: 1500,
       label: 'L',
-      frontColor: dailyGoal > 1500 ? MyColors.YELLOW : MyColors.DANGER,
-      labelTextStyle: { color: MyColors.GREY },
+      frontColor: dailyGoal > 1500 ? MyColors.ACCENT : MyColors.DANGER,
+      labelTextStyle: { color: MyColors.ALT },
     },
     {
       value: 1800,
       label: 'M',
-      frontColor: dailyGoal > 1800 ? MyColors.YELLOW : MyColors.DANGER,
-      labelTextStyle: { color: MyColors.GREY },
+      frontColor: dailyGoal > 1800 ? MyColors.ACCENT : MyColors.DANGER,
+      labelTextStyle: { color: MyColors.ALT },
     },
     {
       value: 1600,
       label: 'X',
-      frontColor: dailyGoal > 1600 ? MyColors.YELLOW : MyColors.DANGER,
-      labelTextStyle: { color: MyColors.GREY },
+      frontColor: dailyGoal > 1600 ? MyColors.ACCENT : MyColors.DANGER,
+      labelTextStyle: { color: MyColors.ALT },
     },
     {
       value: 1950,
       label: 'J',
-      frontColor: dailyGoal > 1950 ? MyColors.YELLOW : MyColors.DANGER,
-      labelTextStyle: { color: MyColors.GREY },
+      frontColor: dailyGoal > 1950 ? MyColors.ACCENT : MyColors.DANGER,
+      labelTextStyle: { color: MyColors.ALT },
     },
     {
       value: 1400,
       label: 'V',
-      frontColor: dailyGoal > 1400 ? MyColors.YELLOW : MyColors.DANGER,
-      labelTextStyle: { color: MyColors.GREY },
+      frontColor: dailyGoal > 1400 ? MyColors.ACCENT : MyColors.DANGER,
+      labelTextStyle: { color: MyColors.ALT },
     },
     {
       value: 2100,
       label: 'S',
-      frontColor: dailyGoal > 2100 ? MyColors.YELLOW : MyColors.DANGER,
-      labelTextStyle: { color: MyColors.GREY },
+      frontColor: dailyGoal > 2100 ? MyColors.ACCENT : MyColors.DANGER,
+      labelTextStyle: { color: MyColors.ALT },
     },
     {
       value: 1750,
       label: 'D',
-      frontColor: dailyGoal > 1750 ? MyColors.YELLOW : MyColors.DANGER,
-      labelTextStyle: { color: MyColors.GREY },
+      frontColor: dailyGoal > 1750 ? MyColors.ACCENT : MyColors.DANGER,
+      labelTextStyle: { color: MyColors.ALT },
     },
   ];
 
@@ -64,12 +64,12 @@ const BarChartComponent = () => {
         maxValue={2500}
         isAnimated
         rulesType="solid"
-        rulesColor={MyColors.YELLOW}
+        rulesColor={MyColors.ACCENT}
         rulesThickness={2}
         showReferenceLine1
         referenceLine1Position={dailyGoal}
         referenceLine1Config={{
-          color: MyColors.YELLOW,
+          color: MyColors.ACCENT,
           dashWidth: 2,
           dashGap: 3,
         }}
@@ -78,13 +78,13 @@ const BarChartComponent = () => {
             style={{
               marginBottom: 10,
               marginLeft: -10,
-              backgroundColor: MyColors.GREY,
+              backgroundColor: MyColors.ALT,
               paddingHorizontal: 6,
               paddingVertical: 4,
               borderRadius: 4,
             }}
           >
-            <Text style={{ color: MyColors.WHITE, fontSize: 10 }}>{`${item.value} kcal`}</Text>
+            <Text style={{ color: MyColors.PRIMARY, fontSize: 10 }}>{`${item.value} kcal`}</Text>
           </View>
         )}
       />

@@ -9,11 +9,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: MyColors.WHITE,
-        secondary: MyColors.BLACK,
-        alternate: MyColors.GREY,
-        accent: MyColors.YELLOW,
-        background: MyColors.BLACK,
+        primary: MyColors.PRIMARY,
+        secondary: MyColors.SECONDARY,
+        alternate: MyColors.ALT,
+        accent: MyColors.ACCENT,
+        background: MyColors.BACKGROUND,
       },
       fontSize: {
         xs: ['13px', { lineHeight: '18px' }],

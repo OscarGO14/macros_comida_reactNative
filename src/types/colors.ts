@@ -1,8 +1,9 @@
 const MyColors = {
-  BLACK: '#000000',
-  WHITE: '#FFFFFF',
-  YELLOW: '#facc15',
-  GREY: '#808080',
+  BACKGROUND: '#000000',
+  PRIMARY: '#FFFFFF',
+  SECONDARY: '#000000',
+  ACCENT: '#facc15',
+  ALT: '#808080',
   DANGER: '#ef4444',
 } as const;
 

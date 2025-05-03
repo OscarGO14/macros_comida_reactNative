@@ -62,7 +62,7 @@ Las versiones de todas las dependencias deben ser exactamente las que figuran en
 - Firebase v11.6.1
 - NativeWind v4.1.23
 - TypeScript v5.3.3
-- Victory Native v41.17.1
+- React Native Gifted Charts v1.4.60
 
 > Prioriza estas librerías para nuevas funcionalidades y evita dependencias innecesarias.
 

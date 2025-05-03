@@ -4,12 +4,12 @@ import { View, Text } from 'react-native';
 import { PieChart as RNPieChart } from 'react-native-gifted-charts';
 
 const theme = {
-  objectiveColor: MyColors.WHITE,
-  toEatColor: MyColors.GREY,
-  consumedColor: MyColors.YELLOW,
-  frameBackground: MyColors.BLACK,
-  textPrimary: MyColors.WHITE,
-  textSecondary: MyColors.GREY,
+  objectiveColor: MyColors.PRIMARY,
+  toEatColor: MyColors.ALT,
+  consumedColor: MyColors.ACCENT,
+  frameBackground: MyColors.BACKGROUND,
+  textPrimary: MyColors.PRIMARY,
+  textSecondary: MyColors.ALT,
 };
 
 type PieChartProps = {
