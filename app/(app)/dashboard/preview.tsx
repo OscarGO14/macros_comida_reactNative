@@ -16,7 +16,12 @@ export default function PreviewScreen() {
         <Item name="Pollo" type={ItemType.INGREDIENT} calories={100} />
         <InputText label="Nombre" placeholder="Nombre" />
         <SubmitButton label="Enviar" onPress={() => {}} />
-        <StatsCard title="Calorías restantes" value={1200} variant="primary" trend="+5%" />
+        <StatsCard
+          title="Calorías restantes"
+          value={1200}
+          variant="primary"
+          trend={['g: 5g', 'c: 5g', 'p: 5g']}
+        />
       </View>
     </Screen>
   );

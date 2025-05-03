@@ -10,6 +10,8 @@ import SettingsItem from '@/components/ui/SettingsItem';
 import { SettingsControlType } from '@/components/ui/SettingsItem/types';
 
 export default function HomeScreen() {
+  // TODO: CREAR Graficos resumen
+  // TODO: CREAR pantalla histórico
   const router = useRouter();
   const [objective, setObjective] = useState<number | undefined>(undefined);
   const [consumed, setConsumed] = useState<number | undefined>(undefined);

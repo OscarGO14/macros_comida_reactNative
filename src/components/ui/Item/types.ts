@@ -11,8 +11,9 @@ export interface ItemProps {
   name: string;
   type: (typeof ItemType)[keyof typeof ItemType]; // Cambiamos el tipo a ItemType
   calories: number;
-  onPress?: () => void;
   showType?: boolean;
+  onDelete?: () => void;
+  onEdit?: () => void;
 }
 
 // Nuevo tipo para los nombres de iconos

@@ -5,7 +5,7 @@ import { ItemProps, MaterialIconName, ItemType, INGREDIENT_ICONS, RECIPE_ICONS }
 import { getRandomElement } from '@/utils/getRandomElement';
 import { MyColors } from '@/types/colors';
 
-const Item: React.FC<ItemProps> = ({ name, type, calories, onPress, showType = true }) => {
+const Item: React.FC<ItemProps> = ({ name, type, calories, onDelete, showType = true, onEdit }) => {
   // Determina el icono basado en el ItemType y memoiza el resultado
   const iconName = useMemo((): MaterialIconName => {
     switch (type) {
@@ -50,10 +50,15 @@ const Item: React.FC<ItemProps> = ({ name, type, calories, onPress, showType = t
 
       {/* Calorías */}
       <Text className="text-white font-semibold text-base">{calories} kcal</Text>
-
+      {/* Botón de editar */}
+      {onEdit && (
+        <TouchableOpacity className="ml-8" onPress={onEdit}>
+          <MaterialCommunityIcons name="pencil" size={24} color={MyColors.ACCENT} />
+        </TouchableOpacity>
+      )}
       {/* Botón de eliminar */}
-      {onPress && (
-        <TouchableOpacity className="ml-8" onPress={onPress}>
+      {onDelete && (
+        <TouchableOpacity className="ml-8" onPress={onDelete}>
           <MaterialCommunityIcons name="delete" size={24} color={MyColors.DANGER} />
         </TouchableOpacity>
       )}

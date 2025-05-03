@@ -14,6 +14,7 @@ import InputText from '@/components/ui/InputText';
 import ActionButton from '@/components/ui/ActionButton';
 import Item from '@/components/ui/Item';
 import { ItemType } from '@/components/ui/Item/types';
+import { StatsCard } from '@/components/ui/StatsCard';
 
 interface SelectedIngredientData {
   ingredient: Ingredient;
@@ -178,8 +179,9 @@ export default function AddRecipeScreen() {
   return (
     <Screen>
       <View className="justify-center gap-4">
+        {/* Nombre de la receta */}
         <InputText
-          label="Nombre de la Receta"
+          label="Nombre de la receta"
           placeholder="Ej: Lentejas de la abuela"
           value={name}
           onChangeText={setName}
@@ -187,9 +189,7 @@ export default function AddRecipeScreen() {
         />
 
         <View className="mb-4">
-          <Text className="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">
-            Añade ingredientes a tu receta
-          </Text>
+          <Text className="text-m font-semibold mb-2 text-primary">Lista de ingredientes</Text>
           <View className="h-60 min-h-28">
             {selectedIngredientsData.length === 0 ? (
               <Text className="text-text-secondary italic text-center p-4">
@@ -204,7 +204,7 @@ export default function AddRecipeScreen() {
                     name={item.ingredient.name}
                     calories={item.ingredient.calories}
                     type={ItemType.INGREDIENT}
-                    onPress={() => removeIngredient(item.ingredient.id)}
+                    onDelete={() => removeIngredient(item.ingredient.id)}
                     showType={false}
                   />
                 )}
@@ -214,46 +214,34 @@ export default function AddRecipeScreen() {
               />
             )}
           </View>
-          {/* Añadimos nuestro InputText */}
           <ActionButton
             onPress={() => setIsModalVisible(true)}
-            label="Añadir Ingrediente"
+            label="Añadir ingrediente"
             disabled={isModalVisible}
           />
         </View>
-
-        {/* Mostrar Macros Calculadas */}
-        {selectedIngredientsData.length > 0 && (
-          <View className="border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700">
-            <Text className="text-lg font-semibold mb-2 text-center text-gray-700 dark:text-gray-300">
-              Macros por Ración
-            </Text>
-            <View className="flex-row justify-around">
-              <Text className="text-gray-800 dark:text-gray-200">
-                Cal: {currentMacros.calories.toFixed(0)}
-              </Text>
-              <Text className="text-gray-800 dark:text-gray-200">
-                P: {currentMacros.proteins.toFixed(1)}g
-              </Text>
-              <Text className="text-gray-800 dark:text-gray-200">
-                C: {currentMacros.carbs.toFixed(1)}g
-              </Text>
-              <Text className="text-gray-800 dark:text-gray-200">
-                G: {currentMacros.fats.toFixed(1)}g
-              </Text>
-            </View>
-          </View>
-        )}
-
+        {/* Input para raciones */}
         <InputText
-          label="Raciones por Receta"
+          label="Raciones por receta"
           placeholder="Ej: 2 (para cuántas comidas rinde)"
           value={serves}
           onChangeText={setServes}
           keyboardType="number-pad"
         />
+        {/* Macros de la receta */}
+        <StatsCard
+          title="Macros por ración"
+          value={currentMacros.calories.toFixed(0)}
+          variant="primary"
+          trend={[
+            `P: ${currentMacros.proteins.toFixed(1)}`,
+            `C: ${currentMacros.carbs.toFixed(1)}`,
+            `G: ${currentMacros.fats.toFixed(1)}`,
+          ]}
+        />
+        {/* Botón de guardar */}
         <SubmitButton
-          label={loading ? 'Guardando...' : 'Guardar Receta'}
+          label={loading ? 'Guardando...' : 'Guardar receta'}
           onPress={handleSaveRecipe}
           disabled={loading}
         />

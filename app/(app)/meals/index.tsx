@@ -6,6 +6,7 @@ import SettingsItem from '@/components/ui/SettingsItem';
 import { router } from 'expo-router';
 
 export default function MealsScreen() {
+  // TODO: Crear pantalla de comidas.
   return (
     <Screen>
       <Text className="text-primary text-2xl font-bold text-center mb-6">Mis comidas</Text>

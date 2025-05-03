@@ -1,4 +1,4 @@
-import { Text, View, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import SettingsItem from '@/components/ui/SettingsItem';
 import { SettingsControlType } from '@/components/ui/SettingsItem/types';
@@ -23,11 +23,10 @@ export default function SettingsScreen() {
       },
     ]);
   };
-
+  // TODO: Cambiar modo oscuro a un switch que guarde en el local storage.
   return (
     <Screen>
-      <Text className="text-primary text-2xl font-bold text-center mb-6">Configuración</Text>
-      <View className="w-full space-y-4">
+      <View className="w-full gap-4 mt-6">
         <SettingsItem
           label="Modo Oscuro"
           controlType={SettingsControlType.SWITCH}

@@ -25,11 +25,14 @@ import { dailyLogCalculator } from '@/utils/dailyLogCalculator';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 import { getDayOfWeek } from '@/utils/getDayOfWeek';
+import { StatsCard } from '@/components/ui/StatsCard';
+import SubmitButton from '@/components/ui/SubmitButton';
 
 // Tipo unificado para resultados de búsqueda
 type SearchResult = (Ingredient & { itemType: 'ingredient' }) | (Recipe & { itemType: 'recipe' });
 
 const AddMealScreen = () => {
+  // TODO: reestilar con componentes nuevos
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -248,20 +251,17 @@ const AddMealScreen = () => {
         />
       </ScrollView>
       {/* Total Macros y Guardar */}
-      <View className="flex-1 items-center border-t border-border pt-4">
-        <Text className="text-lg font-semibold text-alternate mb-2">Macros comida actual</Text>
-        <Text className="text-alternate mb-1">
-          Calorías: {totalMealMacros.calories.toFixed(0)} kcal
-        </Text>
-        <Text className="text-alternate mb-1">
-          Proteína: {totalMealMacros.proteins.toFixed(1)} g
-        </Text>
-        <Text className="text-alternate mb-1">
-          Carbohidratos: {totalMealMacros.carbs.toFixed(1)} g
-        </Text>
-        <Text className="text-alternate mb-4">Grasas: {totalMealMacros.fats.toFixed(1)} g</Text>
-        <Button title="Guardar Comida" onPress={handleSaveMeal} />
-      </View>
+      <StatsCard
+        title="Macros comida actual"
+        value={totalMealMacros.calories.toFixed(0)}
+        variant="primary"
+        trend={[
+          `p: ${totalMealMacros.proteins.toFixed(1)}`,
+          `c: ${totalMealMacros.carbs.toFixed(1)}`,
+          `g: ${totalMealMacros.fats.toFixed(1)}`,
+        ]}
+      />
+      <SubmitButton label="Guardar Comida" onPress={handleSaveMeal} />
     </SafeAreaView>
   );
 };

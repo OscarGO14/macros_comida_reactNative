@@ -6,7 +6,7 @@ export const StatsCard = ({
   title,
   value,
   variant = 'primary',
-  trend,
+  trend = [],
   formatValue,
   children,
 }: StatsCardProps) => {
@@ -24,7 +24,7 @@ export const StatsCard = ({
     accent: 'text-accent',
   };
 
-  const trendTextClass = trend?.startsWith('+') ? 'text-success' : 'text-danger';
+  const trendTextClass = 'text-accent';
 
   return (
     <View className={`${baseContainerClasses} ${borderVariantClasses[variant]}`}>
@@ -32,12 +32,16 @@ export const StatsCard = ({
 
       <View className="flex-row items-end justify-between">
         <Text className={`text-3xl font-bold ${textValueVariantClasses[variant]}`}>
-          {formatValue ? formatValue(value) : value}
+          {formatValue ? formatValue(value) : value} kcal
         </Text>
 
         {trend && (
-          <View className="flex-row items-center">
-            <Text className={`text-sm ${trendTextClass}`}>{trend}</Text>
+          <View className="flex-row items-center gap-4">
+            {trend.map((item, index) => (
+              <Text key={index} className={`text-sm ${trendTextClass}`}>
+                {item}
+              </Text>
+            ))}
           </View>
         )}
       </View>

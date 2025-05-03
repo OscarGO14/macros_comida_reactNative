@@ -113,15 +113,15 @@ const IngredientsModal = ({ isVisible, onClose, onSelectIngredient }: Ingredient
 
           {/* --- Selección y Cantidad --- */}
           {selectedIngredient && (
-            <View className="mb-4 p-3 border border-blue-200 rounded bg-blue-50">
+            <View className="mb-4 p-3 border border-alternate rounded bg-blue-50">
               <Text className="font-semibold mb-2">Seleccionado: {selectedIngredient.name}</Text>
               <View className="flex-row items-center">
                 <TextInput
-                  placeholder="Cantidad"
+                  placeholder="Cantidad en gramos"
                   value={quantity}
                   onChangeText={setQuantity}
                   keyboardType="numeric"
-                  className="border border-gray-300 rounded p-2 flex-1 mr-2"
+                  className="border border-alternate rounded p-2 flex-1 mr-2"
                 />
               </View>
             </View>

@@ -4,7 +4,7 @@ export interface StatsCardProps {
   title: string;
   value: number | string;
   variant?: StatsCardVariant;
-  trend?: string;
+  trend?: string[];
   formatValue?: (value: number | string) => string;
   children?: React.ReactNode;
   className?: string;

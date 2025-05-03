@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, Alert, ActivityIndicator } from 'react-native';
+import { Text, View, Alert, ActivityIndicator } from 'react-native';
 import Button from '@/components/ui/Button';
+import InputText from '@/components/ui/InputText';
 import { useUserStore } from '@/store/userStore';
 import { Goals } from '@/types/goals';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -94,56 +95,49 @@ export default function UpdateUserScreen() {
       </Screen>
     );
   }
-
+  // TODO: cambiar objetivos a información de usuario con la que calcular macros.
   return (
     <Screen>
-      <Text className="mb-6 text-2xl font-bold text-primary">Actualizar Perfil y Metas</Text>
+      <View className="justify-around h-full">
+        <Text className="mb-6 text-2xl font-bold text-primary">Actualiza tu información</Text>
+        <View className="w-full gap-4 ">
+          <InputText
+            label="Nombre de Usuario"
+            placeholder="Tu nombre de usuario"
+            value={displayName}
+            onChangeText={setDisplayName}
+            autoCapitalize="words"
+          />
 
-      <View className="w-full max-w-sm">
-        <Text className="mb-2 text-sm font-medium text-gray-400">Nombre de Usuario</Text>
-        <TextInput
-          className="mb-4 h-12 w-full rounded-md border border-alternate bg-input px-4 text-primary"
-          placeholder="Tu nombre de usuario"
-          placeholderTextColor="#9CA3AF"
-          value={displayName}
-          onChangeText={setDisplayName}
-          autoCapitalize="words"
-        />
-
-        <Text className="mb-2 text-sm font-medium text-gray-400">Metas Diarias</Text>
-        <TextInput
-          className="mb-4 h-12 w-full rounded-md border border-alternate bg-input px-4 text-primary"
-          placeholder="Calorías (kcal)"
-          placeholderTextColor="#9CA3AF"
-          value={calories}
-          onChangeText={setCalories}
-          keyboardType="numeric"
-        />
-        <TextInput
-          className="mb-4 h-12 w-full rounded-md border border-alternate bg-input px-4 text-primary"
-          placeholder="Proteínas (g)"
-          placeholderTextColor="#9CA3AF"
-          value={proteins}
-          onChangeText={setProteins}
-          keyboardType="numeric"
-        />
-        <TextInput
-          className="mb-4 h-12 w-full rounded-md border border-alternate bg-input px-4 text-primary"
-          placeholder="Carbohidratos (g)"
-          placeholderTextColor="#9CA3AF"
-          value={carbs}
-          onChangeText={setCarbs}
-          keyboardType="numeric"
-        />
-        <TextInput
-          className="mb-6 h-12 w-full rounded-md border border-alternate bg-input px-4 text-primary"
-          placeholder="Grasas (g)"
-          placeholderTextColor="#9CA3AF"
-          value={fats}
-          onChangeText={setFats}
-          keyboardType="numeric"
-        />
-
+          <InputText
+            label="Calorías (kcal)"
+            placeholder="Calorías (kcal)"
+            value={calories}
+            onChangeText={setCalories}
+            keyboardType="numeric"
+          />
+          <InputText
+            label="Proteínas (g)"
+            placeholder="Proteínas (g)"
+            value={proteins}
+            onChangeText={setProteins}
+            keyboardType="numeric"
+          />
+          <InputText
+            label="Carbohidratos (g)"
+            placeholder="Carbohidratos (g)"
+            value={carbs}
+            onChangeText={setCarbs}
+            keyboardType="numeric"
+          />
+          <InputText
+            label="Grasas (g)"
+            placeholder="Grasas (g)"
+            value={fats}
+            onChangeText={setFats}
+            keyboardType="numeric"
+          />
+        </View>
         {loading ? (
           <ActivityIndicator size="large" color="#FACC15" />
         ) : (
