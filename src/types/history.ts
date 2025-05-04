@@ -1,24 +1,7 @@
 // src/types/history.ts
 import { Timestamp } from 'firebase/firestore';
 import { Macros } from './macros'; // Reutilizamos el tipo Macros
-
-// Define la estructura de un alimento o receta consumida en una comida
-export type ConsumedItem = {
-  itemId: string; // ID del ingrediente o receta
-  itemType: 'ingredient' | 'recipe'; // Tipo de item
-  name: string; // Nombre para mostrar (del ingrediente o receta)
-  // Para ingredientes: cantidad en gramos.
-  // Para recetas: número de raciones consumidas (puede ser decimal, ej: 1.5)
-  quantity: number;
-  // Eliminamos 'unit' ya que depende de itemType.
-  macros: Macros; // Macros calculados para la cantidad consumida
-};
-
-// Define la estructura de una comida (desayuno, almuerzo, etc.)
-export type Meal = {
-  items: ConsumedItem[];
-  totalMacros: Macros; // Macros totales de esta comida
-};
+import { Meal } from './meal';
 
 export type DayOfWeek =
   | 'monday'

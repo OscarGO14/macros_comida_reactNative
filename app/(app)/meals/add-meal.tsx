@@ -1,149 +1,104 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  FlatList,
-  TouchableOpacity,
-  ActivityIndicator,
-  Alert,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Stack, useRouter } from 'expo-router';
-
-import { useIngredients } from '@/hooks/useIngredients';
-import { useRecipes } from '@/hooks/useRecipes';
+import React, { useState, useMemo } from 'react';
+import { View, Text, FlatList, Alert, Button } from 'react-native';
+import { useUserStore } from '@/store/userStore';
+import { useRouter } from 'expo-router';
+import Screen from '@/components/ui/Screen';
+import { getDayOfWeek } from '@/utils/getDayOfWeek';
+import { dailyLogCalculator } from '@/utils/dailyLogCalculator';
 import { Ingredient } from '@/types/ingredient';
 import { Recipe } from '@/types/recipe';
-import { Macros } from '@/types/macros';
-import { ConsumedItem } from '@/types/history';
-import Button from '@/components/ui/Button';
-import { MyColors } from '@/types/colors';
-import { useUserStore } from '@/store/userStore';
-import { dailyLogCalculator } from '@/utils/dailyLogCalculator';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/services/firebase';
-import { getDayOfWeek } from '@/utils/getDayOfWeek';
-import { StatsCard } from '@/components/ui/StatsCard';
-import SubmitButton from '@/components/ui/SubmitButton';
+import { ConsumedItem, MealIngredient, MealRecipe } from '@/types/meal';
 import Item from '@/components/ui/Item';
 import { ItemType } from '@/components/ui/Item/types';
-import Screen from '@/components/ui/Screen';
+import SearchItemModal from '@/components/SearchItemModal';
+import { SearchableItem } from '@/components/SearchItemModal/types';
+import SubmitButton from '@/components/ui/SubmitButton';
+import { MyColors } from '@/types/colors';
+import ActionButton from '@/components/ui/ActionButton';
 
-// Tipo unificado para resultados de búsqueda
-type SearchResult = (Ingredient & { itemType: 'ingredient' }) | (Recipe & { itemType: 'recipe' });
-
-const AddMealScreen = () => {
-  // TODO: reestilar con componentes nuevos
-  const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [selectedSearchResult, setSelectedSearchResult] = useState<SearchResult | null>(null);
-  const [quantity, setQuantity] = useState('');
-  const [currentMealItems, setCurrentMealItems] = useState<ConsumedItem[]>([]);
+export default function AddMealScreen() {
   const { user, updateUserData } = useUserStore();
+  const router = useRouter();
+  const [currentMealItems, setCurrentMealItems] = useState<ConsumedItem[]>([]);
+  const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
 
-  // Hooks para obtener datos (pueden necesitar ajustes)
-  const {
-    data: ingredients,
-    loading: ingredientsLoading,
-    error: ingredientsError,
-  } = useIngredients();
-  const { data: recipes, loading: recipesLoading, error: recipesError } = useRecipes();
+  const totalMealMacros = useMemo(() => {
+    let totalCalories = 0;
+    let totalProteins = 0;
+    let totalCarbs = 0;
+    let totalFats = 0;
 
-  // Función de búsqueda (simplificada)
-  const handleSearch = (text: string) => {
-    setSearchTerm(text);
-    setSelectedSearchResult(null);
-    setQuantity('');
+    currentMealItems.forEach((item) => {
+      totalCalories += item.macros.calories;
+      totalProteins += item.macros.proteins;
+      totalCarbs += item.macros.carbs;
+      totalFats += item.macros.fats;
+    });
 
-    if (text.length < 2) {
-      setSearchResults([]);
-      return;
-    }
-
-    const lowerCaseText = text.toLowerCase();
-
-    // Filtrar ingredientes
-    const filteredIngredients = ingredients
-      .filter((ing) => ing.name.toLowerCase().includes(lowerCaseText))
-      .map((ing) => ({ ...ing, itemType: 'ingredient' as const }));
-
-    // Filtrar recetas (cuando esté disponible)
-    const filteredRecipes = recipes
-      .filter((rec) => rec.name.toLowerCase().includes(lowerCaseText))
-      .map((rec) => ({ ...rec, itemType: 'recipe' as const }));
-
-    setSearchResults([...filteredIngredients, ...filteredRecipes]);
-  };
-
-  // Manejar selección de un resultado
-  const handleSelectResult = (result: SearchResult) => {
-    setSelectedSearchResult(result);
-    setSearchTerm(result.name);
-    setSearchResults([]);
-  };
-
-  const handleAddItemToMeal = () => {
-    if (!selectedSearchResult || !quantity) {
-      Alert.alert('Error', 'Selecciona un alimento e introduce la cantidad.');
-      return;
-    }
-
-    const quantityNum = parseFloat(quantity);
-    if (isNaN(quantityNum) || quantityNum <= 0) {
-      Alert.alert('Error', 'La cantidad debe ser un número positivo.');
-      return;
-    }
-    let calculatedMacros: Macros;
-    if (selectedSearchResult.itemType === 'ingredient') {
-      calculatedMacros = {
-        calories: (selectedSearchResult.calories * quantityNum) / 100,
-        proteins: (selectedSearchResult.proteins * quantityNum) / 100,
-        carbs: (selectedSearchResult.carbs * quantityNum) / 100,
-        fats: (selectedSearchResult.fats * quantityNum) / 100,
-      };
-    } else {
-      calculatedMacros = {
-        calories: selectedSearchResult.macros.calories * quantityNum,
-        proteins: selectedSearchResult.macros.proteins * quantityNum,
-        carbs: selectedSearchResult.macros.carbs * quantityNum,
-        fats: selectedSearchResult.macros.fats * quantityNum,
-      };
-    }
-
-    const newItem: ConsumedItem = {
-      itemId: selectedSearchResult.id,
-      itemType: selectedSearchResult.itemType,
-      name: selectedSearchResult.name,
-      quantity: quantityNum,
-      macros: calculatedMacros,
+    return {
+      calories: totalCalories,
+      proteins: totalProteins,
+      carbs: totalCarbs,
+      fats: totalFats,
     };
+  }, [currentMealItems]);
+
+  const handleSelectItem = (item: SearchableItem, quantity: number) => {
+    let newItem: ConsumedItem;
+
+    if ('calories' in item) {
+      const ingredient = item as Ingredient;
+      const caloriesPerGram = ingredient.calories / 100;
+      const proteinPerGram = ingredient.proteins / 100;
+      const carbPerGram = ingredient.carbs / 100;
+      const fatPerGram = ingredient.fats / 100;
+
+      newItem = {
+        id: ingredient.id,
+        name: ingredient.name,
+        itemType: ItemType.INGREDIENT,
+        quantity: quantity,
+        macros: {
+          calories: Math.round(caloriesPerGram * quantity),
+          proteins: Math.round(proteinPerGram * quantity),
+          carbs: Math.round(carbPerGram * quantity),
+          fats: Math.round(fatPerGram * quantity),
+        },
+      } as MealIngredient;
+    } else {
+      const recipe = item as Recipe;
+      if (!recipe.serves || recipe.serves <= 0) {
+        Alert.alert('Error', `La receta "${recipe.name}" no tiene un número de raciones válido.`);
+        setIsSearchModalVisible(false);
+        return;
+      }
+      const caloriesPerServing = recipe.macros.calories / recipe.serves;
+      const proteinPerServing = recipe.macros.proteins / recipe.serves;
+      const carbPerServing = recipe.macros.carbs / recipe.serves;
+      const fatPerServing = recipe.macros.fats / recipe.serves;
+
+      newItem = {
+        id: recipe.id,
+        name: recipe.name,
+        itemType: ItemType.RECIPE,
+        quantity: quantity,
+        macros: {
+          calories: Math.round(caloriesPerServing * quantity),
+          proteins: Math.round(proteinPerServing * quantity),
+          carbs: Math.round(carbPerServing * quantity),
+          fats: Math.round(fatPerServing * quantity),
+        },
+      } as MealRecipe;
+    }
+
     setCurrentMealItems((prevItems) => [...prevItems, newItem]);
-    setSelectedSearchResult(null);
-    setSearchTerm('');
-    setQuantity('');
+    setIsSearchModalVisible(false);
   };
 
-  // Calcula macros totales de la comida actual
-  const totalMealMacrosCalc = currentMealItems.reduce(
-    (acc, item) => {
-      acc.calories += item.macros.calories;
-      acc.proteins += item.macros.proteins;
-      acc.carbs += item.macros.carbs;
-      acc.fats += item.macros.fats;
-      return acc;
-    },
-    { calories: 0, proteins: 0, carbs: 0, fats: 0 },
-  );
-
-  // Función para eliminar un item de la comida actual
-  const handleDeleteItem = (indexToDelete: number) => {
-    const updatedItems = currentMealItems.filter((_, index) => index !== indexToDelete);
-    setCurrentMealItems(updatedItems);
+  const handleDeleteItem = (index: number) => {
+    setCurrentMealItems((prevItems) => prevItems.filter((_, i) => i !== index));
   };
 
-  // Función para renderizar cada ítem de la comida actual
   const renderMealItem = ({ item, index }: { item: ConsumedItem; index: number }) => {
     return (
       <View className="mb-2">
@@ -167,11 +122,9 @@ const AddMealScreen = () => {
     const today = getDayOfWeek();
     let dailyLog = user?.history?.[today];
 
-    // Añadir la comida a la lista de comidas del día actual
     if (user) {
-      dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacrosCalc);
+      dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacros);
 
-      // Update user in userStore
       updateUserData({
         ...user,
         history: {
@@ -179,106 +132,43 @@ const AddMealScreen = () => {
           [today]: dailyLog,
         },
       });
-      // Update user in Firestore
-      await updateDoc(doc(db, 'users', user.uid), {
-        history: {
-          [today]: dailyLog,
-        },
-      });
+
+      router.back();
     } else {
-      Alert.alert('Error', 'No se pudo actualizar el historial de comidas.');
+      Alert.alert('Error', 'No se pudo guardar la comida. Usuario no encontrado.');
     }
-
-    router.back();
   };
-
-  useEffect(() => {
-    if (ingredientsError || recipesError) {
-      Alert.alert('Error', 'Error al cargar ingredientes o recetas.');
-    }
-  }, [ingredientsError, recipesError]);
 
   return (
     <Screen>
-      <View className="flex-1 justify-between py-2">
-        {/* Buscador */}
-        <View className="items-center mb-4">
-          <TextInput
-            placeholder="Buscar ingrediente o receta..."
-            value={searchTerm}
-            onChangeText={handleSearch}
-            className="border border-input rounded-md p-3 text-primary bg-card text-base"
-            placeholderTextColor={MyColors.ALTERNATE}
-          />
-          {(ingredientsLoading || recipesLoading) && <ActivityIndicator className="mt-2" />}
-          {searchResults.length > 0 && (
+      <View className="flex-1 p-4">
+        <ActionButton
+          label="Añadir ingrediente o receta"
+          onPress={() => setIsSearchModalVisible(true)}
+        />
+
+        <Text className="text-xl font-semibold text-primary my-4">Elementos añadidos: </Text>
+        <View className="flex-1">
+          {currentMealItems.length === 0 ? (
+            <Text className="text-center text-alternate">No has añadido ningún alimento.</Text>
+          ) : (
             <FlatList
-              data={searchResults}
-              keyExtractor={(item) => `${item.itemType}-${item.id}`}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => handleSelectResult(item)}
-                  className="p-3 border-b border-border"
-                >
-                  <Text className="text-primary text-base">
-                    {item.name} ({item.itemType})
-                  </Text>
-                </TouchableOpacity>
-              )}
-              className="max-h-60 border border-border rounded-md mt-1 bg-card"
+              data={currentMealItems}
+              renderItem={renderMealItem}
+              keyExtractor={(item, index) => `${item.id}-${index}`}
             />
           )}
         </View>
 
-        {/* Sección para añadir item seleccionado */}
-        {selectedSearchResult && (
-          <View className="mb-4 p-4 border border-border rounded-md bg-card">
-            <Text className="text-lg text-primary font-semibold mb-2">
-              Añadir: {selectedSearchResult.name}
-            </Text>
-            <TextInput
-              placeholder={
-                selectedSearchResult.itemType === 'ingredient' ? 'Gramos (gr)' : 'Raciones'
-              }
-              value={quantity}
-              onChangeText={setQuantity}
-              keyboardType="numeric"
-              className="border border-input rounded-md p-3 text-primary bg-card text-base mb-3"
-              placeholderTextColor={MyColors.ALTERNATE}
-            />
-            <Button title="Añadir a la comida" onPress={handleAddItemToMeal} />
-          </View>
-        )}
+        <SubmitButton onPress={handleSaveMeal} label="Guardar Comida" />
 
-        {/* Lista de items en la comida actual */}
-        <View className="flex max-h-60">
-          <FlatList
-            data={currentMealItems}
-            keyExtractor={(item, index) => `${item.itemId}-${index}`}
-            renderItem={renderMealItem}
-            ListEmptyComponent={
-              <Text className="text-center text-alternate italic">Aún no has añadido nada.</Text>
-            }
-            className="flex-grow mb-4"
-          />
-        </View>
-        {/* Total Macros y Guardar */}
-
-        <StatsCard
-          title="Macros comida actual"
-          value={totalMealMacrosCalc.calories.toFixed(0)}
-          variant="primary"
-          trend={[
-            `p: ${totalMealMacrosCalc.proteins.toFixed(1)}`,
-            `c: ${totalMealMacrosCalc.carbs.toFixed(1)}`,
-            `g: ${totalMealMacrosCalc.fats.toFixed(1)}`,
-          ]}
+        <SearchItemModal
+          isVisible={isSearchModalVisible}
+          onClose={() => setIsSearchModalVisible(false)}
+          onSelectItem={handleSelectItem}
+          itemTypes={['ingredient', 'recipe']}
         />
-
-        <SubmitButton label="Guardar Comida" onPress={handleSaveMeal} />
       </View>
     </Screen>
   );
-};
-
-export default AddMealScreen;
+}

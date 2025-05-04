@@ -1,4 +1,5 @@
-import { ConsumedItem, DailyLog, Meal } from '@/types/history';
+import { ConsumedItem } from '@/types/meal';
+import { DailyLog, Meal } from '@/types/history';
 import { Macros } from '@/types/macros';
 import { Timestamp } from 'firebase/firestore';
 

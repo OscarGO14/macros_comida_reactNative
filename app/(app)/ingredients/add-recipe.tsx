@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Alert, ScrollView } from 'react-native';
+import { View, Text, FlatList, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { addDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
@@ -7,7 +7,8 @@ import { db, recipesCollection, Collections } from '@/services/firebase';
 import { useUserStore } from '@/store/userStore';
 import { Ingredient } from '@/types/ingredient';
 import { Macros } from '@/types/macros';
-import IngredientsModal from '@/components/IngredientsModal';
+import SearchItemModal from '@/components/SearchItemModal';
+import { SearchableItem } from '@/components/SearchItemModal/types';
 import Screen from '@/components/ui/Screen';
 import SubmitButton from '@/components/ui/SubmitButton';
 import InputText from '@/components/ui/InputText';
@@ -176,6 +177,21 @@ export default function AddRecipeScreen() {
     }
   };
 
+  // Wrapper para onSelectItem
+  const handleSelectItemWrapper = (item: SearchableItem, quantity: number) => {
+    // Aunque sabemos que solo vendrán Ingredients aquí, hacemos una comprobación
+    // segura comprobando una propiedad única de Ingredient (o podríamos castear directamente
+    // si estamos 100% seguros del contexto, pero esto es más robusto)
+    if ('calories' in item) {
+      // 'calories' existe en Ingredient pero no en Recipe (que tiene item.macros.calories)
+      handleIngredientSelected(item as Ingredient, quantity);
+    } else {
+      // Opcional: manejar el caso inesperado de recibir una Receta
+      console.warn('Se recibió un item inesperado (no ingrediente) en add-recipe:', item);
+      Alert.alert('Error inesperado', 'Se intentó añadir un tipo de item incorrecto.');
+    }
+  };
+
   return (
     <Screen>
       <View className="justify-center gap-4">
@@ -246,10 +262,11 @@ export default function AddRecipeScreen() {
           disabled={loading}
         />
 
-        <IngredientsModal
+        <SearchItemModal
           isVisible={isModalVisible}
           onClose={() => setIsModalVisible(false)}
-          onSelectIngredient={handleIngredientSelected}
+          onSelectItem={handleSelectItemWrapper}
+          itemTypes={['ingredient']}
         />
       </View>
     </Screen>
