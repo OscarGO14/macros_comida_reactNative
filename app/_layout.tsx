@@ -3,7 +3,6 @@ import { Slot, useRouter, useSegments } from 'expo-router';
 import { useUserStore } from '@/store/userStore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, getUserQuery } from '@/services/firebase';
-import { IUserStateData } from '@/types/user';
 import '../global.css';
 
 export default function RootLayoutNav() {
@@ -13,23 +12,37 @@ export default function RootLayoutNav() {
 
   // Listener de estado de autenticación
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser: IUserStateData | null) => {
+    setLoading(true); // Asegurarse de que estamos cargando al inicio
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      // Marcar como async
       console.log('Auth state changed:', firebaseUser?.uid);
 
-      if (firebaseUser) {
-        getUserQuery(firebaseUser.uid).then((user) => {
-          if (user) {
-            setUser(user);
+      try {
+        if (firebaseUser) {
+          // Esperar a que getUserQuery termine
+          const userData = await getUserQuery(firebaseUser.uid);
+          if (userData) {
+            setUser(userData);
+          } else {
+            // Usuario autenticado en Firebase pero sin datos en Firestore?
+            // Decide cómo manejar este caso. ¿Quizás desloguear o usar datos básicos?
+            console.warn('Usuario autenticado pero no encontrado en Firestore:', firebaseUser.uid);
+            setUser(null); // O manejar de otra forma
           }
-        });
-      } else {
-        setUser(null);
+        } else {
+          setUser(null);
+        }
+      } catch (error) {
+        console.error('Error durante el chequeo de autenticación:', error);
+        setUser(null); // Asegurarse de resetear en caso de error
+      } finally {
+        setLoading(false); // Poner loading en false DESPUÉS de procesar todo
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();
-  }, [setUser, setLoading]);
+    // Quitar setLoading de las dependencias si estaba, solo necesitamos setUser
+  }, [setUser]);
 
   // Efecto para la redirección
   useEffect(() => {

@@ -20,6 +20,11 @@ export default function HomeScreen() {
   const handlePreview = () => {
     router.push('/(app)/dashboard/preview');
   };
+
+  const handleHistoric = () => {
+    router.push('/(app)/dashboard/history');
+  };
+
   // Loggea informacion del usuario
   useEffect(() => {
     if (user) {
@@ -55,6 +60,11 @@ export default function HomeScreen() {
 
         {/* Grafico de días */}
         <BarChartComponent />
+        <SettingsItem
+          label="Ver historico"
+          controlType={SettingsControlType.ARROW_ONLY}
+          onPress={handleHistoric}
+        />
 
         <SettingsItem
           label="Ir a preview de componentes"
