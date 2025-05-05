@@ -1,7 +1,7 @@
 // src/types/history.ts
 import { Timestamp } from 'firebase/firestore';
-import { Macros } from './macros'; // Reutilizamos el tipo Macros
-import { Meal } from './meal';
+import { Macros } from '@/types/macros'; // Reutilizamos el tipo Macros
+import { Meal } from '@/types/meal';
 
 export type DayOfWeek =
   | 'monday'

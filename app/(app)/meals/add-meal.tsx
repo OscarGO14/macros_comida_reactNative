@@ -15,6 +15,8 @@ import { SearchableItem } from '@/components/SearchItemModal/types';
 import SubmitButton from '@/components/ui/SubmitButton';
 import { MyColors } from '@/types/colors';
 import ActionButton from '@/components/ui/ActionButton';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '@/services/firebase';
 
 export default function AddMealScreen() {
   const { user, updateUserData } = useUserStore();
@@ -123,19 +125,30 @@ export default function AddMealScreen() {
     let dailyLog = user?.history?.[today];
 
     if (user) {
-      dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacros);
+      try {
+        dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacros);
 
-      updateUserData({
-        ...user,
-        history: {
-          ...user.history,
-          [today]: dailyLog,
-        },
-      });
+        // Actualizar Firestore
+        await updateDoc(doc(db, 'users', user.uid), {
+          history: {
+            [today]: dailyLog,
+          },
+        });
 
-      router.back();
-    } else {
-      Alert.alert('Error', 'No se pudo guardar la comida. Usuario no encontrado.');
+        // Actualizar contexto
+        updateUserData({
+          ...user,
+          history: {
+            ...user.history,
+            [today]: dailyLog,
+          },
+        });
+
+        router.back();
+      } catch (error) {
+        console.error('Error al guardar la comida:', error);
+        Alert.alert('Error', 'No se pudo guardar la comida. Por favor, intenta de nuevo.');
+      }
     }
   };
 

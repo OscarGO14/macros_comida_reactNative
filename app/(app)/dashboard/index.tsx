@@ -36,7 +36,6 @@ export default function HomeScreen() {
       console.log('Today History:', todayHistory); // Agrega este log para verificar el objet
 
       setConsumed(todayHistory?.totalMacros?.calories ?? undefined);
-      console.log('User:', user);
     }
   }, [user]);
 
@@ -48,11 +47,11 @@ export default function HomeScreen() {
             Hola {user?.displayName || 'colega'} estas son tus estadísticas:
           </Text>
         </View>
-        {objective !== undefined && consumed !== undefined && (
+        {objective !== undefined && (
           <DoughnutChart
             data={{
               objective,
-              consumed,
+              consumed: consumed || 0,
             }}
           />
         )}
@@ -67,9 +66,9 @@ export default function HomeScreen() {
         />
 
         <SettingsItem
-          label="Ir a preview de componentes"
+          label="Añadir comida"
           controlType={SettingsControlType.ARROW_ONLY}
-          onPress={handlePreview}
+          onPress={() => router.replace('/meals/add-meal')}
         />
       </View>
     </Screen>
