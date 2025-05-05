@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Screen from '@/components/ui/Screen';
-import { Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import { SettingsControlType } from '@/components/ui/SettingsItem/types';
 import SettingsItem from '@/components/ui/SettingsItem';
 import { router } from 'expo-router';
 import { ConsumedItem, Meal } from '@/types/meal';
-import { FlatList } from 'react-native-gesture-handler';
 import { StatsCard } from '@/components/ui/StatsCard';
 import { useUserStore } from '@/store/userStore';
 import { getDayOfWeek } from '@/utils/getDayOfWeek';
@@ -21,7 +20,6 @@ export default function MealsScreen() {
   const deleteMeals = () => {};
 
   useEffect(() => {
-    console.log('History:', history);
     if (user?.history) {
       setMeals(user.history[today]?.meals ?? []);
     }
