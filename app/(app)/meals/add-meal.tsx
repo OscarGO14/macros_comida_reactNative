@@ -13,7 +13,6 @@ import { ItemType } from '@/components/ui/Item/types';
 import SearchItemModal from '@/components/SearchItemModal';
 import { SearchableItem } from '@/components/SearchItemModal/types';
 import SubmitButton from '@/components/ui/SubmitButton';
-import { MyColors } from '@/types/colors';
 import ActionButton from '@/components/ui/ActionButton';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/services/firebase';

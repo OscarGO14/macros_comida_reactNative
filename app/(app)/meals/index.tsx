@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Screen from '@/components/ui/Screen';
 import { FlatList, Text, View } from 'react-native';
-import { SettingsControlType } from '@/components/ui/SettingsItem/types';
-import SettingsItem from '@/components/ui/SettingsItem';
 import { router } from 'expo-router';
-import { ConsumedItem, Meal } from '@/types/meal';
+import { Meal } from '@/types/meal';
 import { StatsCard } from '@/components/ui/StatsCard';
 import { useUserStore } from '@/store/userStore';
 import { getDayOfWeek } from '@/utils/getDayOfWeek';
@@ -17,7 +15,10 @@ export default function MealsScreen() {
 
   const today = useMemo(() => getDayOfWeek(), []);
 
-  const deleteMeals = () => {};
+  const deleteMeals = async () => {
+    // TODO: Borrar comidas
+    console.log('Borrando comidas');
+  };
 
   useEffect(() => {
     if (user?.history) {
@@ -55,6 +56,7 @@ export default function MealsScreen() {
         ) : (
           <Text className="text-primary text-2xl font-bold text-center mb-6">No hay comidas</Text>
         )}
+        <ActionButton label="Borrar comidas" onPress={deleteMeals} />
         <ActionButton label="Añadir comida" onPress={() => router.push('/meals/add-meal')} />
       </View>
     </Screen>
