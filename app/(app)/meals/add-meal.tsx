@@ -124,30 +124,39 @@ export default function AddMealScreen() {
     let dailyLog = user?.history?.[today];
 
     if (user) {
-      try {
-        dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacros);
+      Alert.alert('Confirmación', '¿Estás seguro de que quieres guardar esta comida?', [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Guardar',
+          onPress: async () => {
+            try {
+              dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacros);
 
-        // Actualizar Firestore
-        await updateDoc(doc(db, 'users', user.uid), {
-          history: {
-            [today]: dailyLog,
+              // Actualizar Firestore
+              await updateDoc(doc(db, 'users', user.uid), {
+                [`history.${today}`]: dailyLog, // Cambio clave aquí
+              });
+
+              // Actualizar contexto
+              updateUserData({
+                ...user,
+                history: {
+                  ...user.history,
+                  [today]: dailyLog,
+                },
+              });
+              setCurrentMealItems([]);
+              router.replace('/(app)/meals');
+            } catch (error) {
+              console.error('Error al guardar la comida:', error);
+              Alert.alert('Error', 'No se pudo guardar la comida. Por favor, intenta de nuevo.');
+            }
           },
-        });
-
-        // Actualizar contexto
-        updateUserData({
-          ...user,
-          history: {
-            ...user.history,
-            [today]: dailyLog,
-          },
-        });
-
-        router.back();
-      } catch (error) {
-        console.error('Error al guardar la comida:', error);
-        Alert.alert('Error', 'No se pudo guardar la comida. Por favor, intenta de nuevo.');
-      }
+        },
+      ]);
     }
   };
 
@@ -173,7 +182,6 @@ export default function AddMealScreen() {
         </View>
 
         <SubmitButton onPress={handleSaveMeal} label="Guardar Comida" />
-
         <SearchItemModal
           isVisible={isSearchModalVisible}
           onClose={() => setIsSearchModalVisible(false)}
