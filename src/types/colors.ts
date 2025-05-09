@@ -1,13 +1,11 @@
 const MyColors = {
-  BACKGROUND: '#000000',
+  BACKGROUND: '#181920',
+  ITEM_BACKGROUND: '#24252B',
   PRIMARY: '#FFFFFF',
-  SECONDARY: '#000000',
-  ACCENT: '#facc15',
+  ACCENT: '#ECFE72',
+  DANGER: '#99ED8D',
   ALTERNATE: '#808080',
-  DANGER: '#ef4444',
-  SUCCESS: '#22c55e',
-  WARNING: '#f59e0b',
-  ITEM_BACKGROUND: '#1f2937',
+  SECONDARY: '#000000',
 } as const;
 
 export type MyColor = (typeof MyColors)[keyof typeof MyColors];

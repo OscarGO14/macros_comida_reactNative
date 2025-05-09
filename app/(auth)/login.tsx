@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Text, Button, TextInput, View, ActivityIndicator, Alert } from 'react-native';
+import { Text, View, ActivityIndicator, Alert } from 'react-native';
 import { Link } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { auth } from '@/services/firebase';
 import { useUserStore } from '@/store/userStore';
+import InputText from '@/components/ui/InputText';
+import Screen from '@/components/ui/Screen';
+import SubmitButton from '@/components/ui/SubmitButton';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -38,38 +40,37 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-background p-4">
-      <Text className="mb-8 text-3xl font-bold text-white">Iniciar Sesión</Text>
+    <Screen>
+      <View className="flex-1 items-center justify-center">
+        <Text className="mb-8 text-3xl font-bold text-white">Iniciar Sesión</Text>
 
-      <View className="w-full max-w-xs">
-        <TextInput
-          className="mb-4 h-12 w-full rounded-md border border-alternate bg-background px-4 text-primary"
-          placeholder="Email"
-          placeholderTextColor="#9CA3AF"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <TextInput
-          className="mb-6 h-12 w-full rounded-md border border-alternate bg-background px-4 text-primary"
-          placeholder="Contraseña"
-          placeholderTextColor="#9CA3AF"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
+        <View className="w-full justify-center gap-4 p-4">
+          <InputText
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
 
-        {loading ? (
-          <ActivityIndicator size="large" color="#FACC15" />
-        ) : (
-          <Button title="Iniciar Sesión" onPress={handleLogin} color="#FACC15" />
-        )}
+          <InputText
+            placeholder="Contraseña"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+
+          {loading ? (
+            <ActivityIndicator size="large" color="#FACC15" />
+          ) : (
+            <SubmitButton label="Iniciar Sesión" onPress={handleLogin} />
+          )}
+        </View>
+
+        <Link href="/(auth)/register" replace className="mt-6">
+          <Text className="text-alternate">¿No tienes cuenta? Regístrate</Text>
+        </Link>
       </View>
-
-      <Link href="/(auth)/register" replace className="mt-6">
-        <Text className="text-alternate">¿No tienes cuenta? Regístrate</Text>
-      </Link>
-    </SafeAreaView>
+    </Screen>
   );
 }

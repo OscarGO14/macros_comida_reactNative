@@ -114,9 +114,13 @@ import { useCustomHook } from '@/hooks/useCustomHook';
 
 ```typescript
 const MyColors = {
-  BLACK: '#000000',
-  WHITE: '#FFFFFF',
-  YELLOW: '#facc15',
+  BACKGROUND: '#181920',
+  ITEM_BACKGROUND: '#24252B',
+  PRIMARY: '#FFFFFF',
+  ACCENT: '#ECFE72',
+  DANGER: '#99ED8D',
+  ALTERNATE: '#808080',
+  SECONDARY: '#000000',
 } as const;
 
 export type MyColor = (typeof MyColors)[keyof typeof MyColors];
@@ -129,26 +133,26 @@ Esta sección describe cómo la aplicación maneja el inicio de sesión, el regi
 
 ### 1. Arranque de la Aplicación y Comprobación de Sesión
 
--   **Firebase Auth Persistence:** Al iniciar, Firebase Auth (con `getReactNativePersistence`) comprueba si existe un token de sesión válido guardado localmente.
--   **Zustand Persistence:** Simultáneamente, Zustand (`persist` middleware) carga el último estado conocido del usuario (`IUserStateData`) desde AsyncStorage. Esto permite mostrar datos cacheados en la UI casi instantáneamente.
--   **`onAuthStateChanged` Listener (`app/_layout.tsx`):** Un listener global espera la respuesta de Firebase Auth.
-    -   **Si hay sesión activa (Firebase User existe):** Se llama a `getUserQuery` para obtener los datos más recientes del usuario desde Firestore. Una vez obtenidos, se llama a `setUser` para actualizar el store de Zustand (y su caché persistente) con estos datos frescos.
-    -   **Si no hay sesión activa (Firebase User es `null`):** Se llama a `setUser(null)` para limpiar el store de Zustand y su caché.
--   **Redirección (`app/_layout.tsx`):** Otro `useEffect` observa el estado `user` en Zustand y `isLoading`. Cuando `isLoading` es `false`, redirige al usuario a `/(auth)/login` si `user` es `null`, o a `/(app)` si `user` existe y el usuario está en una ruta de autenticación.
+- **Firebase Auth Persistence:** Al iniciar, Firebase Auth (con `getReactNativePersistence`) comprueba si existe un token de sesión válido guardado localmente.
+- **Zustand Persistence:** Simultáneamente, Zustand (`persist` middleware) carga el último estado conocido del usuario (`IUserStateData`) desde AsyncStorage. Esto permite mostrar datos cacheados en la UI casi instantáneamente.
+- **`onAuthStateChanged` Listener (`app/_layout.tsx`):** Un listener global espera la respuesta de Firebase Auth.
+  - **Si hay sesión activa (Firebase User existe):** Se llama a `getUserQuery` para obtener los datos más recientes del usuario desde Firestore. Una vez obtenidos, se llama a `setUser` para actualizar el store de Zustand (y su caché persistente) con estos datos frescos.
+  - **Si no hay sesión activa (Firebase User es `null`):** Se llama a `setUser(null)` para limpiar el store de Zustand y su caché.
+- **Redirección (`app/_layout.tsx`):** Otro `useEffect` observa el estado `user` en Zustand y `isLoading`. Cuando `isLoading` es `false`, redirige al usuario a `/(auth)/login` si `user` es `null`, o a `/(app)` si `user` existe y el usuario está en una ruta de autenticación.
 
 ### 2. Registro de Nuevo Usuario (`app/(auth)/register.tsx`)
 
 1.  El usuario introduce email y contraseña.
 2.  Se llama a `createUserWithEmailAndPassword(auth, email, password)`.
 3.  Si tiene éxito:
-    -   `onAuthStateChanged` se dispara (con el nuevo `firebaseUser`). El listener inicia `getUserQuery`.
-    -   **Inmediatamente después**, la función `handleRegister`:
-        -   Crea el objeto `initialUserData` con valores por defecto.
-        -   Llama a `setDoc(doc(usersCollection, user.uid), initialUserData)` para crear el documento del usuario en Firestore.
-        -   **Llama a `setUser(initialUserData)`**. Esto actualiza el store de Zustand *inmediatamente*, asegurando que la UI tenga datos y la redirección funcione incluso si `setDoc` o `getUserQuery` tardan un poco.
-    -   `getUserQuery` termina:
-        -   Si encuentra el documento recién creado, llama a `setUser` de nuevo (actualización redundante pero inofensiva).
-        -   Si *no* lo encuentra (por una condición de carrera mínima), no hace nada, preservando el estado ya establecido por `handleRegister`.
+    - `onAuthStateChanged` se dispara (con el nuevo `firebaseUser`). El listener inicia `getUserQuery`.
+    - **Inmediatamente después**, la función `handleRegister`:
+      - Crea el objeto `initialUserData` con valores por defecto.
+      - Llama a `setDoc(doc(usersCollection, user.uid), initialUserData)` para crear el documento del usuario en Firestore.
+      - **Llama a `setUser(initialUserData)`**. Esto actualiza el store de Zustand _inmediatamente_, asegurando que la UI tenga datos y la redirección funcione incluso si `setDoc` o `getUserQuery` tardan un poco.
+    - `getUserQuery` termina:
+      - Si encuentra el documento recién creado, llama a `setUser` de nuevo (actualización redundante pero inofensiva).
+      - Si _no_ lo encuentra (por una condición de carrera mínima), no hace nada, preservando el estado ya establecido por `handleRegister`.
 4.  La redirección en `_layout.tsx` lleva al usuario a `/(app)`.
 
 ### 3. Inicio de Sesión (`app/(auth)/login.tsx` - Flujo Asumido)
@@ -156,9 +160,9 @@ Esta sección describe cómo la aplicación maneja el inicio de sesión, el regi
 1.  El usuario introduce email y contraseña.
 2.  Se llama a `signInWithEmailAndPassword(auth, email, password)`.
 3.  Si tiene éxito:
-    -   `onAuthStateChanged` se dispara (con el `firebaseUser`).
-    -   El listener llama a `getUserQuery` para obtener los datos del usuario desde Firestore.
-    -   Se llama a `setUser` con los datos obtenidos, actualizando Zustand y su caché.
+    - `onAuthStateChanged` se dispara (con el `firebaseUser`).
+    - El listener llama a `getUserQuery` para obtener los datos del usuario desde Firestore.
+    - Se llama a `setUser` con los datos obtenidos, actualizando Zustand y su caché.
 4.  La redirección en `_layout.tsx` lleva al usuario a `/(app)`.
 
 ### 4. Cierre de Sesión (`src/components/LogOut/index.tsx`)
@@ -175,4 +179,4 @@ Esta sección describe cómo la aplicación maneja el inicio de sesión, el regi
 
 1.  El usuario modifica algún dato (ej: metas diarias).
 2.  Se llama a una función para actualizar Firestore (ej: `updateDoc` o `setDoc` con `{ merge: true }`).
-3.  **Después** de que la escritura en Firestore sea exitosa, se llama a `setUser` (o una acción específica de actualización en `userStore`) con los *nuevos* datos para actualizar el estado local de Zustand y su caché. Esto asegura que la UI refleje los cambios inmediatamente.
+3.  **Después** de que la escritura en Firestore sea exitosa, se llama a `setUser` (o una acción específica de actualización en `userStore`) con los _nuevos_ datos para actualizar el estado local de Zustand y su caché. Esto asegura que la UI refleje los cambios inmediatamente.

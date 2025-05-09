@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Text, Button, TextInput, View, ActivityIndicator, Alert } from 'react-native';
+import { Text, View, ActivityIndicator, Alert } from 'react-native';
 import { Link } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-// Firebase Auth
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app'; // FirebaseError para type checking
 import { auth, usersCollection } from '@/services/firebase'; // Nuestros servicios
@@ -11,6 +9,9 @@ import { useUserStore } from '@/store/userStore';
 import { defaultGoals } from '@/types/goals';
 import { IUserStateData } from '@/types/user';
 import { doc, setDoc } from 'firebase/firestore';
+import InputText from '@/components/ui/InputText';
+import Screen from '@/components/ui/Screen';
+import SubmitButton from '@/components/ui/SubmitButton';
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState('');
@@ -41,7 +42,6 @@ export default function RegisterScreen() {
         email: user.email,
         displayName: user.email?.split('@')[0] || '',
         dailyGoals: defaultGoals,
-        customRecipes: [],
         history: {},
       };
 
@@ -63,46 +63,42 @@ export default function RegisterScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-background p-4">
-      <Text className="mb-8 text-3xl font-bold text-primary">Crear Cuenta</Text>
+    <Screen>
+      <View className="flex-1 items-center justify-center">
+        <Text className="mb-8 text-3xl font-bold text-primary">Crear Cuenta</Text>
 
-      <View className="w-full max-w-xs">
-        <TextInput
-          className="mb-4 h-12 w-full rounded-md border border-alternate bg-background px-4 text-primary"
-          placeholder="Email"
-          placeholderTextColor="#9CA3AF"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <TextInput
-          className="mb-4 h-12 w-full rounded-md border border-alternate bg-background px-4 text-primary"
-          placeholder="Contraseña"
-          placeholderTextColor="#9CA3AF"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        <TextInput
-          className="mb-6 h-12 w-full rounded-md border border-alternate bg-background px-4 text-primary"
-          placeholder="Confirmar Contraseña"
-          placeholderTextColor="#9CA3AF"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-        />
+        <View className="w-full justify-center gap-4 p-4">
+          <InputText
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          <InputText
+            placeholder="Contraseña"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+          <InputText
+            placeholder="Confirmar Contraseña"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+          />
 
-        {loading ? (
-          <ActivityIndicator size="large" color="#FACC15" />
-        ) : (
-          <Button title="Registrarse" onPress={handleRegister} color="#FACC15" />
-        )}
+          {loading ? (
+            <ActivityIndicator size="large" color="#FACC15" />
+          ) : (
+            <SubmitButton label="Registrarse" onPress={handleRegister} />
+          )}
+        </View>
+
+        <Link href="/(auth)/login" replace className="mt-6">
+          <Text className="text-alternate">¿Ya tienes cuenta? Inicia Sesión</Text>
+        </Link>
       </View>
-
-      <Link href="/(auth)/login" replace className="mt-6">
-        <Text className="text-alternate">¿Ya tienes cuenta? Inicia Sesión</Text>
-      </Link>
-    </SafeAreaView>
+    </Screen>
   );
 }

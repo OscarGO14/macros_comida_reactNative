@@ -15,9 +15,7 @@ module.exports = {
         accent: MyColors.ACCENT,
         background: MyColors.BACKGROUND,
         item_background: MyColors.ITEM_BACKGROUND,
-        warning: MyColors.WARNING,
         danger: MyColors.DANGER,
-        success: MyColors.SUCCESS,
       },
       fontSize: {
         xs: ['13px', { lineHeight: '18px' }],
