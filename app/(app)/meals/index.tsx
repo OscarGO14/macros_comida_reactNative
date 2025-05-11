@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import Screen from '@/components/ui/Screen';
-import { FlatList, Text, View, Alert } from 'react-native';
+import { FlatList, Text, View, Alert, Platform } from 'react-native';
 import { router } from 'expo-router';
 import { StatsCard } from '@/components/ui/StatsCard';
 import { useUserStore } from '@/store/userStore';
@@ -20,48 +20,67 @@ export default function MealsScreen() {
       Alert.alert('Error', 'Usuario no encontrado.');
       return;
     }
-
-    Alert.alert(
-      'Confirmar Borrado',
-      '¿Estás seguro de que quieres borrar todas las comidas registradas para hoy? Esta acción no se puede deshacer.',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-        {
-          text: 'Borrar',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const emptyLog = createEmptyDailyLog(); // Crear el log vacío con la fecha actual
-
-              // Actualizar Firestore para restablecer el log del día
-              await updateDoc(doc(db, 'users', user.uid), {
-                [`history.${today}`]: emptyLog,
-              });
-
-              // Actualizar contexto de Zustand
-              const updatedHistory = { ...user.history };
-              updatedHistory[today] = emptyLog;
-
-              updateUserData({
-                ...user,
-                history: updatedHistory,
-              });
-
-              Alert.alert('Éxito', 'Se han borrado las comidas de hoy.');
-            } catch (error) {
-              console.error('Error al borrar las comidas de hoy:', error);
-              Alert.alert(
-                'Error',
-                'No se pudo borrar el registro de hoy. Por favor, intenta de nuevo.',
-              );
-            }
+    if (Platform.OS !== 'web') {
+      Alert.alert(
+        'Confirmar Borrado',
+        '¿Estás seguro de que quieres borrar todas las comidas registradas para hoy? Esta acción no se puede deshacer.',
+        [
+          {
+            text: 'Cancelar',
+            style: 'cancel',
           },
-        },
-      ],
-    );
+          {
+            text: 'Borrar',
+            style: 'destructive',
+            onPress: async () => {
+              try {
+                const emptyLog = createEmptyDailyLog(); // Crear el log vacío con la fecha actual
+
+                // Actualizar Firestore para restablecer el log del día
+                await updateDoc(doc(db, 'users', user.uid), {
+                  [`history.${today}`]: emptyLog,
+                });
+
+                // Actualizar contexto de Zustand
+                const updatedHistory = { ...user.history };
+                updatedHistory[today] = emptyLog;
+
+                updateUserData({
+                  ...user,
+                  history: updatedHistory,
+                });
+
+                Alert.alert('Éxito', 'Se han borrado las comidas de hoy.');
+              } catch (error) {
+                console.error('Error al borrar las comidas de hoy:', error);
+                Alert.alert(
+                  'Error',
+                  'No se pudo borrar el registro de hoy. Por favor, intenta de nuevo.',
+                );
+              }
+            },
+          },
+        ],
+      );
+    } else {
+      const emptyLog = createEmptyDailyLog(); // Crear el log vacío con la fecha actual
+
+      // Actualizar Firestore para restablecer el log del día
+      await updateDoc(doc(db, 'users', user.uid), {
+        [`history.${today}`]: emptyLog,
+      });
+
+      // Actualizar contexto de Zustand
+      const updatedHistory = { ...user.history };
+      updatedHistory[today] = emptyLog;
+
+      updateUserData({
+        ...user,
+        history: updatedHistory,
+      });
+
+      Alert.alert('Éxito', 'Se han borrado las comidas de hoy.');
+    }
   };
 
   const dailyTotalMacros = useMemo(() => {
