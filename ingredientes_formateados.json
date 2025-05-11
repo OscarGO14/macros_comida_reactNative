@@ -1,0 +1,1538 @@
+[
+  {
+    "name": "Salmon Ahumado - Mercadona",
+    "category": "Proteinas",
+    "proteins": 22,
+    "carbs": 0.5,
+    "fats": 1.5,
+    "calories": 103.5
+  },
+  {
+    "name": "Pechuga de Pollo",
+    "category": "Proteinas",
+    "proteins": 21.8,
+    "carbs": 0,
+    "fats": 2.8,
+    "calories": 112.4
+  },
+  {
+    "name": "Lacon Fresco",
+    "category": "Proteinas",
+    "proteins": 21.5,
+    "carbs": 0,
+    "fats": 29.2,
+    "calories": 348.8
+  },
+  {
+    "name": "Solomillo de Cerdo",
+    "category": "Proteinas",
+    "proteins": 21,
+    "carbs": 0,
+    "fats": 5.1,
+    "calories": 129.9
+  },
+  {
+    "name": "Jarrete Ternera Fresco",
+    "category": "Proteinas",
+    "proteins": 21,
+    "carbs": 0,
+    "fats": 17,
+    "calories": 237
+  },
+  {
+    "name": "Filete de Ternera",
+    "category": "Proteinas",
+    "proteins": 20.7,
+    "carbs": 0,
+    "fats": 5.4,
+    "calories": 131.4
+  },
+  {
+    "name": "Gambon Fresco",
+    "category": "Proteinas",
+    "proteins": 20.5,
+    "carbs": 0,
+    "fats": 1.1,
+    "calories": 91.9
+  },
+  {
+    "name": "Lomo de Cerdo",
+    "category": "Proteinas",
+    "proteins": 20.5,
+    "carbs": 0.6,
+    "fats": 3.4,
+    "calories": 115
+  },
+  {
+    "name": "Entrecot / Ribeye - Ternera",
+    "category": "Proteinas",
+    "proteins": 20.2,
+    "carbs": 0,
+    "fats": 3.3,
+    "calories": 110.5
+  },
+  {
+    "name": "Langostino Cocido",
+    "category": "Proteinas",
+    "proteins": 20.1,
+    "carbs": 0,
+    "fats": 1.4,
+    "calories": 93
+  },
+  {
+    "name": "Higado de Ternera",
+    "category": "Proteinas",
+    "proteins": 20,
+    "carbs": 3,
+    "fats": 5,
+    "calories": 137
+  },
+  {
+    "name": "Salmon Fresco",
+    "category": "Proteinas",
+    "proteins": 20,
+    "carbs": 0,
+    "fats": 12,
+    "calories": 188
+  },
+  {
+    "name": "Chicharrones",
+    "category": "Proteinas",
+    "proteins": 25,
+    "carbs": 4,
+    "fats": 17,
+    "calories": 272
+  },
+  {
+    "name": "Pollo General - Entero, Traseros, etc.",
+    "category": "Proteinas",
+    "proteins": 20,
+    "carbs": 0,
+    "fats": 9.7,
+    "calories": 167
+  },
+  {
+    "name": "Gallineta - Cabracho",
+    "category": "Proteinas",
+    "proteins": 19,
+    "carbs": 0,
+    "fats": 1.7,
+    "calories": 91
+  },
+  {
+    "name": "Rape",
+    "category": "Proteinas",
+    "proteins": 18.7,
+    "carbs": 0,
+    "fats": 0.3,
+    "calories": 78
+  },
+  {
+    "name": "Carne Picada Ternera 100%",
+    "category": "Proteinas",
+    "proteins": 18.6,
+    "carbs": 0,
+    "fats": 13,
+    "calories": 191.4
+  },
+  {
+    "name": "Secreto de Cerdo Iberico",
+    "category": "Proteinas",
+    "proteins": 18.2,
+    "carbs": 0.5,
+    "fats": 20.5,
+    "calories": 259.3
+  },
+  {
+    "name": "Lubina",
+    "category": "Proteinas",
+    "proteins": 18,
+    "carbs": 1.3,
+    "fats": 2,
+    "calories": 95.2
+  },
+  {
+    "name": "Chorizo Entero",
+    "category": "Proteinas",
+    "proteins": 18,
+    "carbs": 0.5,
+    "fats": 38,
+    "calories": 416
+  },
+  {
+    "name": "Bacalao (fresco - desalado)",
+    "category": "Proteinas",
+    "proteins": 17.7,
+    "carbs": 0,
+    "fats": 0.4,
+    "calories": 74.4
+  },
+  {
+    "name": "Raya",
+    "category": "Proteinas",
+    "proteins": 17.1,
+    "carbs": 0,
+    "fats": 0.9,
+    "calories": 76.5
+  },
+  {
+    "name": "Pechuga Pavo Fiambre",
+    "category": "Proteinas",
+    "proteins": 17,
+    "carbs": 0.5,
+    "fats": 0.5,
+    "calories": 74
+  },
+  {
+    "name": "Codillo Asado - Hacendado",
+    "category": "Protenias",
+    "proteins": 17,
+    "carbs": 3,
+    "fats": 13,
+    "calories": 199
+  },
+  {
+    "name": "Atun Claro Aceite Oliva - Carrefour",
+    "category": "Proteinas",
+    "proteins": 17,
+    "carbs": 0,
+    "fats": 25,
+    "calories": 293
+  },
+  {
+    "name": "Atun Claro Natural - Carrefour",
+    "category": "Proteinas",
+    "proteins": 26,
+    "carbs": 0,
+    "fats": 2,
+    "calories": 122
+  },
+  {
+    "name": "Pez Espada",
+    "category": "Proteinas",
+    "proteins": 17,
+    "carbs": 0,
+    "fats": 4.3,
+    "calories": 106.7
+  },
+  {
+    "name": "Calamares",
+    "category": "Proteinas",
+    "proteins": 17,
+    "carbs": 0,
+    "fats": 1.3,
+    "calories": 79.7
+  },
+  {
+    "name": "Carne Picada Mezcla ¿%?",
+    "category": "Proteinas",
+    "proteins": 15,
+    "carbs": 2,
+    "fats": 13,
+    "calories": 185
+  },
+  {
+    "name": "Hamburguesa Angus - Carrefour",
+    "category": "Proteinas",
+    "proteins": 15,
+    "carbs": 0,
+    "fats": 15,
+    "calories": 195
+  },
+  {
+    "name": "Huevo",
+    "category": "Proteinas",
+    "proteins": 12.7,
+    "carbs": 0.68,
+    "fats": 9.7,
+    "calories": 140.82
+  },
+  {
+    "name": "Clara de Huevo - Carrefour",
+    "category": "Proteinas",
+    "proteins": 10.6,
+    "carbs": 1,
+    "fats": 0.3,
+    "calories": 49.1
+  },
+  {
+    "name": "Mejillones Frescos",
+    "category": "Proteinas",
+    "proteins": 10.8,
+    "carbs": 0,
+    "fats": 1.9,
+    "calories": 60
+  },
+  {
+    "name": "Pulpo Fresco",
+    "category": "Proteinas",
+    "proteins": 10.6,
+    "carbs": 0,
+    "fats": 1,
+    "calories": 51.4
+  },
+  {
+    "name": "Polbacos Meal Replacement",
+    "category": "Proteinas",
+    "proteins": 34,
+    "carbs": 38,
+    "fats": 6.6,
+    "calories": 347.4
+  },
+  {
+    "name": "Proteína de Whey - PBN - Chocolate",
+    "category": "Proteinas",
+    "proteins": 76.8,
+    "carbs": 7.5,
+    "fats": 6,
+    "calories": 394
+  },
+  {
+    "name": "Proteína de Whey - PBN - Banana",
+    "category": "Proteinas",
+    "proteins": 78.6,
+    "carbs": 7.1,
+    "fats": 5.8,
+    "calories": 397
+  },
+  {
+    "name": "Jamon Serrano",
+    "category": "Fiambres",
+    "proteins": 31,
+    "carbs": 0,
+    "fats": 13,
+    "calories": 241
+  },
+  {
+    "name": "Queso Curado",
+    "category": "Lacteos",
+    "proteins": 32,
+    "carbs": 1,
+    "fats": 32,
+    "calories": 420
+  },
+  {
+    "name": "Queso Fresco - Carrefour",
+    "category": "Lacteos",
+    "proteins": 11,
+    "carbs": 3.6,
+    "fats": 12,
+    "calories": 166
+  },
+  {
+    "name": "Queso Untar Light - Carrefour",
+    "category": "Lacteos",
+    "proteins": 6.9,
+    "carbs": 3,
+    "fats": 11,
+    "calories": 138.6
+  },
+  {
+    "name": "Cottage Cheese - Arla",
+    "category": "Lacteos",
+    "proteins": 15,
+    "carbs": 2.2,
+    "fats": 1.5,
+    "calories": 82.3
+  },
+  {
+    "name": "Gouda Light - Carrefour",
+    "category": "Lacteos",
+    "proteins": 27,
+    "carbs": 0,
+    "fats": 16,
+    "calories": 253
+  },
+  {
+    "name": "Mozarella - Carrefour",
+    "category": "Lacteos",
+    "proteins": 17,
+    "carbs": 1.3,
+    "fats": 18,
+    "calories": 235.2
+  },
+  {
+    "name": "Mozarella Light - Mercadona",
+    "category": "Lacteos",
+    "proteins": 17,
+    "carbs": 1,
+    "fats": 9,
+    "calories": 153
+  },
+  {
+    "name": "Burrata - Carrefour",
+    "category": "Lacteos",
+    "proteins": 12.1,
+    "carbs": 2.1,
+    "fats": 22,
+    "calories": 255
+  },
+  {
+    "name": "Queso Azul - Carrefour",
+    "category": "Lacteos",
+    "proteins": 18,
+    "carbs": 18,
+    "fats": 27,
+    "calories": 322
+  },
+  {
+    "name": "Queso Azul - Bleu de France",
+    "category": "Lacteos",
+    "proteins": 21,
+    "carbs": 1.5,
+    "fats": 28,
+    "calories": 342
+  },
+  {
+    "name": "Leche Desnatada - Larsa",
+    "category": "Lacteos",
+    "proteins": 3.2,
+    "carbs": 4.7,
+    "fats": 0.25,
+    "calories": 34
+  },
+  {
+    "name": "Leche Semi - Larsa",
+    "category": "Lacteos",
+    "proteins": 3.15,
+    "carbs": 4.65,
+    "fats": 1.55,
+    "calories": 45
+  },
+  {
+    "name": "Leche Evaporada - Ideal",
+    "category": "Lacteos",
+    "proteins": 7.4,
+    "carbs": 11,
+    "fats": 4,
+    "calories": 109.6
+  },
+  {
+    "name": "Salsa Bechamel - Carrefour",
+    "category": "Lacteos",
+    "proteins": 2.9,
+    "carbs": 8.3,
+    "fats": 6.2,
+    "calories": 101
+  },
+  {
+    "name": "Nata Liquida Para Montar - Carrefour",
+    "category": "Lacteos",
+    "proteins": 2.2,
+    "carbs": 3,
+    "fats": 35,
+    "calories": 336
+  },
+  {
+    "name": "Nata Liquida Para Cocinar - Carrefour",
+    "category": "Lacteos",
+    "proteins": 2.5,
+    "carbs": 5.5,
+    "fats": 18,
+    "calories": 194
+  },
+  {
+    "name": "Mantequilla - Bocage",
+    "category": "Lacteos",
+    "proteins": 1,
+    "carbs": 1.5,
+    "fats": 61,
+    "calories": 559
+  },
+  {
+    "name": "Mayonesa Normal - Ybarra",
+    "category": "Condimentos",
+    "proteins": 0.8,
+    "carbs": 3.3,
+    "fats": 66,
+    "calories": 616
+  },
+  {
+    "name": "Mayonesa Ligera - Ybarra",
+    "category": "Condimentos",
+    "proteins": 1,
+    "carbs": 9,
+    "fats": 25,
+    "calories": 267
+  },
+  {
+    "name": "Mayonesa Ligeresa",
+    "category": "Condimentos",
+    "proteins": 0.5,
+    "carbs": 7.4,
+    "fats": 16,
+    "calories": 177
+  },
+  {
+    "name": "Aceite Oliva (el que tengo)",
+    "category": "Condimentos",
+    "proteins": 0,
+    "carbs": 0,
+    "fats": 100,
+    "calories": 900
+  },
+  {
+    "name": "Aceite de Girasol",
+    "category": "Condimentos",
+    "proteins": 0,
+    "carbs": 0,
+    "fats": 100,
+    "calories": 900
+  },
+  {
+    "name": "Azucar Moreno Caña",
+    "category": "Condimentos",
+    "proteins": 0,
+    "carbs": 99,
+    "fats": 0,
+    "calories": 396
+  },
+  {
+    "name": "Azucar Panela - Carrefour",
+    "category": "Condimentos",
+    "proteins": 0.8,
+    "carbs": 95,
+    "fats": 0.6,
+    "calories": 389
+  },
+  {
+    "name": "Eritritol",
+    "category": "Condimentos",
+    "proteins": 0,
+    "carbs": 99,
+    "fats": 0,
+    "calories": 0
+  },
+  {
+    "name": "Sobre Royal",
+    "category": "Condimentos",
+    "proteins": 5.2,
+    "carbs": 37.8,
+    "fats": 0,
+    "calories": 172
+  },
+  {
+    "name": "Sirope de Agave",
+    "category": "Condimentos",
+    "proteins": 0,
+    "carbs": 69,
+    "fats": 0,
+    "calories": 276
+  },
+  {
+    "name": "Miel",
+    "category": "Condimentos",
+    "proteins": 0.5,
+    "carbs": 78,
+    "fats": 0,
+    "calories": 314
+  },
+  {
+    "name": "Mermelada 0% Melocoton - Carrefour",
+    "category": "Condimentos",
+    "proteins": 0,
+    "carbs": 13,
+    "fats": 0,
+    "calories": 49
+  },
+  {
+    "name": "Crema Cacahuete Crunchy - Eliges",
+    "category": "Condimentos",
+    "proteins": 27,
+    "carbs": 14,
+    "fats": 50,
+    "calories": 624
+  },
+  {
+    "name": "Papel de Arroz - Summer Rolls",
+    "category": "Condimentos",
+    "proteins": 0,
+    "carbs": 59,
+    "fats": 0,
+    "calories": 236
+  },
+  {
+    "name": "Cebolla",
+    "category": "Verduras",
+    "proteins": 1.4,
+    "carbs": 3.5,
+    "fats": 0.2,
+    "calories": 21.4
+  },
+  {
+    "name": "Puerro",
+    "category": "Verduras",
+    "proteins": 2,
+    "carbs": 7.5,
+    "fats": 0.4,
+    "calories": 41.6
+  },
+  {
+    "name": "Ajo",
+    "category": "Verduras",
+    "proteins": 5.3,
+    "carbs": 23,
+    "fats": 0.1,
+    "calories": 114.1
+  },
+  {
+    "name": "Tomate Natural",
+    "category": "Verduras",
+    "proteins": 1,
+    "carbs": 3.5,
+    "fats": 0.1,
+    "calories": 18.9
+  },
+  {
+    "name": "Tomate Triturado Lata",
+    "category": "Verduras",
+    "proteins": 0.9,
+    "carbs": 3.3,
+    "fats": 0.5,
+    "calories": 21.3
+  },
+  {
+    "name": "Tomate Frito - Solis",
+    "category": "Verduras",
+    "proteins": 1.2,
+    "carbs": 8.7,
+    "fats": 3.1,
+    "calories": 67.5
+  },
+  {
+    "name": "Tomate Frito - Eliges",
+    "category": "Verduras",
+    "proteins": 1.3,
+    "carbs": 8.2,
+    "fats": 3.1,
+    "calories": 68
+  },
+  {
+    "name": "Lechuga",
+    "category": "Verduras",
+    "proteins": 1.5,
+    "carbs": 1.4,
+    "fats": 0.3,
+    "calories": 14.3
+  },
+  {
+    "name": "Esparragos Verdes",
+    "category": "Verduras",
+    "proteins": 2.7,
+    "carbs": 1.1,
+    "fats": 0,
+    "calories": 18
+  },
+  {
+    "name": "Esparragos Blancos Conserva",
+    "category": "Verduras",
+    "proteins": 1.1,
+    "carbs": 1.8,
+    "fats": 0.5,
+    "calories": 16.1
+  },
+  {
+    "name": "Patata",
+    "category": "Verduras",
+    "proteins": 1.7,
+    "carbs": 15.7,
+    "fats": 0.1,
+    "calories": 70.5
+  },
+  {
+    "name": "Patata Frita en casa",
+    "category": "Verduras",
+    "proteins": 3.5,
+    "carbs": 35.65,
+    "fats": 15,
+    "calories": 291.6
+  },
+  {
+    "name": "Remolacha - Cocida y pelada",
+    "category": "Verduras",
+    "proteins": 1.5,
+    "carbs": 8.5,
+    "fats": 0,
+    "calories": 40
+  },
+  {
+    "name": "Repollo",
+    "category": "Verduras",
+    "proteins": 1.7,
+    "carbs": 4.5,
+    "fats": 0.5,
+    "calories": 29.3
+  },
+  {
+    "name": "Brocoli",
+    "category": "Verduras",
+    "proteins": 4.4,
+    "carbs": 1.8,
+    "fats": 0.9,
+    "calories": 32.9
+  },
+  {
+    "name": "Berza / Kale - Fresca",
+    "category": "Verduras",
+    "proteins": 3.3,
+    "carbs": 3.4,
+    "fats": 0.3,
+    "calories": 29.5
+  },
+  {
+    "name": "Judía Bobby",
+    "category": "Verduras",
+    "proteins": 2.3,
+    "carbs": 5,
+    "fats": 0.2,
+    "calories": 31
+  },
+  {
+    "name": "Judías Verdes",
+    "category": "Verduras",
+    "proteins": 2.3,
+    "carbs": 5,
+    "fats": 0.2,
+    "calories": 31
+  },
+  {
+    "name": "Zanahorias",
+    "category": "Verduras",
+    "proteins": 0.9,
+    "carbs": 7.3,
+    "fats": 0.2,
+    "calories": 34.6
+  },
+  {
+    "name": "Maiz Dulce Ensaladas",
+    "category": "Verduras",
+    "proteins": 2.3,
+    "carbs": 8.6,
+    "fats": 2.1,
+    "calories": 62.5
+  },
+  {
+    "name": "Calabaza (butternut squash)",
+    "category": "Verduras",
+    "proteins": 0.7,
+    "carbs": 2.2,
+    "fats": 0.2,
+    "calories": 13.4
+  },
+  {
+    "name": "Batata (Boniato)",
+    "category": "Verduras",
+    "proteins": 1.2,
+    "carbs": 21.5,
+    "fats": 0.6,
+    "calories": 96.2
+  },
+  {
+    "name": "Coliflor",
+    "category": "Verduras",
+    "proteins": 2.2,
+    "carbs": 3.1,
+    "fats": 0.2,
+    "calories": 23
+  },
+  {
+    "name": "Espinacas - Frescas",
+    "category": "Verduras",
+    "proteins": 2.9,
+    "carbs": 1.4,
+    "fats": 0.5,
+    "calories": 21.7
+  },
+  {
+    "name": "Champiñones - Frescos",
+    "category": "Verduras",
+    "proteins": 1.8,
+    "carbs": 4,
+    "fats": 0.3,
+    "calories": 25.9
+  },
+  {
+    "name": "Calabacin",
+    "category": "Verduras",
+    "proteins": 0.6,
+    "carbs": 2.2,
+    "fats": 0.2,
+    "calories": 13
+  },
+  {
+    "name": "Coles de Bruselas - Frescas",
+    "category": "Verduras",
+    "proteins": 2.3,
+    "carbs": 5.2,
+    "fats": 0.7,
+    "calories": 36.3
+  },
+  {
+    "name": "Coles de Bruselas Cong - Carrefour",
+    "category": "Verduras",
+    "proteins": 3.5,
+    "carbs": 2.5,
+    "fats": 1.3,
+    "calories": 35.7
+  },
+  {
+    "name": "Setas en General - Frescas",
+    "category": "Verduras",
+    "proteins": 1.8,
+    "carbs": 4,
+    "fats": 0.3,
+    "calories": 25.9
+  },
+  {
+    "name": "Grelos",
+    "category": "Verduras",
+    "proteins": 2.7,
+    "carbs": 0.1,
+    "fats": 0,
+    "calories": 19
+  },
+  {
+    "name": "Pepinillos - Carrefour",
+    "category": "Verduras",
+    "proteins": 0.7,
+    "carbs": 8.5,
+    "fats": 0.5,
+    "calories": 41
+  },
+  {
+    "name": "Judias Congeladas",
+    "category": "Legumbres",
+    "proteins": 1.6,
+    "carbs": 3.9,
+    "fats": 0,
+    "calories": 28
+  },
+  {
+    "name": "Guisantes Congelados",
+    "category": "Legumbres",
+    "proteins": 6.1,
+    "carbs": 9.1,
+    "fats": 1.7,
+    "calories": 92
+  },
+  {
+    "name": "Alubias / Habas Bote - Luengo",
+    "category": "Legumbres",
+    "proteins": 5.3,
+    "carbs": 12,
+    "fats": 0,
+    "calories": 81
+  },
+  {
+    "name": "Garbanzos",
+    "category": "Legumbres",
+    "proteins": 19.4,
+    "carbs": 55,
+    "fats": 5,
+    "calories": 342.6
+  },
+  {
+    "name": "Garbanzos Cocidos Tarro - Super",
+    "category": "Legumbres",
+    "proteins": 5.4,
+    "carbs": 12,
+    "fats": 2,
+    "calories": 95
+  },
+  {
+    "name": "Lentejas",
+    "category": "Legumbres",
+    "proteins": 24,
+    "carbs": 36,
+    "fats": 1.9,
+    "calories": 306
+  },
+  {
+    "name": "Pasta de Lentejas Rojas - Gallo",
+    "category": "Legumbres",
+    "proteins": 26,
+    "carbs": 49,
+    "fats": 2.5,
+    "calories": 322.5
+  },
+  {
+    "name": "Arroz Integral - Carrefour",
+    "category": "Cereales",
+    "proteins": 7.8,
+    "carbs": 70,
+    "fats": 2.5,
+    "calories": 343
+  },
+  {
+    "name": "Arroz Bomba - SOS",
+    "category": "Cereales",
+    "proteins": 7.3,
+    "carbs": 77,
+    "fats": 1.3,
+    "calories": 348.9
+  },
+  {
+    "name": "Avena Integral - Carrefour",
+    "category": "Cereales",
+    "proteins": 14,
+    "carbs": 59,
+    "fats": 7,
+    "calories": 355
+  },
+  {
+    "name": "Couscus",
+    "category": "Cereales",
+    "proteins": 13,
+    "carbs": 69,
+    "fats": 1.8,
+    "calories": 344.2
+  },
+  {
+    "name": "Harina Trigo",
+    "category": "Cereales",
+    "proteins": 10,
+    "carbs": 72,
+    "fats": 0.5,
+    "calories": 336
+  },
+  {
+    "name": "Harina Trigo Integral",
+    "category": "Cereales",
+    "proteins": 12,
+    "carbs": 62,
+    "fats": 1.8,
+    "calories": 312.2
+  },
+  {
+    "name": "Harina - especial Pizza",
+    "category": "Cereales",
+    "proteins": 12,
+    "carbs": 73,
+    "fats": 1.1,
+    "calories": 349.9
+  },
+  {
+    "name": "Harina - especial Bizcochos",
+    "category": "Cereales",
+    "proteins": 9,
+    "carbs": 71,
+    "fats": 1,
+    "calories": 329
+  },
+  {
+    "name": "Picos Pan Integral - Eliges",
+    "category": "Cereales",
+    "proteins": 10,
+    "carbs": 60,
+    "fats": 1.3,
+    "calories": 312
+  },
+  {
+    "name": "Biscotes Pan - Carrefour",
+    "category": "Cereales",
+    "proteins": 13,
+    "carbs": 68,
+    "fats": 4.5,
+    "calories": 364.5
+  },
+  {
+    "name": "Biscotes Pan Integral - Carrefour",
+    "category": "Cereales",
+    "proteins": 15,
+    "carbs": 63,
+    "fats": 0.9,
+    "calories": 320.1
+  },
+  {
+    "name": "Pan Brioche Burger - Dulcesol",
+    "category": "Cereales",
+    "proteins": 10,
+    "carbs": 46,
+    "fats": 4.2,
+    "calories": 266
+  },
+  {
+    "name": "Barra Pan Panadería",
+    "category": "Cereales",
+    "proteins": 9.3,
+    "carbs": 54.3,
+    "fats": 1,
+    "calories": 269
+  },
+  {
+    "name": "Pan Molde Integral - Carrefour",
+    "category": "Cereales",
+    "proteins": 12,
+    "carbs": 44,
+    "fats": 3.3,
+    "calories": 262
+  },
+  {
+    "name": "Tortilla Maiz peq. - Carrefour",
+    "category": "Cereales",
+    "proteins": 5.3,
+    "carbs": 43,
+    "fats": 2.2,
+    "calories": 226
+  },
+  {
+    "name": "Cheerios de Avena",
+    "category": "Cereales",
+    "proteins": 10.4,
+    "carbs": 65.7,
+    "fats": 6.3,
+    "calories": 381
+  },
+  {
+    "name": "Vermicelli Noodles - WaiWai",
+    "category": "Cereales",
+    "proteins": 7.5,
+    "carbs": 85.2,
+    "fats": 0.93,
+    "calories": 379
+  },
+  {
+    "name": "Pasta sopa Estrellitas - Eliges",
+    "category": "Pasta",
+    "proteins": 12,
+    "carbs": 68,
+    "fats": 2,
+    "calories": 338
+  },
+  {
+    "name": "Espaghetti",
+    "category": "Pasta",
+    "proteins": 12,
+    "carbs": 68,
+    "fats": 2,
+    "calories": 338
+  },
+  {
+    "name": "Placas Lasaña - El Pavo",
+    "category": "Pasta",
+    "proteins": 12,
+    "carbs": 73,
+    "fats": 1.4,
+    "calories": 360
+  },
+  {
+    "name": "Vino Blanco - Generico Cocinar",
+    "category": "Bebidas",
+    "proteins": 0.07,
+    "carbs": 2.58,
+    "fats": 0,
+    "calories": 83
+  },
+  {
+    "name": "Leche de Almendra",
+    "category": "Bebidas",
+    "proteins": 0.9,
+    "carbs": 0.4,
+    "fats": 2.1,
+    "calories": 24.1
+  },
+  {
+    "name": "Cola-Cao",
+    "category": "Desayuno",
+    "proteins": 12,
+    "carbs": 44,
+    "fats": 5.8,
+    "calories": 276.2
+  },
+  {
+    "name": "Aceitunas con Anchoas",
+    "category": "Snacks",
+    "proteins": 1.3,
+    "carbs": 0,
+    "fats": 15,
+    "calories": 140.2
+  },
+  {
+    "name": "Aceitunas Sin Hueso - Carrefour",
+    "category": "Snacks",
+    "proteins": 1,
+    "carbs": 0,
+    "fats": 18,
+    "calories": 166
+  },
+  {
+    "name": "Pistacho Tostado - Carrefour",
+    "category": "Snacks",
+    "proteins": 21.1,
+    "carbs": 27.6,
+    "fats": 45.8,
+    "calories": 607
+  },
+  {
+    "name": "Cacahuete Tostado - Eliges",
+    "category": "Snacks",
+    "proteins": 25,
+    "carbs": 7.9,
+    "fats": 51,
+    "calories": 590.6
+  },
+  {
+    "name": "Nueces Frescas",
+    "category": "Snacks",
+    "proteins": 17,
+    "carbs": 2.1,
+    "fats": 68,
+    "calories": 688.4
+  },
+  {
+    "name": "Almendra tostada casa",
+    "category": "Snacks",
+    "proteins": 21.2,
+    "carbs": 17.7,
+    "fats": 55.2,
+    "calories": 652.4
+  },
+  {
+    "name": "Frutos Secos Variados - Media",
+    "category": "Snacks",
+    "proteins": 21.08,
+    "carbs": 13.83,
+    "fats": 55,
+    "calories": 634.6
+  },
+  {
+    "name": "Muesli crujiente sin azúcar añadido - Carrefour",
+    "category": "Snacks",
+    "proteins": 7.5,
+    "carbs": 67,
+    "fats": 15,
+    "calories": 433
+  },
+  {
+    "name": "Castañas",
+    "category": "Snacks",
+    "proteins": 3,
+    "carbs": 40,
+    "fats": 2.6,
+    "calories": 195.4
+  },
+  {
+    "name": "Frutos Secos Cocktail - Carrefour",
+    "category": "Snacks",
+    "proteins": 19,
+    "carbs": 27,
+    "fats": 40,
+    "calories": 544
+  },
+  {
+    "name": "Algas Asiaticas",
+    "category": "Snacks",
+    "proteins": 30.4,
+    "carbs": 47.6,
+    "fats": 0,
+    "calories": 316
+  },
+  {
+    "name": "Arandanos c/ chocolate negro - Aquí",
+    "category": "Snacks",
+    "proteins": 3.15,
+    "carbs": 66.1,
+    "fats": 17.7,
+    "calories": 450
+  },
+  {
+    "name": "Cacahuetes c/ chocolate negro - Aquí",
+    "category": "Snacks",
+    "proteins": 13.3,
+    "carbs": 44.2,
+    "fats": 33.1,
+    "calories": 540
+  },
+  {
+    "name": "Pipas - Eliges",
+    "category": "Snacks",
+    "proteins": 31,
+    "carbs": 9.8,
+    "fats": 42,
+    "calories": 565
+  },
+  {
+    "name": "Donuts - Dots - Aquí",
+    "category": "Snacks",
+    "proteins": 6.7,
+    "carbs": 40,
+    "fats": 21,
+    "calories": 381
+  },
+  {
+    "name": "Galleta Hojaldrada - Cuétara",
+    "category": "Postres",
+    "proteins": 7,
+    "carbs": 77,
+    "fats": 8,
+    "calories": 412
+  },
+  {
+    "name": "Flanin el Niño - Maizena",
+    "category": "Postres",
+    "proteins": 2.8,
+    "carbs": 22,
+    "fats": 1.3,
+    "calories": 112
+  },
+  {
+    "name": "Mochis",
+    "category": "Postres",
+    "proteins": 1.5,
+    "carbs": 71.9,
+    "fats": 6.1,
+    "calories": 349
+  },
+  {
+    "name": "Pasas sultanas - Eliges",
+    "category": "Postres",
+    "proteins": 3.1,
+    "carbs": 69,
+    "fats": 0.5,
+    "calories": 292.9
+  },
+  {
+    "name": "Yogur Bifidus Natural 0% - Carrefour",
+    "category": "Postres",
+    "proteins": 3.9,
+    "carbs": 4.9,
+    "fats": 0.5,
+    "calories": 39.7
+  },
+  {
+    "name": "Yogur Cremoso Natural 0% - Carrefour",
+    "category": "Postres",
+    "proteins": 5.1,
+    "carbs": 5.8,
+    "fats": 0.5,
+    "calories": 45
+  },
+  {
+    "name": "Yogur gelatina 0% - Carrefour",
+    "category": "Postres",
+    "proteins": 0,
+    "carbs": 0,
+    "fats": 0,
+    "calories": 0
+  },
+  {
+    "name": "Chocolate 85% Sin Azucar - Eliges",
+    "category": "Postres",
+    "proteins": 10,
+    "carbs": 19,
+    "fats": 48,
+    "calories": 548
+  },
+  {
+    "name": "Chocolate 85% - Eliges",
+    "category": "Postres",
+    "proteins": 10,
+    "carbs": 24,
+    "fats": 45,
+    "calories": 541
+  },
+  {
+    "name": "Chocolate 80% - Carrefour",
+    "category": "Postres",
+    "proteins": 9.5,
+    "carbs": 26,
+    "fats": 51,
+    "calories": 622
+  },
+  {
+    "name": "Chocolate Puro 100%",
+    "category": "Postres",
+    "proteins": 12,
+    "carbs": 7,
+    "fats": 54,
+    "calories": 552
+  },
+  {
+    "name": "Chocolate Negro Fondente - Carrefour",
+    "category": "Postres",
+    "proteins": 7,
+    "carbs": 51,
+    "fats": 30,
+    "calories": 524
+  },
+  {
+    "name": "Gotas de Chocolate Negro - Carrefour",
+    "category": "Postres",
+    "proteins": 5.8,
+    "carbs": 54,
+    "fats": 26.5,
+    "calories": 497
+  },
+  {
+    "name": "Nutella",
+    "category": "Postres",
+    "proteins": 6.3,
+    "carbs": 57.5,
+    "fats": 30.9,
+    "calories": 539
+  },
+  {
+    "name": "Nata Montada Azucarada",
+    "category": "Postres",
+    "proteins": 2.5,
+    "carbs": 17,
+    "fats": 24,
+    "calories": 294
+  },
+  {
+    "name": "Lemon Curd Madre",
+    "category": "Postres",
+    "proteins": 0,
+    "carbs": 66,
+    "fats": 0,
+    "calories": 270
+  },
+  {
+    "name": "Membrillo",
+    "category": "Postres",
+    "proteins": 0.5,
+    "carbs": 67,
+    "fats": 0.5,
+    "calories": 270
+  },
+  {
+    "name": "Tarta Red Velvet",
+    "category": "Postres",
+    "proteins": 4.4,
+    "carbs": 44,
+    "fats": 21,
+    "calories": 388
+  },
+  {
+    "name": "Carrot Cake - Carrefour",
+    "category": "Postres",
+    "proteins": 5.3,
+    "carbs": 44,
+    "fats": 12,
+    "calories": 303
+  },
+  {
+    "name": "Aguacate",
+    "category": "Frutas",
+    "proteins": 1.5,
+    "carbs": 5.9,
+    "fats": 12,
+    "calories": 141
+  },
+  {
+    "name": "Manzana",
+    "category": "Frutas",
+    "proteins": 0.3,
+    "carbs": 12,
+    "fats": 0,
+    "calories": 49.2
+  },
+  {
+    "name": "Platano",
+    "category": "Frutas",
+    "proteins": 1.2,
+    "carbs": 20,
+    "fats": 0.3,
+    "calories": 94
+  },
+  {
+    "name": "Mandarina",
+    "category": "Frutas",
+    "proteins": 0.08,
+    "carbs": 9,
+    "fats": 0,
+    "calories": 36.32
+  },
+  {
+    "name": "Pera",
+    "category": "Frutas",
+    "proteins": 0.4,
+    "carbs": 10.6,
+    "fats": 0,
+    "calories": 44
+  },
+  {
+    "name": "Melocotón",
+    "category": "Frutas",
+    "proteins": 0.6,
+    "carbs": 9,
+    "fats": 0,
+    "calories": 38.4
+  },
+  {
+    "name": "Uvas",
+    "category": "Frutas",
+    "proteins": 0.6,
+    "carbs": 16.1,
+    "fats": 0,
+    "calories": 66.8
+  },
+  {
+    "name": "Fresas",
+    "category": "Frutas",
+    "proteins": 0.7,
+    "carbs": 7,
+    "fats": 0.5,
+    "calories": 35.3
+  },
+  {
+    "name": "Kiwi",
+    "category": "Frutas",
+    "proteins": 1.1,
+    "carbs": 10.6,
+    "fats": 0.5,
+    "calories": 51.3
+  },
+  {
+    "name": "Limon",
+    "category": "Frutas",
+    "proteins": 0.7,
+    "carbs": 9,
+    "fats": 0.4,
+    "calories": 44
+  },
+  {
+    "name": "Caqui",
+    "category": "Frutas",
+    "proteins": 0.7,
+    "carbs": 16,
+    "fats": 0.3,
+    "calories": 73
+  },
+  {
+    "name": "Chirimoya",
+    "category": "Frutas",
+    "proteins": 1,
+    "carbs": 20,
+    "fats": 0.2,
+    "calories": 90
+  },
+  {
+    "name": "Mango",
+    "category": "Frutas",
+    "proteins": 0.7,
+    "carbs": 14.1,
+    "fats": 0.2,
+    "calories": 67
+  },
+  {
+    "name": "Fruta Variada - Media",
+    "category": "Frutas",
+    "proteins": 0.67,
+    "carbs": 12.78,
+    "fats": 0.2,
+    "calories": 57.44
+  },
+  {
+    "name": "Caldo de Pollo - Carrefour",
+    "category": "Super",
+    "proteins": 0,
+    "carbs": 0.6,
+    "fats": 0,
+    "calories": 5
+  },
+  {
+    "name": "Caldo Gallego Super - Equivalencia",
+    "category": "Super",
+    "proteins": 1.9,
+    "carbs": 4.5,
+    "fats": 1.4,
+    "calories": 38.2
+  },
+  {
+    "name": "Tortilla Mercadona",
+    "category": "Super",
+    "proteins": 5.7,
+    "carbs": 17,
+    "fats": 11,
+    "calories": 193
+  },
+  {
+    "name": "Sushi Variado Super",
+    "category": "Super",
+    "proteins": 4.3,
+    "carbs": 29.9,
+    "fats": 0.42,
+    "calories": 143
+  },
+  {
+    "name": "Fingers de Mozarella",
+    "category": "Super",
+    "proteins": 13,
+    "carbs": 26,
+    "fats": 17,
+    "calories": 311
+  },
+  {
+    "name": "Sushi Pieza - Nigiri Salmon",
+    "category": "Sushi",
+    "proteins": 1.85,
+    "carbs": 9,
+    "fats": 0.36,
+    "calories": 48
+  },
+  {
+    "name": "Sushi Pieza - California Roll",
+    "category": "Sushi",
+    "proteins": 1.38,
+    "carbs": 6.31,
+    "fats": 0.12,
+    "calories": 33
+  },
+  {
+    "name": "Sushi Pieza - Philadelphia Roll",
+    "category": "Sushi",
+    "proteins": 1.09,
+    "carbs": 5.9,
+    "fats": 1.31,
+    "calories": 41
+  },
+  {
+    "name": "Sushi Pieza - Maki Salmon",
+    "category": "Sushi",
+    "proteins": 1.12,
+    "carbs": 4.92,
+    "fats": 0.23,
+    "calories": 28
+  },
+  {
+    "name": "Sushi Pieza - Sashimi Salmon",
+    "category": "Sushi",
+    "proteins": 6.13,
+    "carbs": 0,
+    "fats": 1.68,
+    "calories": 41
+  },
+  {
+    "name": "Sushi - Wakame 100grs.",
+    "category": "Sushi",
+    "proteins": 3,
+    "carbs": 8.7,
+    "fats": 0.6,
+    "calories": 53.5
+  },
+  {
+    "name": "Madre - Carrilleras Guisadas",
+    "category": "Madre",
+    "proteins": 18,
+    "carbs": 1.8,
+    "fats": 20,
+    "calories": 258
+  },
+  {
+    "name": "Madre - Vieiras preparadas",
+    "category": "Madre",
+    "proteins": 9.8,
+    "carbs": 8.6,
+    "fats": 4.3,
+    "calories": 117
+  },
+  {
+    "name": "Madre - Potaje habas",
+    "category": "Madre",
+    "proteins": 3.5,
+    "carbs": 8,
+    "fats": 3.8,
+    "calories": 84
+  }
+]
