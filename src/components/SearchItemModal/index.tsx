@@ -18,6 +18,7 @@ import InputText from '../ui/InputText';
 import { ItemType } from '../ui/Item/types';
 import Item from '../ui/Item';
 import { MyColors } from '@/types/colors';
+import ActionButton from '../ui/ActionButton';
 
 const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: SearchItemModalProps) => {
   const shouldFetchIngredients = itemTypes.includes('ingredient');
@@ -157,12 +158,12 @@ const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: Search
           )}
 
           <View className="flex-row justify-around mt-4">
-            <Button title="Cancelar" onPress={onClose} color={MyColors.SECONDARY} />
-            <Button
-              title="Confirmar"
+            <ActionButton label="Cancelar" onPress={onClose} color="secondary" />
+            <ActionButton
+              label="Confirmar"
               onPress={handleConfirm}
               disabled={!selectedItem || loading}
-              color={MyColors.ACCENT}
+              color="accent"
             />
           </View>
         </View>

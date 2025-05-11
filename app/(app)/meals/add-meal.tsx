@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { View, Text, FlatList, Alert, Button } from 'react-native';
+import React, { useState, useMemo, useCallback } from 'react';
+import { View, Text, FlatList, Alert } from 'react-native';
 import { useUserStore } from '@/store/userStore';
 import { useRouter } from 'expo-router';
 import Screen from '@/components/ui/Screen';
@@ -44,7 +44,7 @@ export default function AddMealScreen() {
     };
   }, [currentMealItems]);
 
-  const handleSelectItem = (item: SearchableItem, quantity: number) => {
+  const handleSelectItem = useCallback((item: SearchableItem, quantity: number) => {
     let newItem: ConsumedItem;
 
     if ('calories' in item) {
@@ -94,27 +94,9 @@ export default function AddMealScreen() {
 
     setCurrentMealItems((prevItems) => [...prevItems, newItem]);
     setIsSearchModalVisible(false);
-  };
+  }, []);
 
-  const handleDeleteItem = (index: number) => {
-    setCurrentMealItems((prevItems) => prevItems.filter((_, i) => i !== index));
-  };
-
-  const renderMealItem = ({ item, index }: { item: ConsumedItem; index: number }) => {
-    return (
-      <View className="mb-2">
-        <Item
-          name={item.name}
-          type={item.itemType as (typeof ItemType)[keyof typeof ItemType]}
-          calories={Math.round(item.macros.calories)}
-          showType={true}
-          onDelete={() => handleDeleteItem(index)}
-        />
-      </View>
-    );
-  };
-
-  const handleSaveMeal = async () => {
+  const handleSaveMeal = useCallback(async () => {
     if (currentMealItems.length === 0) {
       Alert.alert('Error', 'No has añadido ningún alimento a la comida.');
       return;
@@ -158,7 +140,29 @@ export default function AddMealScreen() {
         },
       ]);
     }
-  };
+  }, [currentMealItems, totalMealMacros, user, router, updateUserData, db, getDayOfWeek]);
+
+  const handleDeleteItem = useCallback((index: number) => {
+    setCurrentMealItems((prevItems) => prevItems.filter((_, i) => i !== index));
+  }, []);
+
+  const renderMealItem = useCallback(({ item, index }: { item: ConsumedItem; index: number }) => {
+    return (
+      <View className="mb-2">
+        <Item
+          name={item.name}
+          type={item.itemType as (typeof ItemType)[keyof typeof ItemType]}
+          calories={Math.round(item.macros.calories)}
+          showType={true}
+          onDelete={() => handleDeleteItem(index)}
+        />
+      </View>
+    );
+  }, []);
+
+  const memoizedRenderMealItem = useMemo(() => {
+    return renderMealItem;
+  }, [renderMealItem]);
 
   return (
     <Screen>
@@ -175,7 +179,7 @@ export default function AddMealScreen() {
           ) : (
             <FlatList
               data={currentMealItems}
-              renderItem={renderMealItem}
+              renderItem={memoizedRenderMealItem}
               keyExtractor={(item, index) => `${item.id}-${index}`}
             />
           )}
