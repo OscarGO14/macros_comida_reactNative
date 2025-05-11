@@ -4,6 +4,7 @@ import SettingsItem from '@/components/ui/SettingsItem';
 import { SettingsControlType } from '@/components/ui/SettingsItem/types';
 import Screen from '@/components/ui/Screen';
 import { View, Text } from 'react-native';
+import { Advice } from '@/components/ui/Advice';
 
 export default function IngredientsScreen() {
   return (
@@ -22,17 +23,18 @@ export default function IngredientsScreen() {
             controlType={SettingsControlType.ARROW_ONLY}
             onPress={() => router.push('/ingredients/add-ingredient')}
           />
+          <Advice information="Dentro de la lista de ingredientes, tambien encontrarás recetas por defecto" />
         </View>
         <View className="flex-1 items-center justify-center gap-4">
           <Text className="text-primary text-2xl font-bold">Gestor de Recetas</Text>
 
           <SettingsItem
-            label="Ver Recetas"
+            label="Mis recetas"
             controlType={SettingsControlType.ARROW_ONLY}
             onPress={() => router.push('/ingredients/recipes-list')}
           />
           <SettingsItem
-            label="Añadir Receta"
+            label="Crear receta"
             controlType={SettingsControlType.ARROW_ONLY}
             onPress={() => router.push('/ingredients/add-recipe')}
           />

@@ -3,7 +3,7 @@ const MyColors = {
   ITEM_BACKGROUND: '#24252B',
   PRIMARY: '#FFFFFF',
   ACCENT: '#ECFE72',
-  DANGER: '#99ED8D',
+  DANGER: '#FFB3B3',
   ALTERNATE: '#808080',
   SECONDARY: '#000000',
 } as const;

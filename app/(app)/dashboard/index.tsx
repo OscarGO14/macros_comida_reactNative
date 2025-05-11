@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text } from 'react-native';
 import DoughnutChart from '@/components/DoughnutChart';
 import { useRouter } from 'expo-router';
@@ -16,7 +16,7 @@ export default function HomeScreen() {
   const [objective, setObjective] = useState<number | undefined>(undefined);
   const [consumed, setConsumed] = useState<number | undefined>(undefined);
   const { user } = useUserStore();
-
+  const today = useMemo(() => getDayOfWeek(), []);
   const handlePreview = () => {
     router.push('/(app)/dashboard/preview');
   };
@@ -43,8 +43,8 @@ export default function HomeScreen() {
     <Screen>
       <View className="flex-col flex-1 items-center justify-center gap-4">
         <View className="flex items-center justify-center">
-          <Text className="text-2xl text-primary text-center p-4">
-            Hola {user?.displayName || 'colega'} estas son tus estadísticas:
+          <Text className="text-xl text-primary text-center py-4">
+            Hola {user?.displayName || 'colega'}
           </Text>
         </View>
         {objective !== undefined && (
@@ -55,21 +55,27 @@ export default function HomeScreen() {
             }}
           />
         )}
-        {!consumed && <Text className="text-primary">No hay datos de hoy...</Text>}
 
         {/* Grafico de días */}
-        <BarChartComponent />
-        <SettingsItem
+        {user && (
+          <BarChartComponent
+            history={user.history}
+            today={today}
+            dailyGoal={user.dailyGoals?.calories}
+          />
+        )}
+        {/* <SettingsItem
           label="Ver historico"
           controlType={SettingsControlType.ARROW_ONLY}
           onPress={handleHistoric}
-        />
-
-        <SettingsItem
-          label="Añadir comida"
-          controlType={SettingsControlType.ARROW_ONLY}
-          onPress={() => router.replace('/meals/add-meal')}
-        />
+        /> */}
+        <View className="mt-4">
+          <SettingsItem
+            label="Añadir comida"
+            controlType={SettingsControlType.ARROW_ONLY}
+            onPress={() => router.replace('/meals/add-meal')}
+          />
+        </View>
       </View>
     </Screen>
   );

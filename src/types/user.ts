@@ -1,5 +1,5 @@
 import { Goals } from '@/types/goals';
-import { DailyLog } from '@/types/history';
+import { History } from '@/types/history';
 
 // Define la forma de los datos del usuario que quieres almacenar
 export interface IUserStateData {
@@ -7,12 +7,7 @@ export interface IUserStateData {
   email: string | null;
   displayName?: string | null;
   dailyGoals?: Goals;
-  history?: Partial<
-    Record<
-      'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday',
-      DailyLog
-    >
-  >;
+  history?: History;
 }
 // Define la forma completa del estado, incluyendo el usuario y posibles estados de carga/error
 export interface IUserState {
