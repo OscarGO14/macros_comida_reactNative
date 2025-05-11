@@ -12,5 +12,10 @@ export default {
       FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
       FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
     },
+    extra: {
+      eas: {
+        projectId: '61a47397-85d0-428a-a125-3e84a58547c8',
+      },
+    },
   },
 };

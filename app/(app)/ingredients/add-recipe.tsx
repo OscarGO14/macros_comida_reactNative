@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Alert } from 'react-native';
+import { View, Text, FlatList, Alert, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { addDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
@@ -54,21 +54,27 @@ export default function AddRecipeScreen() {
 
   const removeIngredient = (ingredientIdToRemove: string) => {
     // Pedir confirmacion para borrar
-    Alert.alert('Eliminar ingrediente', '¿Estás seguro de eliminar este ingrediente?', [
-      {
-        text: 'Cancelar',
-        onPress: () => console.log('Cancelado'),
-        style: 'cancel',
-      },
-      {
-        text: 'Eliminar',
-        onPress: () => {
-          setSelectedIngredientsData((prev) =>
-            prev.filter((item) => item.ingredient.id !== ingredientIdToRemove),
-          );
+    if (Platform.OS !== 'web') {
+      Alert.alert('Eliminar ingrediente', '¿Estás seguro de eliminar este ingrediente?', [
+        {
+          text: 'Cancelar',
+          onPress: () => console.log('Cancelado'),
+          style: 'cancel',
         },
-      },
-    ]);
+        {
+          text: 'Eliminar',
+          onPress: () => {
+            setSelectedIngredientsData((prev) =>
+              prev.filter((item) => item.ingredient.id !== ingredientIdToRemove),
+            );
+          },
+        },
+      ]);
+    } else {
+      setSelectedIngredientsData((prev) =>
+        prev.filter((item) => item.ingredient.id !== ingredientIdToRemove),
+      );
+    }
   };
 
   // Función para calcular las macros por ración
