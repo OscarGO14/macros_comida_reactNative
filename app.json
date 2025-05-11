@@ -26,7 +26,8 @@
       "favicon": "./public/motivacion-16.png",
       "bundler": "metro",
       "output": "static",
-      "display": "standalone"
+      "display": "standalone",
+      "pwa": true
     },
     "extra": {
       "eas": {

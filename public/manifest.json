@@ -4,5 +4,39 @@
   "start_url": "/",
   "display": "standalone",
   "background_color": "#181920",
-  "theme_color": "#ECFE72"
+  "theme_color": "#ECFE72",
+  "description": "Controla tus macros y calorías diarias",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/motivacion-16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/motivacion-24.png",
+      "sizes": "24x24",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/motivacion-32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/motivacion-64.png",
+      "sizes": "64x64",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/motivacion-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
