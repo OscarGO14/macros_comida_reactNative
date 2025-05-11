@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Alert, ActivityIndicator } from 'react-native';
+import {
+  Text,
+  View,
+  Alert,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+} from 'react-native';
 import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/InputText';
 import { useUserStore } from '@/store/userStore';
@@ -9,6 +17,7 @@ import { updateProfile } from 'firebase/auth';
 import { db, auth } from '@/services/firebase';
 import { FirebaseError } from 'firebase/app';
 import Screen from '@/components/ui/Screen';
+import { MyColors } from '@/types/colors';
 
 export default function UpdateUserScreen() {
   const { user, setUser } = useUserStore();
@@ -95,55 +104,62 @@ export default function UpdateUserScreen() {
       </Screen>
     );
   }
-  // TODO: cambiar objetivos a información de usuario con la que calcular macros.
   return (
     <Screen>
-      <View className="justify-around h-full">
-        <Text className="mb-6 text-2xl font-bold text-primary">Actualiza tu información</Text>
-        <View className="w-full gap-4 ">
-          <InputText
-            label="Nombre de Usuario"
-            placeholder="Tu nombre de usuario"
-            value={displayName}
-            onChangeText={setDisplayName}
-            autoCapitalize="words"
-          />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+      >
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+          <View className="justify-around h-full">
+            <Text className="mb-6 text-2xl font-bold text-primary">Actualiza tu información</Text>
+            <View className="w-full gap-4 ">
+              <InputText
+                label="Nombre de Usuario"
+                placeholder="Tu nombre de usuario"
+                value={displayName}
+                onChangeText={setDisplayName}
+                autoCapitalize="words"
+              />
 
-          <InputText
-            label="Calorías (kcal)"
-            placeholder="Calorías (kcal)"
-            value={calories}
-            onChangeText={setCalories}
-            keyboardType="numeric"
-          />
-          <InputText
-            label="Proteínas (g)"
-            placeholder="Proteínas (g)"
-            value={proteins}
-            onChangeText={setProteins}
-            keyboardType="numeric"
-          />
-          <InputText
-            label="Carbohidratos (g)"
-            placeholder="Carbohidratos (g)"
-            value={carbs}
-            onChangeText={setCarbs}
-            keyboardType="numeric"
-          />
-          <InputText
-            label="Grasas (g)"
-            placeholder="Grasas (g)"
-            value={fats}
-            onChangeText={setFats}
-            keyboardType="numeric"
-          />
-        </View>
-        {loading ? (
-          <ActivityIndicator size="large" color="#FACC15" />
-        ) : (
-          <Button title="Guardar Cambios" onPress={handleSave} className="bg-accent" />
-        )}
-      </View>
+              <InputText
+                label="Calorías (kcal)"
+                placeholder="Calorías (kcal)"
+                value={calories}
+                onChangeText={setCalories}
+                keyboardType="numeric"
+              />
+              <InputText
+                label="Proteínas (g)"
+                placeholder="Proteínas (g)"
+                value={proteins}
+                onChangeText={setProteins}
+                keyboardType="numeric"
+              />
+              <InputText
+                label="Carbohidratos (g)"
+                placeholder="Carbohidratos (g)"
+                value={carbs}
+                onChangeText={setCarbs}
+                keyboardType="numeric"
+              />
+              <InputText
+                label="Grasas (g)"
+                placeholder="Grasas (g)"
+                value={fats}
+                onChangeText={setFats}
+                keyboardType="numeric"
+              />
+            </View>
+            {loading ? (
+              <ActivityIndicator size="large" color={MyColors.ACCENT} />
+            ) : (
+              <Button title="Guardar Cambios" onPress={handleSave} className="bg-accent" />
+            )}
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Screen>
   );
 }

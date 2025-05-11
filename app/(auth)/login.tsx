@@ -8,6 +8,7 @@ import { useUserStore } from '@/store/userStore';
 import InputText from '@/components/ui/InputText';
 import Screen from '@/components/ui/Screen';
 import SubmitButton from '@/components/ui/SubmitButton';
+import { MyColors } from '@/types/colors';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -61,7 +62,7 @@ export default function LoginScreen() {
           />
 
           {loading ? (
-            <ActivityIndicator size="large" color="#FACC15" />
+            <ActivityIndicator size="large" color={MyColors.ACCENT} />
           ) : (
             <SubmitButton label="Iniciar Sesión" onPress={handleLogin} />
           )}

@@ -5,6 +5,7 @@ import Screen from '@/components/ui/Screen';
 import Item from '@/components/ui/Item';
 import { ItemType } from '@/components/ui/Item/types';
 import { Ingredient } from '@/types/ingredient';
+import { MyColors } from '@/types/colors';
 
 export default function IngredientsListScreen() {
   const { data: ingredientsData, loading, error } = useIngredients();
@@ -34,7 +35,7 @@ export default function IngredientsListScreen() {
     return (
       <Screen>
         <View className="flex-1 items-center justify-center">
-          <ActivityIndicator size="large" color="#FFFFFF" />
+          <ActivityIndicator size="large" color={MyColors.ACCENT} />
         </View>
       </Screen>
     );

@@ -5,8 +5,8 @@ export type Goals = {
   fats: number;
 };
 export const defaultGoals: Goals = {
-  calories: 1700,
-  proteins: 150,
-  carbs: 200,
-  fats: 60,
+  calories: 1500,
+  proteins: 94,
+  carbs: 186,
+  fats: 42,
 };

@@ -12,6 +12,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import InputText from '@/components/ui/InputText';
 import Screen from '@/components/ui/Screen';
 import SubmitButton from '@/components/ui/SubmitButton';
+import { MyColors } from '@/types/colors';
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState('');
@@ -89,7 +90,7 @@ export default function RegisterScreen() {
           />
 
           {loading ? (
-            <ActivityIndicator size="large" color="#FACC15" />
+            <ActivityIndicator size="large" color={MyColors.ACCENT} />
           ) : (
             <SubmitButton label="Registrarse" onPress={handleRegister} />
           )}
