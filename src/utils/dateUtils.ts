@@ -21,8 +21,35 @@ export const getCurrentWeekDate = (dayOfWeek: number): Date => {
 };
 
 // Función para verificar si un timestamp es de hoy
-export const isFromToday = (timestamp: Timestamp): boolean => {
-  const firebaseDate = timestamp.toDate();
+export const isFromToday = (
+  timestamp: Timestamp | { seconds: number; nanoseconds: number } | string | number | Date,
+): boolean => {
+  let firebaseDate: Date;
+
+  // Si es instancia de Timestamp de Firebase
+  if (timestamp instanceof Timestamp) {
+    firebaseDate = timestamp.toDate();
+  }
+  // Si es objeto con seconds y nanoseconds (Firestore puede devolver así en algunos casos)
+  else if (
+    timestamp &&
+    typeof timestamp === 'object' &&
+    'seconds' in timestamp &&
+    'nanoseconds' in timestamp
+  ) {
+    firebaseDate = new Timestamp(timestamp.seconds, timestamp.nanoseconds).toDate();
+  }
+  // Si es Date
+  else if (timestamp instanceof Date) {
+    firebaseDate = timestamp;
+  }
+  // Si viene como string o número (milisegundos)
+  else if (typeof timestamp === 'string' || typeof timestamp === 'number') {
+    firebaseDate = new Date(timestamp);
+  } else {
+    return false; // o lanza un error si prefieres
+  }
+
   const today = new Date();
   return isSameDay(firebaseDate, today);
 };

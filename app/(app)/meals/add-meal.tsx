@@ -46,7 +46,7 @@ export default function AddMealScreen() {
 
   const handleSelectItem = useCallback((item: SearchableItem, quantity: number) => {
     let newItem: ConsumedItem;
-
+    debugger;
     if ('calories' in item) {
       const ingredient = item as Ingredient;
       const caloriesPerGram = ingredient.calories / 100;
@@ -77,10 +77,10 @@ export default function AddMealScreen() {
         setIsSearchModalVisible(false);
         return;
       }
-      const caloriesPerServing = recipe.macros.calories / recipe.serves;
-      const proteinPerServing = recipe.macros.proteins / recipe.serves;
-      const carbPerServing = recipe.macros.carbs / recipe.serves;
-      const fatPerServing = recipe.macros.fats / recipe.serves;
+      const caloriesPerServing = recipe.macros.calories * quantity;
+      const proteinPerServing = recipe.macros.proteins * quantity;
+      const carbPerServing = recipe.macros.carbs * quantity;
+      const fatPerServing = recipe.macros.fats * quantity;
 
       newItem = {
         id: recipe.id,

@@ -73,6 +73,7 @@ export default function MealsScreen() {
         {dailyMeals ? (
           <FlatList
             data={dailyMeals}
+            keyExtractor={(item, index) => `${item}-${index}`}
             renderItem={({ item, index }) => (
               <View className="mb-2">
                 <StatsCard
@@ -92,7 +93,6 @@ export default function MealsScreen() {
                 </StatsCard>
               </View>
             )}
-            keyExtractor={(index, _item) => index.toString()}
           />
         ) : (
           <Text className="text-primary text-2xl font-bold text-center mb-6">No hay comidas</Text>
