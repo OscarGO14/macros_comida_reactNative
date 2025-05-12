@@ -2,8 +2,8 @@ import 'dotenv/config';
 
 export default {
   expo: {
-    name: 'macros-comida',
-    slug: 'macros-comida',
+    name: 'Macros Comida',
+    slug: 'macros_comida_app',
     version: '1.1.0',
     orientation: 'portrait',
     icon: './assets/icons/motivacion-64.png',
