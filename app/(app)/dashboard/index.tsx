@@ -8,23 +8,56 @@ import { getDayOfWeek } from '@/utils/getDayOfWeek';
 import Screen from '@/components/ui/Screen';
 import SettingsItem from '@/components/ui/SettingsItem';
 import { SettingsControlType } from '@/components/ui/SettingsItem/types';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '@/services/firebase';
+import { createEmptyDailyLog } from '@/utils/createEmpytDailyLog';
+import { isFromToday } from '@/utils/dateUtils';
 
 export default function HomeScreen() {
   const router = useRouter();
   const [objective, setObjective] = useState<number | undefined>(undefined);
   const [consumed, setConsumed] = useState<number | undefined>(undefined);
-  const { user } = useUserStore();
+  const { user, updateUserData } = useUserStore();
   const today = useMemo(() => getDayOfWeek(), []);
 
   useEffect(() => {
-    if (user) {
-      const today = getDayOfWeek();
-      // Comprobar que todayHistory es el de hoy y no el de la semana pasada.
+    const checkAndUpdateDailyLog = async () => {
+      if (!user) return;
 
-      const todayHistory = user?.history?.[today];
-      setObjective(user?.dailyGoals?.calories ?? undefined);
-      setConsumed(todayHistory?.totalMacros?.calories ?? undefined);
-    }
+      const today = getDayOfWeek();
+      const todayHistory = user.history?.[today];
+
+      // Si no hay registro para hoy, o el registro no es de hoy
+      if (!todayHistory || !isFromToday(todayHistory.date)) {
+        // Crear un nuevo registro vacío para hoy
+        const newDailyLog = createEmptyDailyLog();
+
+        // Actualizar Firestore
+        const userRef = doc(db, 'users', user.uid);
+        await updateDoc(userRef, {
+          [`history.${today}`]: newDailyLog,
+        });
+
+        // Actualizar el estado local
+        updateUserData({
+          ...user,
+          history: {
+            ...user.history,
+            [today]: newDailyLog,
+          },
+        });
+
+        // Actualizar el estado del componente
+        setObjective(user.dailyGoals?.calories);
+        setConsumed(0); // Nuevo día, consumo en 0
+      } else {
+        // Usar los datos existentes
+        setObjective(user.dailyGoals?.calories);
+        setConsumed(todayHistory.totalMacros?.calories);
+      }
+    };
+
+    checkAndUpdateDailyLog();
   }, [user]);
 
   return (
