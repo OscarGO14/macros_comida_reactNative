@@ -6,8 +6,7 @@ import { StatsCard } from '@/components/ui/StatsCard';
 import { useUserStore } from '@/store/userStore';
 import { getDayOfWeek } from '@/utils/getDayOfWeek';
 import ActionButton from '@/components/ui/ActionButton';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/services/firebase';
+import { updateUser } from '@/services/firebase';
 import { createEmptyDailyLog } from '@/utils/createEmpytDailyLog';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import Toast from 'react-native-toast-message';
@@ -31,8 +30,11 @@ export default function MealsScreen() {
     const emptyLog = createEmptyDailyLog(); // Crear el log vacío con la fecha actual
 
     // Actualizar Firestore para restablecer el log del día
-    await updateDoc(doc(db, 'users', user.uid), {
-      [`history.${today}`]: emptyLog,
+    await updateUser(user.uid, {
+      history: {
+        ...user.history,
+        [today]: emptyLog,
+      },
     });
 
     // Actualizar contexto de Zustand
@@ -44,7 +46,11 @@ export default function MealsScreen() {
       history: updatedHistory,
     });
 
-    console.log('Se han borrado las comidas de hoy.');
+    Toast.show({
+      type: 'success',
+      text1: 'Éxito',
+      text2: 'Se han borrado las comidas de hoy.',
+    });
   };
 
   const dailyTotalMacros = useMemo(() => {

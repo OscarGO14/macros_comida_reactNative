@@ -16,6 +16,7 @@ import { updateUser } from '@/services/firebase';
 import Screen from '@/components/ui/Screen';
 import { MyColors } from '@/types/colors';
 import ConfirmationModal from '@/components/ConfirmationModal';
+import Toast from 'react-native-toast-message';
 
 export default function UpdateUserScreen() {
   const { user, setUser } = useUserStore();
@@ -51,7 +52,11 @@ export default function UpdateUserScreen() {
     const numFats = parseInt(fats, 10);
 
     if (isNaN(numCalories) || isNaN(numProteins) || isNaN(numCarbs) || isNaN(numFats)) {
-      console.log('Por favor, introduce valores numéricos válidos para las metas.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Por favor, introduce valores numéricos válidos para las metas.',
+      });
       return;
     }
 
@@ -75,14 +80,22 @@ export default function UpdateUserScreen() {
       const updatedUser = { ...user, ...dataToUpdate };
       setUser(updatedUser);
 
-      console.log('Perfil y metas actualizados correctamente.');
+      Toast.show({
+        type: 'success',
+        text1: 'Éxito',
+        text2: 'Los cambios se han guardado correctamente.',
+      });
     } catch (error) {
       console.error('Error al guardar los cambios:', error);
       let errorMessage = 'Ocurrió un error al guardar los cambios.';
       if (error instanceof FirebaseError) {
         errorMessage = `Error: ${error.message} (${error.code})`;
       }
-      console.log(errorMessage);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: errorMessage,
+      });
     } finally {
       setLoading(false);
     }
