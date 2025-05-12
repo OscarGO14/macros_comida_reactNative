@@ -99,6 +99,9 @@ export default function AddMealScreen() {
   const handleSaveMeal = useCallback(async () => {
     if (currentMealItems.length === 0) {
       Alert.alert('Error', 'No has añadido ningún alimento a la comida.');
+      if (Platform.OS === 'web') {
+        alert('No has añadido ningún alimento a la comida.');
+      }
       return;
     }
 
@@ -142,6 +145,11 @@ export default function AddMealScreen() {
         ]);
       } else {
         dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacros);
+
+        // Actualizar Firestore
+        await updateDoc(doc(db, 'users', user.uid), {
+          [`history.${today}`]: dailyLog,
+        });
 
         updateUserData({
           ...user,

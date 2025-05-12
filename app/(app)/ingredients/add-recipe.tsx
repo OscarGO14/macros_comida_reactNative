@@ -53,28 +53,9 @@ export default function AddRecipeScreen() {
   };
 
   const removeIngredient = (ingredientIdToRemove: string) => {
-    // Pedir confirmacion para borrar
-    if (Platform.OS !== 'web') {
-      Alert.alert('Eliminar ingrediente', '¿Estás seguro de eliminar este ingrediente?', [
-        {
-          text: 'Cancelar',
-          onPress: () => console.log('Cancelado'),
-          style: 'cancel',
-        },
-        {
-          text: 'Eliminar',
-          onPress: () => {
-            setSelectedIngredientsData((prev) =>
-              prev.filter((item) => item.ingredient.id !== ingredientIdToRemove),
-            );
-          },
-        },
-      ]);
-    } else {
-      setSelectedIngredientsData((prev) =>
-        prev.filter((item) => item.ingredient.id !== ingredientIdToRemove),
-      );
-    }
+    setSelectedIngredientsData((prev) =>
+      prev.filter((item) => item.ingredient.id !== ingredientIdToRemove),
+    );
   };
 
   // Función para calcular las macros por ración
@@ -211,10 +192,10 @@ export default function AddRecipeScreen() {
         />
 
         <View className="mb-4">
-          <Text className="text-m font-semibold mb-2 text-primary">Lista de ingredientes</Text>
+          <Text className="text-m font-semibold mb-2 text-primary">Lista de ingredientes:</Text>
           <View className="h-60 min-h-28">
             {selectedIngredientsData.length === 0 ? (
-              <Text className="text-text-secondary italic text-center p-4">
+              <Text className="text-alternate italic text-center p-4">
                 Añade ingredientes a tu receta
               </Text>
             ) : (
@@ -231,7 +212,7 @@ export default function AddRecipeScreen() {
                   />
                 )}
                 ListEmptyComponent={
-                  <Text className="text-center text-gray-500 italic">No hay ingredientes</Text>
+                  <Text className="text-center text-alternate italic">No hay ingredientes</Text>
                 }
               />
             )}

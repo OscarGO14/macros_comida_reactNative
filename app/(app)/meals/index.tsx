@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import Screen from '@/components/ui/Screen';
-import { FlatList, Text, View, Alert, Platform } from 'react-native';
+import { FlatList, Text, View, Alert } from 'react-native';
 import { router } from 'expo-router';
 import { StatsCard } from '@/components/ui/StatsCard';
 import { useUserStore } from '@/store/userStore';
@@ -9,9 +9,11 @@ import ActionButton from '@/components/ui/ActionButton';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 import { createEmptyDailyLog } from '@/utils/createEmpytDailyLog';
+import ConfirmationModal from '@/components/ConfirmationModal';
 
 export default function MealsScreen() {
   const { user, updateUserData } = useUserStore();
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const today = useMemo(() => getDayOfWeek(), []);
 
@@ -20,67 +22,24 @@ export default function MealsScreen() {
       Alert.alert('Error', 'Usuario no encontrado.');
       return;
     }
-    if (Platform.OS !== 'web') {
-      Alert.alert(
-        'Confirmar Borrado',
-        '¿Estás seguro de que quieres borrar todas las comidas registradas para hoy? Esta acción no se puede deshacer.',
-        [
-          {
-            text: 'Cancelar',
-            style: 'cancel',
-          },
-          {
-            text: 'Borrar',
-            style: 'destructive',
-            onPress: async () => {
-              try {
-                const emptyLog = createEmptyDailyLog(); // Crear el log vacío con la fecha actual
 
-                // Actualizar Firestore para restablecer el log del día
-                await updateDoc(doc(db, 'users', user.uid), {
-                  [`history.${today}`]: emptyLog,
-                });
+    const emptyLog = createEmptyDailyLog(); // Crear el log vacío con la fecha actual
 
-                // Actualizar contexto de Zustand
-                const updatedHistory = { ...user.history };
-                updatedHistory[today] = emptyLog;
+    // Actualizar Firestore para restablecer el log del día
+    await updateDoc(doc(db, 'users', user.uid), {
+      [`history.${today}`]: emptyLog,
+    });
 
-                updateUserData({
-                  ...user,
-                  history: updatedHistory,
-                });
+    // Actualizar contexto de Zustand
+    const updatedHistory = { ...user.history };
+    updatedHistory[today] = emptyLog;
 
-                Alert.alert('Éxito', 'Se han borrado las comidas de hoy.');
-              } catch (error) {
-                console.error('Error al borrar las comidas de hoy:', error);
-                Alert.alert(
-                  'Error',
-                  'No se pudo borrar el registro de hoy. Por favor, intenta de nuevo.',
-                );
-              }
-            },
-          },
-        ],
-      );
-    } else {
-      const emptyLog = createEmptyDailyLog(); // Crear el log vacío con la fecha actual
+    updateUserData({
+      ...user,
+      history: updatedHistory,
+    });
 
-      // Actualizar Firestore para restablecer el log del día
-      await updateDoc(doc(db, 'users', user.uid), {
-        [`history.${today}`]: emptyLog,
-      });
-
-      // Actualizar contexto de Zustand
-      const updatedHistory = { ...user.history };
-      updatedHistory[today] = emptyLog;
-
-      updateUserData({
-        ...user,
-        history: updatedHistory,
-      });
-
-      Alert.alert('Éxito', 'Se han borrado las comidas de hoy.');
-    }
+    console.log('Se han borrado las comidas de hoy.');
   };
 
   const dailyTotalMacros = useMemo(() => {
@@ -140,13 +99,19 @@ export default function MealsScreen() {
           />
         </View>
         <View className="flex-row justify-between">
-          <ActionButton label="Borrar comidas" onPress={deleteMealsForToday} />
+          <ActionButton label="Borrar comidas" onPress={() => setShowConfirmationModal(true)} />
           <ActionButton
             color="accent"
             label="Añadir comida"
             onPress={() => router.push('/meals/add-meal')}
           />
         </View>
+        <ConfirmationModal
+          isVisible={showConfirmationModal}
+          onClose={() => setShowConfirmationModal(false)}
+          handleConfirm={deleteMealsForToday}
+          message="¿Estás seguro de que quieres borrar todas las comidas registradas para hoy? Esta acción no se puede deshacer."
+        />
       </View>
     </Screen>
   );

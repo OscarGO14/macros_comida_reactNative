@@ -5,7 +5,6 @@ import {
   Text,
   TextInput,
   FlatList,
-  Button,
   TouchableOpacity,
   SafeAreaView,
   ActivityIndicator,
@@ -14,11 +13,11 @@ import {
 import { SearchItemModalProps, SearchableItem, TypedSearchableItem } from './types';
 import { useIngredients } from '@/hooks/useIngredients';
 import { useRecipes } from '@/hooks/useRecipes';
-import InputText from '../ui/InputText';
-import { ItemType } from '../ui/Item/types';
-import Item from '../ui/Item';
+import InputText from '@/components/ui/InputText';
+import { ItemType } from '@/components/ui/Item/types';
+import Item from '@/components/ui/Item';
 import { MyColors } from '@/types/colors';
-import ActionButton from '../ui/ActionButton';
+import ActionButton from '@/components/ui/ActionButton';
 
 const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: SearchItemModalProps) => {
   const shouldFetchIngredients = itemTypes.includes('ingredient');

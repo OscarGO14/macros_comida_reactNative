@@ -43,7 +43,7 @@ export default function RecipesScreen() {
                   name={item.name}
                   type={ItemType.RECIPE}
                   calories={item.macros.calories}
-                  onEdit={() => handleEditRecipe(item.id)}
+                  // onEdit={() => handleEditRecipe(item.id)}
                 />
               )}
               keyExtractor={(item) => item.id}

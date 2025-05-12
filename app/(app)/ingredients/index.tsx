@@ -11,6 +11,7 @@ export default function IngredientsScreen() {
     <Screen>
       <View className="flex-1 justify-evenly">
         <View className="flex-1 items-center justify-center gap-4">
+          <Advice information="Los ingredientes y recetas no son editables por ahora." />
           <Text className="text-primary text-2xl font-bold">Gestor de Ingredientes</Text>
 
           <SettingsItem
@@ -23,7 +24,6 @@ export default function IngredientsScreen() {
             controlType={SettingsControlType.ARROW_ONLY}
             onPress={() => router.push('/ingredients/add-ingredient')}
           />
-          <Advice information="Dentro de la lista de ingredientes, tambien encontrarás recetas por defecto" />
         </View>
         <View className="flex-1 items-center justify-center gap-4">
           <Text className="text-primary text-2xl font-bold">Gestor de Recetas</Text>

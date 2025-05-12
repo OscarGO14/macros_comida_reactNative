@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
-  Alert,
   ActivityIndicator,
   KeyboardAvoidingView,
   ScrollView,
@@ -18,6 +17,7 @@ import { db, auth } from '@/services/firebase';
 import { FirebaseError } from 'firebase/app';
 import Screen from '@/components/ui/Screen';
 import { MyColors } from '@/types/colors';
+import ConfirmationModal from '@/components/ConfirmationModal';
 
 export default function UpdateUserScreen() {
   const { user, setUser } = useUserStore();
@@ -28,6 +28,8 @@ export default function UpdateUserScreen() {
   const [carbs, setCarbs] = useState('');
   const [fats, setFats] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -41,7 +43,7 @@ export default function UpdateUserScreen() {
 
   const handleSave = async () => {
     if (!user) {
-      Alert.alert('Error', 'No se pueden guardar los cambios sin un usuario válido.');
+      console.log('No se pueden guardar los cambios sin un usuario válido.');
       return;
     }
 
@@ -51,7 +53,7 @@ export default function UpdateUserScreen() {
     const numFats = parseInt(fats, 10);
 
     if (isNaN(numCalories) || isNaN(numProteins) || isNaN(numCarbs) || isNaN(numFats)) {
-      Alert.alert('Error', 'Por favor, introduce valores numéricos válidos para las metas.');
+      console.log('Por favor, introduce valores numéricos válidos para las metas.');
       return;
     }
 
@@ -83,14 +85,14 @@ export default function UpdateUserScreen() {
       const updatedUser = { ...user, ...dataToUpdate };
       setUser(updatedUser);
 
-      Alert.alert('Éxito', 'Perfil y metas actualizados correctamente.');
+      console.log('Perfil y metas actualizados correctamente.');
     } catch (error) {
       console.error('Error al guardar los cambios:', error);
       let errorMessage = 'Ocurrió un error al guardar los cambios.';
       if (error instanceof FirebaseError) {
         errorMessage = `Error: ${error.message} (${error.code})`;
       }
-      Alert.alert('Error', errorMessage);
+      console.log(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -155,9 +157,19 @@ export default function UpdateUserScreen() {
             {loading ? (
               <ActivityIndicator size="large" color={MyColors.ACCENT} />
             ) : (
-              <Button title="Guardar Cambios" onPress={handleSave} className="bg-accent" />
+              <Button
+                title="Guardar Cambios"
+                onPress={() => setShowConfirmationModal(true)}
+                className="bg-accent"
+              />
             )}
           </View>
+          <ConfirmationModal
+            isVisible={showConfirmationModal}
+            handleConfirm={handleSave}
+            onClose={() => setShowConfirmationModal(false)}
+            message="¿Estás seguro de que quieres guardar los cambios?"
+          />
         </ScrollView>
       </KeyboardAvoidingView>
     </Screen>

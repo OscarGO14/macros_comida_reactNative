@@ -1,12 +1,13 @@
-import { MyColors } from '@/types/colors';
 import React from 'react';
 import { View, Text } from 'react-native';
 import { PieChart as RNPieChart } from 'react-native-gifted-charts';
+import { MyColors } from '@/types/colors';
 
 const theme = {
   objectiveColor: MyColors.PRIMARY,
   toEatColor: MyColors.ALTERNATE,
   consumedColor: MyColors.ACCENT,
+  exceededColor: MyColors.DANGER,
   frameBackground: MyColors.BACKGROUND,
   textPrimary: MyColors.PRIMARY,
   textSecondary: MyColors.ALTERNATE,
@@ -25,8 +26,11 @@ const DoughnutChart = ({ data }: PieChartProps) => {
   }
 
   const pieData = [
-    { value: data?.objective ?? 0, color: theme.toEatColor },
-    { value: data?.consumed ?? 0, color: theme.consumedColor },
+    { value: (data?.objective ?? 0) - (data?.consumed ?? 0), color: theme.toEatColor },
+    {
+      value: data?.consumed ?? 0,
+      color: data?.consumed > data?.objective * 1.05 ? theme.exceededColor : theme.consumedColor,
+    },
   ];
 
   const totalTasks = (data?.objective ?? 0) + (data?.consumed ?? 0);
