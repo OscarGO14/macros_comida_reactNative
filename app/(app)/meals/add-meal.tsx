@@ -46,7 +46,6 @@ export default function AddMealScreen() {
 
   const handleSelectItem = useCallback((item: SearchableItem, quantity: number) => {
     let newItem: ConsumedItem;
-    debugger;
     if ('calories' in item) {
       const ingredient = item as Ingredient;
       const caloriesPerGram = ingredient.calories / 100;

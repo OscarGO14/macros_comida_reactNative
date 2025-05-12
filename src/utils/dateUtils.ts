@@ -25,7 +25,6 @@ export const isFromToday = (
   timestamp: Timestamp | { seconds: number; nanoseconds: number } | string | number | Date,
 ): boolean => {
   let firebaseDate: Date;
-
   // Si es instancia de Timestamp de Firebase
   if (timestamp instanceof Timestamp) {
     firebaseDate = timestamp.toDate();
@@ -51,5 +50,6 @@ export const isFromToday = (
   }
 
   const today = new Date();
+
   return isSameDay(firebaseDate, today);
 };

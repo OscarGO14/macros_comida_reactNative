@@ -7,11 +7,13 @@ import { SettingsControlType } from '@/components/ui/SettingsItem/types';
 import Screen from '@/components/ui/Screen';
 import { handleLogout } from '@/utils/handleLogout';
 import ConfirmationModal from '@/components/ConfirmationModal';
+import { useUserStore } from '@/store/userStore';
 
 export default function SettingsScreen() {
   const router = useRouter();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const { clearUser } = useUserStore();
 
   const handleDeleteUser = async () => {
     try {
@@ -23,7 +25,8 @@ export default function SettingsScreen() {
       }
 
       await deleteUser(user.uid);
-      console.log('Usuario eliminado exitosamente');
+      clearUser();
+
       router.replace('/(auth)/login');
     } catch (error) {
       console.error('Error al eliminar el usuario:', error);

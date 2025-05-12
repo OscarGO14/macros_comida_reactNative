@@ -37,7 +37,7 @@ export const useRecipes = () => {
     let unsubscribe: Unsubscribe = () => {};
 
     try {
-      const q = query(recipesCollection, where('userId', '==', userId));
+      const q = query(recipesCollection);
       unsubscribe = onSnapshot(
         q, // Usar la query 'q' definida arriba
         (querySnapshot) => {
