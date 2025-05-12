@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Alert, Platform } from 'react-native';
+import { View, Text, FlatList, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { addDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 

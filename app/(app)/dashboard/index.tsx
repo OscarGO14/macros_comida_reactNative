@@ -19,6 +19,8 @@ export default function HomeScreen() {
   useEffect(() => {
     if (user) {
       const today = getDayOfWeek();
+      // Comprobar que todayHistory es el de hoy y no el de la semana pasada.
+
       const todayHistory = user?.history?.[today];
       setObjective(user?.dailyGoals?.calories ?? undefined);
       setConsumed(todayHistory?.totalMacros?.calories ?? undefined);

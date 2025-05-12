@@ -130,28 +130,28 @@ export default function UpdateUserScreen() {
                 placeholder="Calorías (kcal)"
                 value={calories}
                 onChangeText={setCalories}
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
               />
               <InputText
                 label="Proteínas (g)"
                 placeholder="Proteínas (g)"
                 value={proteins}
                 onChangeText={setProteins}
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
               />
               <InputText
                 label="Carbohidratos (g)"
                 placeholder="Carbohidratos (g)"
                 value={carbs}
                 onChangeText={setCarbs}
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
               />
               <InputText
                 label="Grasas (g)"
                 placeholder="Grasas (g)"
                 value={fats}
                 onChangeText={setFats}
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
               />
             </View>
             {loading ? (
