@@ -14,8 +14,7 @@ import SearchItemModal from '@/components/SearchItemModal';
 import { SearchableItem } from '@/components/SearchItemModal/types';
 import SubmitButton from '@/components/ui/SubmitButton';
 import ActionButton from '@/components/ui/ActionButton';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/services/firebase';
+import { updateUser } from '@/services/firebase';
 
 export default function AddMealScreen() {
   const { user, updateUserData } = useUserStore();
@@ -109,58 +108,25 @@ export default function AddMealScreen() {
     let dailyLog = user?.history?.[today];
 
     if (user) {
-      if (Platform.OS !== 'web') {
-        Alert.alert('Confirmación', '¿Estás seguro de que quieres guardar esta comida?', [
-          {
-            text: 'Cancelar',
-            style: 'cancel',
-          },
-          {
-            text: 'Guardar',
-            onPress: async () => {
-              try {
-                dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacros);
+      dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacros);
 
-                // Actualizar Firestore
-                await updateDoc(doc(db, 'users', user.uid), {
-                  [`history.${today}`]: dailyLog, // Cambio clave aquí
-                });
-
-                // Actualizar contexto
-                updateUserData({
-                  ...user,
-                  history: {
-                    ...user.history,
-                    [today]: dailyLog,
-                  },
-                });
-                setCurrentMealItems([]);
-                router.replace('/(app)/meals');
-              } catch (error) {
-                console.error('Error al guardar la comida:', error);
-                Alert.alert('Error', 'No se pudo guardar la comida. Por favor, intenta de nuevo.');
-              }
-            },
-          },
-        ]);
-      } else {
-        dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacros);
-
-        // Actualizar Firestore
-        await updateDoc(doc(db, 'users', user.uid), {
-          [`history.${today}`]: dailyLog,
-        });
-
-        updateUserData({
-          ...user,
-          history: {
-            ...user.history,
-            [today]: dailyLog,
-          },
-        });
-        setCurrentMealItems([]);
-        router.replace('/(app)/meals');
-      }
+      // Actualizar Firestore
+      await updateUser(user.uid, {
+        history: {
+          ...user.history,
+          [today]: dailyLog,
+        },
+      });
+      // Actualizar Zustand
+      updateUserData({
+        ...user,
+        history: {
+          ...user.history,
+          [today]: dailyLog,
+        },
+      });
+      setCurrentMealItems([]);
+      router.replace('/(app)/meals');
     }
   }, [currentMealItems, totalMealMacros, user, router, updateUserData, db, getDayOfWeek]);
 

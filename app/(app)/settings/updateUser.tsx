@@ -7,14 +7,12 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
+import { FirebaseError } from 'firebase/app';
 import Button from '@/components/ui/Button';
 import InputText from '@/components/ui/InputText';
 import { useUserStore } from '@/store/userStore';
 import { Goals } from '@/types/goals';
-import { doc, updateDoc } from 'firebase/firestore';
-import { updateProfile } from 'firebase/auth';
-import { db, auth } from '@/services/firebase';
-import { FirebaseError } from 'firebase/app';
+import { updateUser } from '@/services/firebase';
 import Screen from '@/components/ui/Screen';
 import { MyColors } from '@/types/colors';
 import ConfirmationModal from '@/components/ConfirmationModal';
@@ -72,15 +70,7 @@ export default function UpdateUserScreen() {
     };
 
     try {
-      const userDocRef = doc(db, 'users', user.uid);
-      await updateDoc(userDocRef, dataToUpdate);
-      console.log('Documento de Firestore actualizado.');
-
-      const currentUser = auth.currentUser;
-      if (currentUser && currentUser.displayName !== displayName) {
-        await updateProfile(currentUser, { displayName });
-        console.log('Perfil de Firebase Auth actualizado.');
-      }
+      await updateUser(user.uid, dataToUpdate);
 
       const updatedUser = { ...user, ...dataToUpdate };
       setUser(updatedUser);

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { auth, db } from '@/services/firebase';
-import { deleteUser as deleteAuthUser } from 'firebase/auth';
-import { deleteDoc, doc } from 'firebase/firestore';
 import { View } from 'react-native';
 import { useRouter } from 'expo-router';
+import { auth, deleteUser } from '@/services/firebase';
 import SettingsItem from '@/components/ui/SettingsItem';
 import { SettingsControlType } from '@/components/ui/SettingsItem/types';
 import Screen from '@/components/ui/Screen';
@@ -15,7 +13,7 @@ export default function SettingsScreen() {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  const deleteUser = async () => {
+  const handleDeleteUser = async () => {
     try {
       const user = auth.currentUser;
 
@@ -24,25 +22,13 @@ export default function SettingsScreen() {
         return;
       }
 
-      // Opcional: Primero elimina los datos del usuario de Firestore
-      const userDocRef = doc(db, 'users', user.uid);
-      await deleteDoc(userDocRef);
-      console.log('Datos del usuario eliminados de Firestore');
-
-      // Luego elimina la cuenta de autenticación
-      await deleteAuthUser(user);
+      await deleteUser(user.uid);
       console.log('Usuario eliminado exitosamente');
-
-      // Redirige al usuario a la pantalla de login
       router.replace('/(auth)/login');
     } catch (error) {
       console.error('Error al eliminar el usuario:', error);
-
-      // Manejo de errores específicos
       if (error instanceof Error && error.message === 'auth/requires-recent-login') {
-        // Firebase requiere que el usuario haya iniciado sesión recientemente
         console.log('Por favor, inicia sesión nuevamente antes de eliminar tu cuenta');
-        // Opcional: Redirigir al usuario a la pantalla de login
         router.replace('/(auth)/login');
       } else {
         console.log('Ocurrió un error al intentar eliminar la cuenta');
@@ -52,7 +38,6 @@ export default function SettingsScreen() {
     }
   };
 
-  // TODO: Cambiar modo oscuro a un switch que guarde en el local storage.
   return (
     <Screen>
       <View className="w-full gap-4 mt-6">
@@ -84,7 +69,7 @@ export default function SettingsScreen() {
         />
         <ConfirmationModal
           isVisible={showConfirmationModal}
-          handleConfirm={deleteUser}
+          handleConfirm={handleDeleteUser}
           onClose={() => setShowConfirmationModal(false)}
           message="¿Estás seguro de que quieres eliminar tu cuenta?"
         />

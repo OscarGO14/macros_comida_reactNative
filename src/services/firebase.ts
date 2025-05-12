@@ -1,6 +1,14 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, where, query, getDocs } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  where,
+  query,
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from 'firebase/firestore';
 import { initializeAuth } from 'firebase/auth';
 // @ts-expect-error la funcion getReactNativePersistence no esta tipada correctamente
 import { getReactNativePersistence } from '@firebase/auth/dist/rn/index.js';
@@ -41,6 +49,7 @@ const ingredientsCollection = collection(db, Collections.INGREDIENTS);
 const usersCollection = collection(db, Collections.USERS);
 const recipesCollection = collection(db, Collections.RECIPES);
 
+// Auth
 const getUserQuery = async (uid: string) => {
   try {
     const q = query(usersCollection, where('uid', '==', uid));
@@ -53,6 +62,24 @@ const getUserQuery = async (uid: string) => {
   }
   return null;
 };
+const deleteUser = async (uid: string) => {
+  try {
+    const userDoc = doc(db, 'users', uid);
+    await deleteDoc(userDoc);
+    console.log('Usuario eliminado exitosamente');
+  } catch (error) {
+    console.error('Error al eliminar el usuario:', error);
+  }
+};
+const updateUser = async (uid: string, data: Partial<IUserStateData>) => {
+  try {
+    const userDoc = doc(db, Collections.USERS, uid);
+    await updateDoc(userDoc, data);
+    console.log('Usuario actualizado exitosamente');
+  } catch (error) {
+    console.error('Error al actualizar el usuario:', error);
+  }
+};
 
 export {
   app,
@@ -62,5 +89,6 @@ export {
   ingredientsCollection,
   recipesCollection,
   getUserQuery,
-  Collections,
+  deleteUser,
+  updateUser,
 };
