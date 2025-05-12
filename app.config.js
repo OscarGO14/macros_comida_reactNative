@@ -4,12 +4,12 @@ export default {
   expo: {
     name: 'macros-comida',
     slug: 'macros-comida',
-    version: '1.0.0',
+    version: '1.1.0',
     orientation: 'portrait',
-    icon: './public/icons/motivacion-64.png',
+    icon: './assets/icons/motivacion-64.png',
     userInterfaceStyle: 'dark',
     splash: {
-      image: './public/icons/motivacion-64.png',
+      image: './assets/icons/motivacion-64.png',
       resizeMode: 'contain',
       backgroundColor: '#181920',
     },
@@ -22,12 +22,12 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: './public/icons/motivacion-64.png',
+        foregroundImage: './assets/icons/motivacion-64.png',
         backgroundColor: '#181920',
       },
     },
     web: {
-      favicon: './public/icons/motivacion-16.png',
+      favicon: './assets/icons/motivacion-16.png',
       bundler: 'metro',
       output: 'static',
       display: 'standalone',
