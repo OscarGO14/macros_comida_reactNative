@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, ActivityIndicator, Alert } from 'react-native';
+import { Text, View, ActivityIndicator } from 'react-native';
 import { Link } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app'; // FirebaseError para type checking
@@ -13,6 +13,7 @@ import InputText from '@/components/ui/InputText';
 import Screen from '@/components/ui/Screen';
 import SubmitButton from '@/components/ui/SubmitButton';
 import { MyColors } from '@/types/colors';
+import Toast from 'react-native-toast-message';
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState('');
@@ -23,11 +24,19 @@ export default function RegisterScreen() {
 
   const handleRegister = async () => {
     if (!email || !password || !confirmPassword) {
-      Alert.alert('Error', 'Por favor, rellena todos los campos.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Por favor, rellena todos los campos.',
+      });
       return;
     }
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Las contraseñas no coinciden.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Las contraseñas no coinciden.',
+      });
       return;
     }
 
@@ -57,7 +66,11 @@ export default function RegisterScreen() {
       }
       console.error('Error en registro completo:', error);
       setError(new Error(errorMessage));
-      Alert.alert('Error en Registro', errorMessage);
+      Toast.show({
+        type: 'error',
+        text1: 'Error en Registro',
+        text2: errorMessage,
+      });
     } finally {
       setLoading(false);
     }

@@ -1,7 +1,7 @@
 import { signOut } from 'firebase/auth';
 import { auth } from '@/services/firebase';
 import { FirebaseError } from 'firebase/app';
-import { Alert } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 export const handleLogout = async () => {
   try {
@@ -13,6 +13,10 @@ export const handleLogout = async () => {
     if (error instanceof FirebaseError) {
       errorMessage = `Error al cerrar sesión: ${error.message} (${error.code})`;
     }
-    Alert.alert('Error', errorMessage);
+    Toast.show({
+      type: 'error',
+      text1: 'Error',
+      text2: errorMessage,
+    });
   }
 };

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Alert } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
 import { addDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
-import { db, recipesCollection, Collections } from '@/services/firebase';
+import { db, recipesCollection } from '@/services/firebase';
 import { useUserStore } from '@/store/userStore';
 import { Ingredient } from '@/types/ingredient';
 import { Macros } from '@/types/macros';
@@ -16,6 +16,8 @@ import ActionButton from '@/components/ui/ActionButton';
 import Item from '@/components/ui/Item';
 import { ItemType } from '@/components/ui/Item/types';
 import { StatsCard } from '@/components/ui/StatsCard';
+import Toast from 'react-native-toast-message';
+import { Collections } from '@/types/collections';
 
 interface SelectedIngredientData {
   ingredient: Ingredient;
@@ -109,7 +111,11 @@ export default function AddRecipeScreen() {
    */
   const handleSaveRecipe = async () => {
     if (!user) {
-      Alert.alert('Error', 'Debes iniciar sesión para guardar recetas.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Debes iniciar sesión para guardar recetas.',
+      });
       return;
     }
 
@@ -117,7 +123,11 @@ export default function AddRecipeScreen() {
     const numServes = parseInt(serves, 10) || 1; // Asegurar que serves es número
 
     if (name.trim() === '') {
-      Alert.alert('Error', 'El nombre de la receta no puede estar vacío.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'El nombre de la receta no puede estar vacío.',
+      });
       return;
     }
 
@@ -148,15 +158,22 @@ export default function AddRecipeScreen() {
         customRecipeIds: arrayUnion(newRecipeRef.id),
       });
 
-      Alert.alert('Éxito', 'Receta guardada correctamente.');
+      Toast.show({
+        type: 'success',
+        text1: 'Receta',
+        text2: 'Receta guardada correctamente.',
+      });
       if (router.canGoBack()) {
         router.back();
       } else {
         router.push('/(app)/recipes');
       }
     } catch (error) {
-      console.error('Error guardando receta:', error);
-      Alert.alert('Error', 'No se pudo guardar la receta. Inténtalo de nuevo.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: `Error al guardar la receta. Inténtalo de nuevo. Error: ${error}`,
+      });
     } finally {
       setLoading(false);
       // Volver al listado de recetas
@@ -166,16 +183,14 @@ export default function AddRecipeScreen() {
 
   // Wrapper para onSelectItem
   const handleSelectItemWrapper = (item: SearchableItem, quantity: number) => {
-    // Aunque sabemos que solo vendrán Ingredients aquí, hacemos una comprobación
-    // segura comprobando una propiedad única de Ingredient (o podríamos castear directamente
-    // si estamos 100% seguros del contexto, pero esto es más robusto)
     if ('calories' in item) {
-      // 'calories' existe en Ingredient pero no en Recipe (que tiene item.macros.calories)
       handleIngredientSelected(item as Ingredient, quantity);
     } else {
-      // Opcional: manejar el caso inesperado de recibir una Receta
-      console.warn('Se recibió un item inesperado (no ingrediente) en add-recipe:', item);
-      Alert.alert('Error inesperado', 'Se intentó añadir un tipo de item incorrecto.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error inesperado',
+        text2: 'Se intentó añadir un tipo de item incorrecto.',
+      });
     }
   };
 

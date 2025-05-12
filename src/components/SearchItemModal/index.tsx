@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import { SearchItemModalProps, SearchableItem, TypedSearchableItem } from './types';
 import { useIngredients } from '@/hooks/useIngredients';
@@ -18,6 +17,7 @@ import { ItemType } from '@/components/ui/Item/types';
 import Item from '@/components/ui/Item';
 import { MyColors } from '@/types/colors';
 import ActionButton from '@/components/ui/ActionButton';
+import Toast from 'react-native-toast-message';
 
 const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: SearchItemModalProps) => {
   const shouldFetchIngredients = itemTypes.includes('ingredient');
@@ -70,7 +70,11 @@ const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: Search
 
   const handleConfirm = () => {
     if (!selectedItem) {
-      Alert.alert('Error', 'Por favor, selecciona un item.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Por favor, selecciona un item.',
+      });
       return;
     }
     const numQuantity = parseFloat(quantity);
@@ -80,7 +84,11 @@ const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: Search
 
     if (!isValidQuantity) {
       const unit = selectedItem.itemType === 'ingredient' ? 'gramos' : 'raciones';
-      Alert.alert('Error', `Por favor, introduce una cantidad válida en ${unit}.`);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: `Por favor, introduce una cantidad válida en ${unit}.`,
+      });
       return;
     }
 

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { View, Text, FlatList, Alert, Platform } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { useUserStore } from '@/store/userStore';
 import { useRouter } from 'expo-router';
 import Screen from '@/components/ui/Screen';
@@ -15,6 +15,7 @@ import { SearchableItem } from '@/components/SearchItemModal/types';
 import SubmitButton from '@/components/ui/SubmitButton';
 import ActionButton from '@/components/ui/ActionButton';
 import { updateUser } from '@/services/firebase';
+import Toast from 'react-native-toast-message';
 
 export default function AddMealScreen() {
   const { user, updateUserData } = useUserStore();
@@ -68,7 +69,11 @@ export default function AddMealScreen() {
     } else {
       const recipe = item as Recipe;
       if (!recipe.serves || recipe.serves <= 0) {
-        Alert.alert('Error', `La receta "${recipe.name}" no tiene un número de raciones válido.`);
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: `La receta "${recipe.name}" no tiene un número de raciones válido.`,
+        });
         setIsSearchModalVisible(false);
         return;
       }
@@ -97,10 +102,11 @@ export default function AddMealScreen() {
 
   const handleSaveMeal = useCallback(async () => {
     if (currentMealItems.length === 0) {
-      Alert.alert('Error', 'No has añadido ningún alimento a la comida.');
-      if (Platform.OS === 'web') {
-        alert('No has añadido ningún alimento a la comida.');
-      }
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'No has añadido ningún alimento a la comida.',
+      });
       return;
     }
 
@@ -128,7 +134,7 @@ export default function AddMealScreen() {
       setCurrentMealItems([]);
       router.replace('/(app)/meals');
     }
-  }, [currentMealItems, totalMealMacros, user, router, updateUserData, db, getDayOfWeek]);
+  }, [currentMealItems, totalMealMacros, user, router, updateUserData, getDayOfWeek, updateUser]);
 
   const handleDeleteItem = useCallback((index: number) => {
     setCurrentMealItems((prevItems) => prevItems.filter((_, i) => i !== index));

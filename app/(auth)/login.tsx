@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, ActivityIndicator, Alert } from 'react-native';
+import { Text, View, ActivityIndicator } from 'react-native';
 import { Link } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
@@ -9,6 +9,7 @@ import InputText from '@/components/ui/InputText';
 import Screen from '@/components/ui/Screen';
 import SubmitButton from '@/components/ui/SubmitButton';
 import { MyColors } from '@/types/colors';
+import Toast from 'react-native-toast-message';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -18,7 +19,11 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Por favor, introduce tu email y contraseña.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Por favor, introduce tu email y contraseña.',
+      });
       return;
     }
     setLoading(true);
@@ -34,7 +39,11 @@ export default function LoginScreen() {
       }
       console.error('Error en login:', error);
       setError(new Error(errorMessage));
-      Alert.alert('Error en Login', errorMessage);
+      Toast.show({
+        type: 'error',
+        text1: 'Error en Login',
+        text2: errorMessage,
+      });
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import Screen from '@/components/ui/Screen';
-import { FlatList, Text, View, Alert } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { StatsCard } from '@/components/ui/StatsCard';
 import { useUserStore } from '@/store/userStore';
@@ -10,6 +10,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 import { createEmptyDailyLog } from '@/utils/createEmpytDailyLog';
 import ConfirmationModal from '@/components/ConfirmationModal';
+import Toast from 'react-native-toast-message';
 
 export default function MealsScreen() {
   const { user, updateUserData } = useUserStore();
@@ -19,7 +20,11 @@ export default function MealsScreen() {
 
   const deleteMealsForToday = async () => {
     if (!user) {
-      Alert.alert('Error', 'Usuario no encontrado.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Usuario no encontrado.',
+      });
       return;
     }
 

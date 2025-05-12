@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { Slot, useRouter, useSegments } from 'expo-router';
+import Toast from 'react-native-toast-message';
 import { useUserStore } from '@/store/userStore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, getUserQuery } from '@/services/firebase';
+import toastConfig from '@/components/MyToast';
 import '../global.css';
 
 export default function RootLayoutNav() {
@@ -70,5 +72,12 @@ export default function RootLayoutNav() {
     return null;
   }
 
-  return <Slot />;
+  // implement toast
+
+  return (
+    <>
+      <Slot />
+      <Toast position="bottom" bottomOffset={300} config={toastConfig} />
+    </>
+  );
 }

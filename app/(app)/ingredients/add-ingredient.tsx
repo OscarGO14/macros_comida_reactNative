@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import InputText from '@/components/ui/InputText';
 import { db } from '@/services/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { Collections } from '@/types/collections';
 import Screen from '@/components/ui/Screen';
 import SubmitButton from '@/components/ui/SubmitButton';
+import Toast from 'react-native-toast-message';
 
 export default function AddIngredientScreen() {
   const [name, setName] = useState('');
@@ -27,11 +28,18 @@ export default function AddIngredientScreen() {
         fats: parseFloat(fats),
       };
       const docRef = await addDoc(collection(db, Collections.INGREDIENTS), ingredientData);
-      Alert.alert('Ingrediente', 'Ingrediente guardado correctamente con id: ' + docRef.id);
+      Toast.show({
+        type: 'success',
+        text1: 'Ingrediente',
+        text2: 'Ingrediente guardado correctamente con id: ' + docRef.id,
+      });
       return Promise.resolve(docRef.id);
     } catch (error) {
-      console.error('Error al guardar el ingrediente:', error);
-      Alert.alert('Error', 'Error al guardar el ingrediente');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Error al guardar el ingrediente',
+      });
       return Promise.reject(error);
     }
   };
@@ -39,7 +47,11 @@ export default function AddIngredientScreen() {
   const handleSubmit = async () => {
     // Validación simple
     if (!name || !calories || !proteins || !carbs || !fats) {
-      Alert.alert('Error', 'Por favor completa todos los campos obligatorios.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Por favor completa todos los campos obligatorios.',
+      });
       return;
     }
 
@@ -52,11 +64,18 @@ export default function AddIngredientScreen() {
       setCarbs('');
       setFats('');
     } catch (error) {
-      console.error('Error al guardar el ingrediente:', error);
-      Alert.alert('Error', 'Error al guardar el ingrediente');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: `Error al guardar el ingrediente: ${error}`,
+      });
     }
 
-    Alert.alert('Ingrediente', 'Ingrediente añadido correctamente (simulado)');
+    Toast.show({
+      type: 'success',
+      text1: 'Ingrediente',
+      text2: 'Ingrediente añadido correctamente',
+    });
   };
 
   return (
