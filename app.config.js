@@ -29,7 +29,7 @@ export default {
     web: {
       favicon: './assets/icons/motivacion-16.png',
       bundler: 'metro',
-      output: 'static',
+      output: 'dynamic',
       display: 'standalone',
     },
     extra: {
