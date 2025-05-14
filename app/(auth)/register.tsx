@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Text, View, ActivityIndicator, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import {
+  Text,
+  View,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { Link } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app'; // FirebaseError para type checking
@@ -122,31 +130,33 @@ export default function RegisterScreen() {
                 secureTextEntry
                 onBlur={handleInputBlur}
               />
-          />
-          <InputText
-            placeholder="Contraseña"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-          <InputText
-            placeholder="Confirmar Contraseña"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
-          />
 
-          {loading ? (
-            <ActivityIndicator size="large" color={MyColors.ACCENT} />
-          ) : (
-            <SubmitButton label="Registrarse" onPress={handleRegister} />
-          )}
-        </View>
+              <InputText
+                placeholder="Contraseña"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+              />
+              <InputText
+                placeholder="Confirmar Contraseña"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry
+              />
 
-        <Link href="/(auth)/login" replace className="mt-6">
-          <Text className="text-alternate">¿Ya tienes cuenta? Inicia Sesión</Text>
-        </Link>
-      </View>
+              {loading ? (
+                <ActivityIndicator size="large" color={MyColors.ACCENT} />
+              ) : (
+                <SubmitButton label="Registrarse" onPress={handleRegister} />
+              )}
+            </View>
+
+            <Link href="/(auth)/login" replace className="mt-6">
+              <Text className="text-alternate">¿Ya tienes cuenta? Inicia Sesión</Text>
+            </Link>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </Screen>
   );
 }

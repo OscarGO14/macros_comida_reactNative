@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Text, View, ActivityIndicator, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
+import {
+  Text,
+  View,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+} from 'react-native';
 import { Link } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
@@ -80,26 +87,26 @@ export default function LoginScreen() {
               autoCapitalize="none"
               onBlur={handleInputBlur}
             />
-          />
 
-          <InputText
-            placeholder="Contraseña"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
+            <InputText
+              placeholder="Contraseña"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
 
-          {loading ? (
-            <ActivityIndicator size="large" color={MyColors.ACCENT} />
-          ) : (
-            <SubmitButton label="Iniciar Sesión" onPress={handleLogin} />
-          )}
+            {loading ? (
+              <ActivityIndicator size="large" color={MyColors.ACCENT} />
+            ) : (
+              <SubmitButton label="Iniciar Sesión" onPress={handleLogin} />
+            )}
+          </View>
+
+          <Link href="/(auth)/register" replace className="mt-6">
+            <Text className="text-alternate">¿No tienes cuenta? Regístrate</Text>
+          </Link>
         </View>
-
-        <Link href="/(auth)/register" replace className="mt-6">
-          <Text className="text-alternate">¿No tienes cuenta? Regístrate</Text>
-        </Link>
-      </View>
+      </KeyboardAvoidingView>
     </Screen>
   );
 }
