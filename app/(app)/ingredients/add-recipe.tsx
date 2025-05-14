@@ -217,89 +217,86 @@ export default function AddRecipeScreen() {
         style={{ flex: 1 }}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
       >
-        <View className="flex-1" onTouchStart={handleTouchOutside}>
-          <View className="justify-center gap-4 pb-20 max-h-[80vh]">
-            {/* Nombre de la receta */}
-            <InputText
-              label="Nombre de la receta"
-              placeholder="Ej: Lentejas de la abuela"
-              value={name}
-              onChangeText={setName}
-              autoCapitalize="sentences"
-              onBlur={handleInputBlur}
-            />
+        <View onTouchStart={handleTouchOutside} className="justify-center gap-4 pb-20">
+          {/* Nombre de la receta */}
+          <InputText
+            label="Nombre de la receta"
+            placeholder="Ej: Lentejas de la abuela"
+            value={name}
+            onChangeText={setName}
+            autoCapitalize="sentences"
+            onBlur={handleInputBlur}
+          />
 
-            <View className="mb-4">
-              <Text className="text-m font-semibold mb-2 text-primary">Lista de ingredientes:</Text>
-              <View className="h-60 min-h-28">
-                {selectedIngredientsData.length === 0 ? (
-                  <Text className="text-alternate italic text-center p-4">
-                    Añade ingredientes a tu receta
-                  </Text>
-                ) : (
-                  <FlatList
-                    data={selectedIngredientsData}
-                    keyExtractor={(item) => item.ingredient.id}
-                    renderItem={({ item }) => (
-                      <Item
-                        name={item.ingredient.name}
-                        calories={item.ingredient.calories}
-                        type={ItemType.INGREDIENT}
-                        onDelete={() => removeIngredient(item.ingredient.id)}
-                        showType={false}
-                      />
-                    )}
-                    ListEmptyComponent={
-                      <Text className="text-center text-alternate italic">No hay ingredientes</Text>
-                    }
-                  />
-                )}
-              </View>
-              <ActionButton
-                onPress={() => {
-                  Keyboard.dismiss();
-                  setIsModalVisible(true);
-                }}
-                label="Añadir ingrediente"
-                disabled={isModalVisible}
-              />
+          <View className="mb-4">
+            <Text className="text-m font-semibold mb-2 text-primary">Lista de ingredientes:</Text>
+            <View className="h-60 min-h-28">
+              {selectedIngredientsData.length === 0 ? (
+                <Text className="text-alternate italic text-center p-4">
+                  Añade ingredientes a tu receta
+                </Text>
+              ) : (
+                <FlatList
+                  data={selectedIngredientsData}
+                  keyExtractor={(item) => item.ingredient.id}
+                  renderItem={({ item }) => (
+                    <Item
+                      name={item.ingredient.name}
+                      calories={item.ingredient.calories}
+                      type={ItemType.INGREDIENT}
+                      onDelete={() => removeIngredient(item.ingredient.id)}
+                      showType={false}
+                    />
+                  )}
+                  ListEmptyComponent={
+                    <Text className="text-center text-alternate italic">No hay ingredientes</Text>
+                  }
+                />
+              )}
             </View>
-            {/* Input para raciones */}
-            <InputText
-              label="Raciones por receta"
-              placeholder="Ej: 2 (para cuántas comidas rinde)"
-              value={serves}
-              onChangeText={setServes}
-              keyboardType="number-pad"
-              onBlur={handleInputBlur}
-            />
-            {/* Macros de la receta */}
-            <StatsCard
-              title="Macros por ración"
-              value={currentMacros.calories.toFixed(0)}
-              variant="primary"
-              trend={[
-                `P: ${currentMacros.proteins.toFixed(1)}`,
-                `C: ${currentMacros.carbs.toFixed(1)}`,
-                `G: ${currentMacros.fats.toFixed(1)}`,
-              ]}
-            />
-            {/* Botón de guardar con margen inferior adicional */}
-            <View className="pb-16">
-              <SubmitButton
-                label={loading ? 'Guardando...' : 'Guardar receta'}
-                onPress={handleSaveRecipe}
-                disabled={loading}
-              />
-            </View>
-
-            <SearchItemModal
-              isVisible={isModalVisible}
-              onClose={() => setIsModalVisible(false)}
-              onSelectItem={handleSelectItemWrapper}
-              itemTypes={['ingredient']}
+            <ActionButton
+              onPress={() => {
+                Keyboard.dismiss();
+                setIsModalVisible(true);
+              }}
+              label="Añadir ingrediente"
+              disabled={isModalVisible}
             />
           </View>
+          {/* Input para raciones */}
+          <InputText
+            label="Raciones por receta"
+            placeholder="Ej: 2 (para cuántas comidas rinde)"
+            value={serves}
+            onChangeText={setServes}
+            keyboardType="number-pad"
+            onBlur={handleInputBlur}
+          />
+          {/* Macros de la receta */}
+          <StatsCard
+            title="Macros por ración"
+            value={currentMacros.calories.toFixed(0)}
+            variant="primary"
+            trend={[
+              `P: ${currentMacros.proteins.toFixed(1)}`,
+              `C: ${currentMacros.carbs.toFixed(1)}`,
+              `G: ${currentMacros.fats.toFixed(1)}`,
+            ]}
+          />
+          {/* Botón de guardar con margen inferior adicional */}
+
+          <SubmitButton
+            label={loading ? 'Guardando...' : 'Guardar receta'}
+            onPress={handleSaveRecipe}
+            disabled={loading}
+          />
+
+          <SearchItemModal
+            isVisible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+            onSelectItem={handleSelectItemWrapper}
+            itemTypes={['ingredient']}
+          />
         </View>
       </KeyboardAvoidingView>
     </Screen>
