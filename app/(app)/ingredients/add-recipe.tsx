@@ -217,7 +217,7 @@ export default function AddRecipeScreen() {
         style={{ flex: 1 }}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
       >
-        <View onTouchStart={handleTouchOutside} className="justify-center gap-4 pb-20">
+        <View onTouchStart={handleTouchOutside} className="justify-center gap-3 pb-10">
           {/* Nombre de la receta */}
           <InputText
             label="Nombre de la receta"
@@ -228,9 +228,9 @@ export default function AddRecipeScreen() {
             onBlur={handleInputBlur}
           />
 
-          <View className="mb-4">
+          <View className="mb-2">
             <Text className="text-m font-semibold mb-2 text-primary">Lista de ingredientes:</Text>
-            <View className="h-60 min-h-28">
+            <View className="h-50 min-h-28">
               {selectedIngredientsData.length === 0 ? (
                 <Text className="text-alternate italic text-center p-4">
                   Añade ingredientes a tu receta
