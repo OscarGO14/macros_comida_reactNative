@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import InputText from '@/components/ui/InputText';
 import { db } from '@/services/firebase';
 import { collection, addDoc } from 'firebase/firestore';
@@ -78,6 +78,18 @@ export default function AddIngredientScreen() {
     });
   };
 
+  // Ocultar teclado al tocar fuera
+  const handleTouchOutside = () => {
+    Keyboard.dismiss();
+  };
+
+  // Resetear scroll en web al perder foco
+  const handleInputBlur = () => {
+    if (Platform.OS === 'web') {
+      window.scrollTo(0, 0);
+    }
+  };
+
   return (
     <Screen>
       <KeyboardAvoidingView
@@ -85,13 +97,14 @@ export default function AddIngredientScreen() {
         className="flex-1 items-center justify-center"
         keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
       >
-        <View className="w-full gap-2">
+        <View className="w-full gap-2" onTouchStart={handleTouchOutside}>
           <InputText
             label="Nombre *"
             placeholder="Ej: Pollo"
             value={name}
             onChangeText={setName}
             autoCapitalize="words"
+            onBlur={handleInputBlur}
           />
 
           <InputText
@@ -99,36 +112,41 @@ export default function AddIngredientScreen() {
             placeholder="Ej: Carnes, Lácteos, Verduras..."
             value={category}
             onChangeText={setCategory}
+            onBlur={handleInputBlur}
           />
 
           <InputText
-            label="Calorías"
+            label="Calorías (kcal) *"
             placeholder="Ej: 120"
             value={calories}
             onChangeText={setCalories}
-            keyboardType="numeric"
+            keyboardType="decimal-pad"
+            onBlur={handleInputBlur}
           />
 
           <InputText
-            label="Proteínas"
+            label="Proteínas (g) *"
             placeholder="Ej: 25"
             value={proteins}
             onChangeText={setProteins}
-            keyboardType="numeric"
+            keyboardType="decimal-pad"
+            onBlur={handleInputBlur}
           />
           <InputText
             label="Carbohidratos"
-            placeholder="Ej: 5g"
+            placeholder="Ej: 0"
             value={carbs}
             onChangeText={setCarbs}
-            keyboardType="numeric"
+            keyboardType="decimal-pad"
+            onBlur={handleInputBlur}
           />
           <InputText
             label="Grasas (g) *"
-            placeholder="Ej: 10"
+            placeholder="Ej: 5"
             value={fats}
             onChangeText={setFats}
-            keyboardType="numeric"
+            keyboardType="decimal-pad"
+            onBlur={handleInputBlur}
           />
 
           <View className="mt-4">

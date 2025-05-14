@@ -4,8 +4,8 @@ import {
   View,
   ActivityIndicator,
   KeyboardAvoidingView,
-  ScrollView,
   Platform,
+  Keyboard,
 } from 'react-native';
 import { FirebaseError } from 'firebase/app';
 import Button from '@/components/ui/Button';
@@ -109,6 +109,18 @@ export default function UpdateUserScreen() {
       </Screen>
     );
   }
+  // Ocultar teclado al tocar fuera
+  const handleTouchOutside = () => {
+    Keyboard.dismiss();
+  };
+
+  // Resetear scroll en web al perder foco
+  const handleInputBlur = () => {
+    if (Platform.OS === 'web') {
+      window.scrollTo(0, 0);
+    }
+  };
+
   return (
     <Screen>
       <KeyboardAvoidingView
@@ -116,64 +128,67 @@ export default function UpdateUserScreen() {
         className="flex-1"
         keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
-          <View className="justify-around h-full">
-            <Text className="mb-6 text-2xl font-bold text-primary">Actualiza tu información</Text>
-            <View className="w-full gap-4 ">
-              <InputText
-                label="Nombre de Usuario"
-                placeholder="Tu nombre de usuario"
-                value={displayName}
-                onChangeText={setDisplayName}
-                autoCapitalize="words"
-              />
+        <View className="flex-1 justify-around" onTouchStart={handleTouchOutside}>
+          <Text className="mb-6 text-2xl font-bold text-primary">Actualiza tu información</Text>
+          <View className="w-full gap-4 ">
+            <InputText
+              label="Nombre de Usuario"
+              placeholder="Tu nombre de usuario"
+              value={displayName}
+              onChangeText={setDisplayName}
+              autoCapitalize="words"
+              onBlur={handleInputBlur}
+            />
 
-              <InputText
-                label="Calorías (kcal)"
-                placeholder="Calorías (kcal)"
-                value={calories}
-                onChangeText={setCalories}
-                keyboardType="decimal-pad"
-              />
-              <InputText
-                label="Proteínas (g)"
-                placeholder="Proteínas (g)"
-                value={proteins}
-                onChangeText={setProteins}
-                keyboardType="decimal-pad"
-              />
-              <InputText
-                label="Carbohidratos (g)"
-                placeholder="Carbohidratos (g)"
-                value={carbs}
-                onChangeText={setCarbs}
-                keyboardType="decimal-pad"
-              />
-              <InputText
-                label="Grasas (g)"
-                placeholder="Grasas (g)"
-                value={fats}
-                onChangeText={setFats}
-                keyboardType="decimal-pad"
-              />
-            </View>
-            {loading ? (
-              <ActivityIndicator size="large" color={MyColors.ACCENT} />
-            ) : (
-              <Button
-                title="Guardar Cambios"
-                onPress={() => setShowConfirmationModal(true)}
-                className="bg-accent"
-              />
-            )}
+            <InputText
+              label="Calorías (kcal)"
+              placeholder="Calorías (kcal)"
+              value={calories}
+              onChangeText={setCalories}
+              keyboardType="decimal-pad"
+              onBlur={handleInputBlur}
+            />
+            <InputText
+              label="Proteínas (g)"
+              placeholder="Proteínas (g)"
+              value={proteins}
+              onChangeText={setProteins}
+              keyboardType="decimal-pad"
+              onBlur={handleInputBlur}
+            />
+            <InputText
+              label="Carbohidratos (g)"
+              placeholder="Carbohidratos (g)"
+              value={carbs}
+              onChangeText={setCarbs}
+              keyboardType="decimal-pad"
+              onBlur={handleInputBlur}
+            />
+            <InputText
+              label="Grasas (g)"
+              placeholder="Grasas (g)"
+              value={fats}
+              onChangeText={setFats}
+              keyboardType="decimal-pad"
+              onBlur={handleInputBlur}
+            />
           </View>
-          <ConfirmationModal
-            isVisible={showConfirmationModal}
-            handleConfirm={handleSave}
-            onClose={() => setShowConfirmationModal(false)}
-            message="¿Estás seguro de que quieres guardar los cambios?"
-          />
-        </ScrollView>
+          {loading ? (
+            <ActivityIndicator size="large" color={MyColors.ACCENT} />
+          ) : (
+            <Button
+              title="Guardar Cambios"
+              onPress={() => setShowConfirmationModal(true)}
+              className="bg-accent"
+            />
+          )}
+        </View>
+        <ConfirmationModal
+          isVisible={showConfirmationModal}
+          handleConfirm={handleSave}
+          onClose={() => setShowConfirmationModal(false)}
+          message="¿Estás seguro de que quieres guardar los cambios?"
+        />
       </KeyboardAvoidingView>
     </Screen>
   );

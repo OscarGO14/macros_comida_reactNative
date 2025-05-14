@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, ActivityIndicator } from 'react-native';
+import { Text, View, ActivityIndicator, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { Link } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
@@ -49,18 +49,37 @@ export default function LoginScreen() {
     }
   };
 
+  // Ocultar teclado al tocar fuera
+  const handleTouchOutside = () => {
+    Keyboard.dismiss();
+  };
+
+  // Resetear scroll en web al perder foco
+  const handleInputBlur = () => {
+    if (Platform.OS === 'web') {
+      window.scrollTo(0, 0);
+    }
+  };
+
   return (
     <Screen>
-      <View className="flex-1 items-center justify-center">
-        <Text className="mb-8 text-3xl font-bold text-white">Iniciar Sesión</Text>
+      <KeyboardAvoidingView
+        behavior="padding"
+        className="flex-1 items-center justify-center"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+      >
+        <View className="w-full max-w-md gap-4 " onTouchStart={handleTouchOutside}>
+          <Text className="mb-8 text-3xl font-bold text-white">Iniciar Sesión</Text>
 
-        <View className="w-full justify-center gap-4 p-4">
-          <InputText
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
+          <View className="w-full justify-center gap-4 p-4">
+            <InputText
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              onBlur={handleInputBlur}
+            />
           />
 
           <InputText

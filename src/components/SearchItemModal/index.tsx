@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Modal,
   View,
@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ActivityIndicator,
+  Keyboard,
+  Platform,
 } from 'react-native';
 import { SearchItemModalProps, SearchableItem, TypedSearchableItem } from './types';
 import { useIngredients } from '@/hooks/useIngredients';
@@ -33,18 +35,34 @@ const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: Search
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedItem, setSelectedItem] = useState<TypedSearchableItem | null>(null);
   const [quantity, setQuantity] = useState('');
+  const inputRef = useRef<TextInput>(null);
 
   const loading = ingredientsLoading || recipesLoading;
   const fetchError =
     (shouldFetchIngredients && ingredientsError) || (shouldFetchRecipes && recipesError);
 
+  // Manejar la limpieza del modal al cerrarse
   useEffect(() => {
     if (!isVisible) {
+      // Descartar el teclado antes de cerrar el modal
+      if (Platform.OS === 'web') {
+        Keyboard.dismiss();
+      }
+      // Restablecer los estados
       setSearchTerm('');
       setSelectedItem(null);
       setQuantity('');
     }
   }, [isVisible]);
+
+  const handleCloseModal = () => {
+    // Primero descartar el teclado
+    Keyboard.dismiss();
+    // Luego dejar que pase un breve tiempo antes de cerrar el modal
+    setTimeout(() => {
+      onClose();
+    }, 50);
+  };
 
   const allItems: TypedSearchableItem[] = useMemo(() => {
     const combined: TypedSearchableItem[] = [];
@@ -94,8 +112,15 @@ const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: Search
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { itemType: _itemType, ...baseItem } = selectedItem;
-    onSelectItem(baseItem as SearchableItem, numQuantity);
-    onClose();
+
+    // Descartar el teclado antes de cerrar el modal
+    Keyboard.dismiss();
+
+    // Pequeña pausa para asegurarse de que el teclado se haya ocultado completamente
+    setTimeout(() => {
+      onSelectItem(baseItem as SearchableItem, numQuantity);
+      onClose();
+    }, 50);
   };
 
   const renderItem = ({ item }: { item: TypedSearchableItem }) => (
@@ -114,10 +139,27 @@ const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: Search
     </TouchableOpacity>
   );
 
+  // Manejar toque fuera de la caja del modal para cerrar
+  const handleOutsidePress = () => {
+    Keyboard.dismiss();
+    handleCloseModal();
+  };
+
   return (
-    <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={onClose}>
-      <SafeAreaView className="flex-1 justify-center items-center bg-black bg-opacity-50">
-        <View className="w-11/12 h-5/6 bg-item_background rounded-lg p-5 shadow-lg">
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={isVisible}
+      onRequestClose={handleCloseModal}
+    >
+      <SafeAreaView
+        className="flex-1 justify-center items-center bg-black bg-opacity-50"
+        onTouchStart={handleOutsidePress}
+      >
+        <View
+          className="w-11/12 h-5/6 bg-item_background rounded-lg p-5 shadow-lg"
+          onTouchStart={(e) => e.stopPropagation()} // Evitar que los toques dentro del modal lo cierren
+        >
           <Text className="text-xl font-bold text-primary text-center mb-4">Añadir Item</Text>
 
           <InputText
@@ -151,6 +193,7 @@ const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: Search
               </Text>
               <View className="flex-row items-center">
                 <TextInput
+                  ref={inputRef}
                   placeholder={
                     selectedItem.itemType === 'ingredient' ? 'Cantidad (gr)' : 'Cantidad (raciones)'
                   }
@@ -159,13 +202,19 @@ const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: Search
                   keyboardType="numeric"
                   className="border border-input rounded p-2 flex-1 mr-2 bg-background text-primary"
                   placeholderTextColor={MyColors.ALTERNATE}
+                  onBlur={() => {
+                    if (Platform.OS === 'web') {
+                      // Ayuda a prevenir problemas de scroll en web
+                      window.scrollTo(0, 0);
+                    }
+                  }}
                 />
               </View>
             </View>
           )}
 
           <View className="flex-row justify-around mt-4">
-            <ActionButton label="Cancelar" onPress={onClose} color="secondary" />
+            <ActionButton label="Cancelar" onPress={handleCloseModal} color="secondary" />
             <ActionButton
               label="Confirmar"
               onPress={handleConfirm}

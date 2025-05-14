@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Keyboard, Platform, KeyboardAvoidingView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { addDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
@@ -110,6 +110,9 @@ export default function AddRecipeScreen() {
    * Función para guardar la receta en la base de datos.
    */
   const handleSaveRecipe = async () => {
+    // Ocultar teclado antes de guardar
+    Keyboard.dismiss();
+
     if (!user) {
       Toast.show({
         type: 'error',
@@ -194,83 +197,111 @@ export default function AddRecipeScreen() {
     }
   };
 
+  // Manejador para ocultar el teclado cuando se toca fuera de un input
+  const handleTouchOutside = () => {
+    Keyboard.dismiss();
+  };
+
+  // Función para resetear scroll en web cuando input pierde el foco
+  const handleInputBlur = () => {
+    if (Platform.OS === 'web') {
+      // Ayuda a prevenir problemas de scroll en web
+      window.scrollTo(0, 0);
+    }
+  };
+
   return (
     <Screen>
-      <View className="justify-center gap-4">
-        {/* Nombre de la receta */}
-        <InputText
-          label="Nombre de la receta"
-          placeholder="Ej: Lentejas de la abuela"
-          value={name}
-          onChangeText={setName}
-          autoCapitalize="sentences"
-        />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+      >
+        <View className="flex-1" onTouchStart={handleTouchOutside}>
+          <View className="justify-center gap-4 pb-20 max-h-[80vh]">
+            {/* Nombre de la receta */}
+            <InputText
+              label="Nombre de la receta"
+              placeholder="Ej: Lentejas de la abuela"
+              value={name}
+              onChangeText={setName}
+              autoCapitalize="sentences"
+              onBlur={handleInputBlur}
+            />
 
-        <View className="mb-4">
-          <Text className="text-m font-semibold mb-2 text-primary">Lista de ingredientes:</Text>
-          <View className="h-60 min-h-28">
-            {selectedIngredientsData.length === 0 ? (
-              <Text className="text-alternate italic text-center p-4">
-                Añade ingredientes a tu receta
-              </Text>
-            ) : (
-              <FlatList
-                data={selectedIngredientsData}
-                keyExtractor={(item) => item.ingredient.id}
-                renderItem={({ item }) => (
-                  <Item
-                    name={item.ingredient.name}
-                    calories={item.ingredient.calories}
-                    type={ItemType.INGREDIENT}
-                    onDelete={() => removeIngredient(item.ingredient.id)}
-                    showType={false}
+            <View className="mb-4">
+              <Text className="text-m font-semibold mb-2 text-primary">Lista de ingredientes:</Text>
+              <View className="h-60 min-h-28">
+                {selectedIngredientsData.length === 0 ? (
+                  <Text className="text-alternate italic text-center p-4">
+                    Añade ingredientes a tu receta
+                  </Text>
+                ) : (
+                  <FlatList
+                    data={selectedIngredientsData}
+                    keyExtractor={(item) => item.ingredient.id}
+                    renderItem={({ item }) => (
+                      <Item
+                        name={item.ingredient.name}
+                        calories={item.ingredient.calories}
+                        type={ItemType.INGREDIENT}
+                        onDelete={() => removeIngredient(item.ingredient.id)}
+                        showType={false}
+                      />
+                    )}
+                    ListEmptyComponent={
+                      <Text className="text-center text-alternate italic">No hay ingredientes</Text>
+                    }
                   />
                 )}
-                ListEmptyComponent={
-                  <Text className="text-center text-alternate italic">No hay ingredientes</Text>
-                }
+              </View>
+              <ActionButton
+                onPress={() => {
+                  Keyboard.dismiss();
+                  setIsModalVisible(true);
+                }}
+                label="Añadir ingrediente"
+                disabled={isModalVisible}
               />
-            )}
-          </View>
-          <ActionButton
-            onPress={() => setIsModalVisible(true)}
-            label="Añadir ingrediente"
-            disabled={isModalVisible}
-          />
-        </View>
-        {/* Input para raciones */}
-        <InputText
-          label="Raciones por receta"
-          placeholder="Ej: 2 (para cuántas comidas rinde)"
-          value={serves}
-          onChangeText={setServes}
-          keyboardType="number-pad"
-        />
-        {/* Macros de la receta */}
-        <StatsCard
-          title="Macros por ración"
-          value={currentMacros.calories.toFixed(0)}
-          variant="primary"
-          trend={[
-            `P: ${currentMacros.proteins.toFixed(1)}`,
-            `C: ${currentMacros.carbs.toFixed(1)}`,
-            `G: ${currentMacros.fats.toFixed(1)}`,
-          ]}
-        />
-        {/* Botón de guardar */}
-        <SubmitButton
-          label={loading ? 'Guardando...' : 'Guardar receta'}
-          onPress={handleSaveRecipe}
-          disabled={loading}
-        />
+            </View>
+            {/* Input para raciones */}
+            <InputText
+              label="Raciones por receta"
+              placeholder="Ej: 2 (para cuántas comidas rinde)"
+              value={serves}
+              onChangeText={setServes}
+              keyboardType="number-pad"
+              onBlur={handleInputBlur}
+            />
+            {/* Macros de la receta */}
+            <StatsCard
+              title="Macros por ración"
+              value={currentMacros.calories.toFixed(0)}
+              variant="primary"
+              trend={[
+                `P: ${currentMacros.proteins.toFixed(1)}`,
+                `C: ${currentMacros.carbs.toFixed(1)}`,
+                `G: ${currentMacros.fats.toFixed(1)}`,
+              ]}
+            />
+            {/* Botón de guardar con margen inferior adicional */}
+            <View className="pb-16">
+              <SubmitButton
+                label={loading ? 'Guardando...' : 'Guardar receta'}
+                onPress={handleSaveRecipe}
+                disabled={loading}
+              />
+            </View>
 
-        <SearchItemModal
-          isVisible={isModalVisible}
-          onClose={() => setIsModalVisible(false)}
-          onSelectItem={handleSelectItemWrapper}
-          itemTypes={['ingredient']}
-        />
-      </View>
+            <SearchItemModal
+              isVisible={isModalVisible}
+              onClose={() => setIsModalVisible(false)}
+              onSelectItem={handleSelectItemWrapper}
+              itemTypes={['ingredient']}
+            />
+          </View>
+        </View>
+      </KeyboardAvoidingView>
     </Screen>
   );
 }

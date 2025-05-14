@@ -20,7 +20,6 @@ export default function SettingsScreen() {
       const user = auth.currentUser;
 
       if (!user) {
-        console.log('No hay un usuario autenticado');
         return;
       }
 
