@@ -23,7 +23,6 @@ import SubmitButton from '@/components/ui/SubmitButton';
 import ActionButton from '@/components/ui/ActionButton';
 import { updateUser } from '@/services/firebase';
 import Toast from 'react-native-toast-message';
-import { Keyboard } from 'react-native';
 
 export default function AddMealScreen() {
   const { user, updateUserData } = useUserStore();
@@ -165,60 +164,45 @@ export default function AddMealScreen() {
     return renderMealItem;
   }, [renderMealItem]);
 
-  const isWeb = Platform.OS === 'web';
-
-  // Props específicas para KeyboardAvoidingView
   const keyboardAvoidingProps: KeyboardAvoidingViewProps = {
     behavior: Platform.OS === 'ios' ? 'padding' : 'height',
     keyboardVerticalOffset: Platform.OS === 'ios' ? 64 : 0,
     style: { flex: 1 },
   };
 
-  const renderContent = () => (
-    <View className="flex-1 gap-4">
-      <ActionButton
-        label="Añadir ingrediente o receta"
-        onPress={() => setIsSearchModalVisible(true)}
-      />
-
-      <Text className="text-xl font-semibold text-primary my-4">Elementos añadidos: </Text>
-      <View className="flex-1">
-        {currentMealItems.length === 0 ? (
-          <Text className="text-center text-alternate">No has añadido ningún alimento.</Text>
-        ) : (
-          <FlatList
-            data={currentMealItems}
-            renderItem={memoizedRenderMealItem}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-            keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{ flexGrow: 1 }}
-          />
-        )}
-      </View>
-
-      <SubmitButton onPress={handleSaveMeal} label="Guardar Comida" />
-      <SearchItemModal
-        isVisible={isSearchModalVisible}
-        onClose={() => {
-          setIsSearchModalVisible(false);
-          Keyboard.dismiss();
-          if (isWeb) {
-            window.scrollTo(0, 0);
-          }
-        }}
-        onSelectItem={handleSelectItem}
-        itemTypes={['ingredient', 'recipe']}
-      />
-    </View>
-  );
-
   return (
     <Screen>
-      {isWeb ? (
-        <View className="flex-1">{renderContent()}</View>
-      ) : (
-        <KeyboardAvoidingView {...keyboardAvoidingProps}>{renderContent()}</KeyboardAvoidingView>
-      )}
+      <KeyboardAvoidingView {...keyboardAvoidingProps}>
+        <View className="flex-1 gap-3">
+          <ActionButton
+            label="Añadir ingrediente o receta"
+            onPress={() => setIsSearchModalVisible(true)}
+          />
+
+          <Text className="text-xl font-semibold text-primary my-4">Elementos añadidos: </Text>
+          <View className="flex-1">
+            {currentMealItems.length === 0 ? (
+              <Text className="text-center text-alternate">No has añadido ningún alimento.</Text>
+            ) : (
+              <FlatList
+                data={currentMealItems}
+                renderItem={memoizedRenderMealItem}
+                keyExtractor={(item, index) => `${item.id}-${index}`}
+                keyboardShouldPersistTaps="handled"
+                contentContainerStyle={{ flexGrow: 1 }}
+              />
+            )}
+          </View>
+
+          <SubmitButton onPress={handleSaveMeal} label="Guardar Comida" />
+          <SearchItemModal
+            isVisible={isSearchModalVisible}
+            onClose={() => setIsSearchModalVisible(false)}
+            onSelectItem={handleSelectItem}
+            itemTypes={['ingredient', 'recipe']}
+          />
+        </View>
+      </KeyboardAvoidingView>
     </Screen>
   );
 }

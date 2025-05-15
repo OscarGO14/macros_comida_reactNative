@@ -23,6 +23,8 @@ React Native, TypeScript, Expo, Firebase, NativeWind.
   Usar Tailwind para estilos. Siempre utilizar las variables de colores definidas en el archivo `tailwind.config.js`.
 - **Tipos:**
   Preferencia de usar const as const en lugar de enum.
+- **Formateo**
+  Usar Prettier para formatear el código.
 
 ---
 
