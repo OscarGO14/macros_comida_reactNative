@@ -89,6 +89,11 @@ export default function HomeScreen() {
           controlType={SettingsControlType.ARROW_ONLY}
           onPress={() => router.replace('/meals/add-meal')}
         />
+        <SettingsItem
+          label="Ver historial"
+          controlType={SettingsControlType.ARROW_ONLY}
+          onPress={() => router.replace('/dashboard/history')}
+        />
       </View>
     </Screen>
   );

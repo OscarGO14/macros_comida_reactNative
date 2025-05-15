@@ -37,7 +37,7 @@ yarn-error.*
 
 # ide
 # .windsurfrules
-
+.voidrules
 
 # serviceAccount
 serviceAccountKey.json

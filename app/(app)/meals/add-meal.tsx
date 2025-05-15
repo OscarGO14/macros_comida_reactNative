@@ -174,7 +174,7 @@ export default function AddMealScreen() {
   };
 
   const renderContent = () => (
-    <View className="flex-1 p-4">
+    <View className="flex-1 gap-4">
       <ActionButton
         label="Añadir ingrediente o receta"
         onPress={() => setIsSearchModalVisible(true)}
@@ -198,7 +198,12 @@ export default function AddMealScreen() {
       <SubmitButton onPress={handleSaveMeal} label="Guardar Comida" />
       <SearchItemModal
         isVisible={isSearchModalVisible}
-        onClose={() => setIsSearchModalVisible(false)}
+        onClose={() => {
+          setIsSearchModalVisible(false);
+          if (Platform.OS === 'web') {
+            window.scrollTo(0, 0);
+          }
+        }}
         onSelectItem={handleSelectItem}
         itemTypes={['ingredient', 'recipe']}
       />

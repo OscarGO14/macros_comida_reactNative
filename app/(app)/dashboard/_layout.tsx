@@ -12,6 +12,7 @@ export default function DashboardStackLayout() {
       }}
     >
       <Stack.Screen name="index" options={{ title: 'Resumen de hoy' }} />
+      <Stack.Screen name="history" options={{ title: 'Historial' }} />
     </Stack>
   );
 }
