@@ -58,6 +58,10 @@ const SearchItemModal = ({ isVisible, onClose, onSelectItem, itemTypes }: Search
   const handleCloseModal = () => {
     // Primero descartar el teclado
     Keyboard.dismiss();
+    // SCROLL UP IN PAGE
+    if (Platform.OS === 'web') {
+      window.scrollTo(0, 0);
+    }
     // Luego dejar que pase un breve tiempo antes de cerrar el modal
     setTimeout(() => {
       onClose();
