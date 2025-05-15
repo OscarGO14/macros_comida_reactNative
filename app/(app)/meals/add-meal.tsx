@@ -23,6 +23,7 @@ import SubmitButton from '@/components/ui/SubmitButton';
 import ActionButton from '@/components/ui/ActionButton';
 import { updateUser } from '@/services/firebase';
 import Toast from 'react-native-toast-message';
+import { Keyboard } from 'react-native';
 
 export default function AddMealScreen() {
   const { user, updateUserData } = useUserStore();
@@ -174,7 +175,7 @@ export default function AddMealScreen() {
   };
 
   const renderContent = () => (
-    <View className="flex-1 p-4">
+    <View className="flex-1 gap-4">
       <ActionButton
         label="Añadir ingrediente o receta"
         onPress={() => setIsSearchModalVisible(true)}
@@ -198,7 +199,13 @@ export default function AddMealScreen() {
       <SubmitButton onPress={handleSaveMeal} label="Guardar Comida" />
       <SearchItemModal
         isVisible={isSearchModalVisible}
-        onClose={() => setIsSearchModalVisible(false)}
+        onClose={() => {
+          setIsSearchModalVisible(false);
+          Keyboard.dismiss();
+          if (isWeb) {
+            window.scrollTo(0, 0);
+          }
+        }}
         onSelectItem={handleSelectItem}
         itemTypes={['ingredient', 'recipe']}
       />
