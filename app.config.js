@@ -14,7 +14,11 @@ export default {
       backgroundColor: '#181920',
     },
     updates: {
+      url: "https://u.expo.dev/61a47397-85d0-428a-a125-3e84a58547c8",
       fallbackToCacheTimeout: 0,
+    },
+    runtimeVersion: {
+      policy: "appVersion"
     },
     assetBundlePatterns: ['**/*'],
     ios: {
@@ -29,7 +33,7 @@ export default {
     web: {
       favicon: './assets/icons/motivacion-16.png',
       bundler: 'metro',
-      output: 'dynamic',
+      output: 'static',
       display: 'standalone',
     },
     extra: {
