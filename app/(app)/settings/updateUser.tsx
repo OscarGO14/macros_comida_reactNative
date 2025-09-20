@@ -17,6 +17,7 @@ import Screen from '@/components/ui/Screen';
 import { MyColors } from '@/types/colors';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import Toast from 'react-native-toast-message';
+import { validateMacroGoals, validateDisplayName } from '@/utils/validation';
 
 export default function UpdateUserScreen() {
   const { user, setUser } = useUserStore();
@@ -46,16 +47,48 @@ export default function UpdateUserScreen() {
       return;
     }
 
+    // Validar nombre de usuario
+    const nameValidation = validateDisplayName(displayName);
+    if (!nameValidation.isValid) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error en el nombre',
+        text2: nameValidation.error,
+      });
+      return;
+    }
+
     const numCalories = parseInt(calories, 10);
     const numProteins = parseInt(proteins, 10);
     const numCarbs = parseInt(carbs, 10);
     const numFats = parseInt(fats, 10);
 
-    if (isNaN(numCalories) || isNaN(numProteins) || isNaN(numCarbs) || isNaN(numFats)) {
+    // Validar macronutrientes
+    const macroValidation = validateMacroGoals(numCalories, numProteins, numCarbs, numFats);
+
+    if (!macroValidation.overall.isValid) {
+      let errorMessage = 'Errores de validación:\n';
+
+      if (!macroValidation.calories.isValid) {
+        errorMessage += `• ${macroValidation.calories.error}\n`;
+      }
+      if (!macroValidation.proteins.isValid) {
+        errorMessage += `• ${macroValidation.proteins.error}\n`;
+      }
+      if (!macroValidation.carbs.isValid) {
+        errorMessage += `• ${macroValidation.carbs.error}\n`;
+      }
+      if (!macroValidation.fats.isValid) {
+        errorMessage += `• ${macroValidation.fats.error}\n`;
+      }
+      if (macroValidation.overall.error) {
+        errorMessage += `• ${macroValidation.overall.error}`;
+      }
+
       Toast.show({
         type: 'error',
-        text1: 'Error',
-        text2: 'Por favor, introduce valores numéricos válidos para las metas.',
+        text1: 'Valores inválidos',
+        text2: errorMessage.trim(),
       });
       return;
     }
@@ -74,18 +107,23 @@ export default function UpdateUserScreen() {
       dailyGoals: updatedGoals,
     };
 
+    // Optimistic update: actualizar UI inmediatamente
+    const updatedUser = { ...user, ...dataToUpdate };
+    const previousUser = user; // Guardar estado anterior para rollback
+    setUser(updatedUser);
+
     try {
       await updateUser(user.uid, dataToUpdate);
 
-      const updatedUser = { ...user, ...dataToUpdate };
-      setUser(updatedUser);
-
+      // Si llega aquí, la actualización fue exitosa
       Toast.show({
         type: 'success',
         text1: 'Éxito',
         text2: 'Los cambios se han guardado correctamente.',
       });
     } catch (error) {
+      // Rollback: revertir al estado anterior en caso de error
+      setUser(previousUser);
       console.error('Error al guardar los cambios:', error);
       let errorMessage = 'Ocurrió un error al guardar los cambios.';
       if (error instanceof FirebaseError) {

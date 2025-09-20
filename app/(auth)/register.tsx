@@ -64,7 +64,7 @@ export default function RegisterScreen() {
       };
 
       await setDoc(doc(usersCollection, user.uid), initialUserData);
-      setUser(initialUserData);
+      // No llamar setUser aquí - onAuthStateChanged se encargará de cargar los datos
     } catch (error) {
       let errorMessage = 'Ha ocurrido un error inesperado durante el registro.';
       if (error instanceof FirebaseError) {
@@ -129,19 +129,6 @@ export default function RegisterScreen() {
                 onChangeText={setConfirmPassword}
                 secureTextEntry
                 onBlur={handleInputBlur}
-              />
-
-              <InputText
-                placeholder="Contraseña"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-              />
-              <InputText
-                placeholder="Confirmar Contraseña"
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                secureTextEntry
               />
 
               {loading ? (

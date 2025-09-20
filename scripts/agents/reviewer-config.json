@@ -1,0 +1,11 @@
+{
+  "name": "Code Review Agent",
+  "description": "Agente especializado en revisión de código",
+  "capabilities": [
+    "Análisis de calidad de código",
+    "Verificación de buenas prácticas",
+    "Testing de funcionalidad",
+    "Validación de tipos TypeScript",
+    "Revisión de patrones arquitecturales"
+  ]
+}

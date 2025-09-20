@@ -122,21 +122,37 @@ export default function AddMealScreen() {
     if (user) {
       dailyLog = dailyLogCalculator(dailyLog, currentMealItems, totalMealMacros);
 
-      // Actualizar Firestore
-      await updateUser(user.uid, {
-        history: {
-          ...user.history,
-          [today]: dailyLog,
-        },
-      });
-      // Actualizar Zustand
-      updateUserData({
+      const updatedUserData = {
         ...user,
         history: {
           ...user.history,
           [today]: dailyLog,
         },
-      });
+      };
+
+      // Optimistic update: actualizar UI inmediatamente
+      const previousUserData = user;
+      updateUserData(updatedUserData);
+
+      try {
+        // Actualizar Firestore
+        await updateUser(user.uid, {
+          history: {
+            ...user.history,
+            [today]: dailyLog,
+          },
+        });
+      } catch (error) {
+        // Rollback: revertir al estado anterior en caso de error
+        updateUserData(previousUserData);
+        console.error('Error al guardar la comida:', error);
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'No se pudo guardar la comida. Inténtalo de nuevo.',
+        });
+        return; // No continuar con navegación si hay error
+      }
       setCurrentMealItems([]);
       router.replace('/(app)/meals');
     }

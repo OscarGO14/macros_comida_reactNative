@@ -8,6 +8,7 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  getDoc,
 } from 'firebase/firestore';
 import { initializeAuth } from 'firebase/auth';
 // @ts-expect-error la funcion getReactNativePersistence no esta tipada correctamente
@@ -49,37 +50,14 @@ const ingredientsCollection = collection(db, Collections.INGREDIENTS);
 const usersCollection = collection(db, Collections.USERS);
 const recipesCollection = collection(db, Collections.RECIPES);
 
+// Legacy exports - now delegating to centralized services
+// Import services here to avoid circular dependencies
+import { UserService } from './userService';
+
 // Auth
-const getUserQuery = async (uid: string) => {
-  try {
-    const q = query(usersCollection, where('uid', '==', uid));
-    const snapshot = await getDocs(q);
-    if (snapshot.docs.length > 0) {
-      return snapshot.docs[0].data() as IUserStateData;
-    }
-  } catch (error) {
-    console.error('Error al obtener el usuario:', error);
-  }
-  return null;
-};
-const deleteUser = async (uid: string) => {
-  try {
-    const userDoc = doc(db, 'users', uid);
-    await deleteDoc(userDoc);
-    console.log('Usuario eliminado exitosamente');
-  } catch (error) {
-    console.error('Error al eliminar el usuario:', error);
-  }
-};
-const updateUser = async (uid: string, data: Partial<IUserStateData>) => {
-  try {
-    const userDoc = doc(db, Collections.USERS, uid);
-    await updateDoc(userDoc, data);
-    console.log('Usuario actualizado exitosamente');
-  } catch (error) {
-    console.error('Error al actualizar el usuario:', error);
-  }
-};
+const getUserQuery = (uid: string) => UserService.getUser(uid);
+const deleteUser = (uid: string) => UserService.deleteUser(uid);
+const updateUser = (uid: string, data: Partial<IUserStateData>) => UserService.updateUser(uid, data);
 
 export {
   app,

@@ -13,25 +13,15 @@ export const useUserStore = create<IUserState>()(
       error: null,
 
       // Acciones para modificar el estado
-      setUser: (firebaseUser) => {
-        if (firebaseUser) {
-          const userData: IUserStateData = {
-            uid: firebaseUser.uid,
-            email: firebaseUser.email,
-            displayName: firebaseUser?.displayName,
-            dailyGoals: firebaseUser?.dailyGoals,
-            history: firebaseUser?.history,
-          };
-          set({ user: userData, isLoading: false, error: null });
-        } else {
-          set({ user: null, isLoading: false, error: null });
-        }
+      setUser: (userData: IUserStateData | null) => {
+        set({ user: userData, isLoading: false, error: null });
       },
       updateUserData: (userData: IUserStateData) => {
         if (userData.uid && userData.email) {
           set({ user: userData, isLoading: false, error: null });
         } else {
-          set({ user: null, isLoading: false, error: new Error('Error al actualizar el usuario') });
+          console.error('Invalid user data provided to updateUserData:', userData);
+          set({ error: new Error('Datos de usuario inválidos') });
         }
       },
       setLoading: (loading) => set({ isLoading: loading }),
@@ -41,8 +31,16 @@ export const useUserStore = create<IUserState>()(
     {
       name: 'user-storage', // Nombre para identificar el almacenamiento
       storage: createJSONStorage(() => AsyncStorage), // Usamos AsyncStorage para persistencia
-      // Opcional: Puedes elegir qué partes del estado persistir
-      // partialize: (state) => ({ user: state.user }),
+      // Solo persistir datos esenciales del usuario, no estados temporales
+      partialize: (state) => ({
+        user: state.user ? {
+          uid: state.user.uid,
+          email: state.user.email,
+          displayName: state.user.displayName,
+          dailyGoals: state.user.dailyGoals
+          // No persistir history para optimizar storage
+        } : null
+      }),
     },
   ),
 );

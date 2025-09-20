@@ -1,0 +1,11 @@
+{
+  "name": "TypeScript Developer Agent",
+  "description": "Agente especializado en desarrollo TypeScript/React Native",
+  "capabilities": [
+    "Implementar mejoras en TypeScript",
+    "Refactoring de código",
+    "Optimización de performance",
+    "Gestión de estado con Zustand",
+    "Integración Firebase"
+  ]
+}
